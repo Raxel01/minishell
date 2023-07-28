@@ -1,42 +1,66 @@
 #include "../Header/header.h"
 #include   <string.h>
 
+int metacaracters(char input)
+{
+    char *meta;
+    // meta = malloc(sizeof(char) * 8);
+    meta = "    |&;()<>";
+    int i;
+
+    i = 0;
+    while (meta[i])
+    {
+        if (meta[i] == input)
+            return (1);
+        i++;
+    }
+return (0);
+}
+
+void    Lexical_analysis(char *data)
+{
+    char *input;
+    input = data;
+    char *stoped;
+    int flag = 0;
+
+    while (*input)
+    {
+        if ((*input) != '\'')
+            write(1, input, 1);
+        input++;
+    }
+    write(1, "\n", 1);
+}
+void    get_content_single_quotes(char *commande)
+{
+    if (single_quotes contant >)
+    while ((*commande) && *(commande) != '\'')
+        commande++;
+    if(*commande && (*commande) == '\'')
+        commande++;
+    while ((*commande) && (*commande) != '\'')
+    {
+        write(1, commande,1);
+        commande++;
+    }
+    write(1, "  ", 1);
+}
 int main (int ac, char **av)
 {
-    // make a binnary tree thta store a tree of a family 
+    // make a binnary tree that store a tree of a family 
     t_commande commande;
-    t_trees *Root;
-    Root = malloc(sizeof(t_trees));
+    // enum tokens tokeen;
+
+    // t_trees *Root;
+    // Root = malloc(sizeof(t_trees));
     while (1)
     {
-        commande.commande = readline("MINISHELL dzeb ->");
+        commande.commande = readline("MINISHELL[~] ->");
         if (commande.commande == NULL)
-            {
-
-            printf("\n");
             return (0);
-            }
-        Root->data = commande.commande;
-        // printf("|%s |\n", Root->data);
+        get_content_single_quotes(commande.commande);
     }
-
-    
-    // t_trees *left_child;
-    
-    // t_trees *right_child;
-    
-    // left_child = malloc(sizeof(t_trees));
-    // left_child->data = av[1];
-    // left_child->left = NULL;
-    // left_child->right = NULL;
-    
-    // right_child = malloc(sizeof(t_trees));
-    // right_child->data = av[2];
-    // right_child->left = NULL;
-    // right_child->right = NULL;
-    
-    // Root->left = left_child;
-    // Root->right = right_child;
-    // printf("the ROOT = %s |\n Left : %s| \n right : %s|\n", Root->data, Root->left->data, Root->right->data);
     return (0);
 }
