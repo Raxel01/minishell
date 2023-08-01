@@ -19,12 +19,25 @@ typedef struct details
     void *option;
 
 } t_data_details;
+/*O : mean OPEN*/
+/*C: CLOSE*/
 enum token_type
 {
-    word,
-    operator,
-    me,
-    in
+    WORD,
+    SPACE = ' ',
+    O_PARE = '(',
+    C_PARE = ')',
+    PIPE = '|',
+    OUT_REDIR = '>',
+    INT_REDIR = '<',
+    O_SINGLE_QUOT = '\'',
+    C_SIGLE_QUOT = '\'',
+    O_DOUBLE_QUOT = '\"',
+    C_DOUBLE_QUOT = '\"',
+    HERE_DOC = '<<',
+    APPEND_SYM = '>>'
+    O_BRAKETS = '{',
+    C_BRAKETS = '}'
 };
 
 typedef struct token_list
