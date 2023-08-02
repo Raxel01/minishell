@@ -76,7 +76,7 @@ char    **ft_split(char const *s, char c)
                 str[i] = (char *)malloc(len + 1);
                 if (!str[i])
                         return (ft_freetab(str, i));
-                strlcpy(str[i], tmp, len + 1);
+                // strlcpy(str[i], tmp, len + 1);
         }
         str[i] = 0;
         return (str);
@@ -85,7 +85,7 @@ char    **ft_split(char const *s, char c)
 int ft_metacaracters(char input)
 {
     char *meta;
-    meta = "|&;()<>";
+    meta = " |&;()<>";
     int i;
 
     i = 0;
@@ -116,7 +116,6 @@ return (0);
 
 void    get_content_single_quotes(char *commande)
 {
-    // if (single_quotes contant >)
     while ((*commande) && *(commande) != '\'')
         commande++;
     if(*commande && (*commande) == '\'')
@@ -133,27 +132,6 @@ char *return_string_epured(char *data)
 {
     return (data);
 }
-
-// static int	ft_words(char const *s, char c)
-// {
-// 	int	i;
-// 	int	words;
-// 	if (s[0] == '\0')
-// 		return (0);
-// 	words = 0;
-// 	i = 0;
-// 	while (s[i] == c) //doz delim
-// 		i++;
-// 	while (s[i])
-// 	{
-// 		if (s[i] == c && s[i - 1] != c)
-// 			words++;
-// 		i++;
-// 	}
-// 	if (s[i - 1] != c)
-// 		words++;
-// 	return (words);
-// }
 
 int	ft_isalpha(int c)
 {
@@ -190,13 +168,14 @@ int token_counter(char *string, char delimiter)
 char *epur_string(char *commande)
 {
 	int i;
-	int flg;
+	int flg = 0;
     char *epured_string = malloc(sizeof(char) * strlen(commande));
     char *begin = epured_string;
-        i = 0;
-		while (commande && commande[i] && commande[i] == ' ' || commande[i] == '\t')
-			i += 1;
-		while (commande && commande[i])
+    i = 0;
+	
+	while (commande[i] && (commande[i] == ' ' || commande[i] == '\t'))
+			++i;
+	while (commande[i])
 		{
 			if (commande[i] == ' ' || commande[i] == '\t')
 				flg = 1;
@@ -214,6 +193,7 @@ char *epur_string(char *commande)
 			i += 1;
 		}
         *epured_string = '\0';
+
 	return (begin);
 }
 
@@ -252,7 +232,7 @@ char    *ft_strdup(const char *s)
         return (ptr);
 }
 
-char    *ft_substr(char const *s, unsigned int start, size_t len)
+char    *ft_substr(char const *s, size_t start, size_t len)
 {
         char                    *str;
         unsigned int    i;
@@ -266,10 +246,10 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
                         return (ft_strdup(""));
                 if (len >= ft_strlen(s))
                         len = ft_strlen(s);
-                str = (char *)malloc(sizeof(char) * (len +1));
+                str = (char *)malloc(sizeof(char) * ((len -start)+1));
                 if (!str)
                         return (NULL);
-                while (s[i] && i < (len + start))
+                while (s[i] && i < len) // start = 5, len == 6 , start = len - 1; i < len + start
                 {
                         str[j++] = s[i++];
                 }
@@ -306,33 +286,100 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
 //     }
 // }
 
-// void    Tokenizer
+int 	extract_special_token(char *commande, char search_for, int j,int i)
+{
+	if (search_for == '\'' || search_for == '\"')
+	{
+		if (search_for == '\'')
+		{
+			i = j;
+			j++;
+			while (commande[j] != '\'')
+				j++;
+			ft_substr(commande, i , j);
+		}
+		else if (search_for == '\"')
+		{
+			i = j;
+			j++;
+			while (commande[j] != '\"')
+				j++;
+			ft_substr(commande, i , j);
+		}
+
+	}
+
+	return (j);
+}
+
+void    Tokenizer(char *commande)
+{
+	int i = 0;
+	int j = 0;
+	int flag;
+
+	flag = 0;
+	while(commande[j] && (j) < ft_strlen(commande))
+	{
+		flag = 0;
+		i = j;
+		j = extract_special_token(commande,commande[j], j,i);
+			while (!ft_metacaracters(commande[j]) && j < ft_strlen(commande))
+			{
+				flag = 1;
+				++j;
+			}
+			if (flag)
+				printf ("%s\n", ft_substr(commande, i,j));
+			if(ft_metacaracters(commande[j]) && j < ft_strlen(commande))
+			{
+				i = j;
+				++j;
+				printf ("%s\n", ft_substr(commande, i,j));
+			}
+		j--;
+		j++;
+	}
+}
+
+char *ft_strndup(char *to_dup, int len)
+{
+	int i;
+	char *duped;
+	i = 0;
+	duped = malloc(sizeof(char) * (len + 1));
+	if (!duped)
+		return (NULL);
+	while (to_dup[i] && i < len)
+	{
+	printf ("Hi\n");
+		duped[i] = to_dup[i];
+		i++;
+	}
+	duped[i] = '\0';
+	return(duped);
+}
 
 int main (int ac, char **av,char **env)
 {
+	t_token_list *node_tokens;
     t_commande commande;
-    enum token_type begin;
-
-    begin = WORD;
-        printf ("%d \n", C_DOUBLE_QUOT);
-
-    exit (1);
+	
+	node_tokens = NULL;
+	// init_
+    // enum token_type begin;
+	// begin = rl_vi_bWord()
     int j = 0;
+	int i = 0;
     while (1)
     {
         commande.commande = readline("MINISHELL[~] -> ");
         if (commande.commande == NULL)
             return (0);
-        commande.commande = epur_string(commande.commande);
-            // testing(commande.commande);
-        // printf("%s\n", commande.commande);
-        char **tokens = ft_split(commande.commande, '#');
-       int i = 0;
-        while (tokens[i])
-        {
-            printf ("%s \n", tokens[i]);
-            i++;
-        }
+		commande.commande = epur_string(commande.commande);
+		Tokenizer(commande.commande);
     }
+	// char *to_dup = "ls -la | wc -l | awk '{print $1}'";
+	// printf ("%s", ft_strndup(to_dup,8));
     return (0);
 }
