@@ -22,29 +22,35 @@ typedef struct details
 
 /*O : mean OPEN*/
 /*C: CLOSE*/
-// enum token_type
-// {
-//     WORD,
-//     A_SPACE = ' ',
-//     O_PARE = '(',
-//     C_PARE = ')',
-//     PIPE = '|',
-//     OUT_REDIR = '>',
-//     INT_REDIR = '<',
-//     O_SINGLE_QUOT = '\'',
-//     C_SIGLE_QUOT = '\'',
-//     O_DOUBLE_QUOT = '\"',
-//     C_DOUBLE_QUOT = '\"',
-//     HERE_DOC = '<<',
-//     APPEND_SYM = '>>'
-//     O_BRAKETS = '{',
-//     C_BRAKETS = '}'
-// };
+enum token_type
+{
+    WORD,
+    A_SPACE = ' ',
+    // O_PARE = '(',
+    // C_PARE = ')',
+    PIPE = '|',
+    OUT_REDIR = '>',
+    INT_REDIR = '<',
+    // O_SINGLE_QUOT = '\'',
+    // C_SIGLE_QUOT = '\'',
+    // O_DOUBLE_QUOT = '\"',
+    // C_DOUBLE_QUOT = '\"',
+    HERE_DOC,
+    APPEND_SYM
+    // O_BRAKETS = '{',
+    // C_BRAKETS = '}'
+};
+enum token_state{
+    NORMAL,
+    IN_SQUOT,
+    IN_DQUOT
+};
 
 typedef struct token_list
 {
     void *content;
-    // enum token_type data_type;
+    enum token_type type;
+    enum token_state state;
     struct token_list *next;
     struct token_list *prev;
 }       t_token_list;

@@ -1,6 +1,0 @@
-total 200
--rwxr-xr-x  1 abait-ta  candidate  50448 Aug  1 18:18 a.out
--rw-r--r--  1 abait-ta  candidate      9 Aug  1 18:21 alitest
--rw-r--r--  1 abait-ta  candidate  33608 Aug  1 15:55 libft.a
--rw-r--r--  1 abait-ta  candidate   7341 Aug  1 18:18 parser.c
--rw-r--r--  1 abait-ta  candidate      0 Aug  1 18:21 wc
