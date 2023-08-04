@@ -40,6 +40,7 @@ enum token_type
     // O_BRAKETS = '{',
     // C_BRAKETS = '}'
 };
+
 enum token_state{
     NORMAL,
     IN_SQUOT,
@@ -58,8 +59,11 @@ typedef struct token_list
 
 typedef struct tree{
     void *data;
+    enum token_state state;
     struct tree *left;
     struct tree *right;
 }   t_trees;
+ //will may add messages option {}
+
 
 #endif
