@@ -4,7 +4,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -26,8 +26,6 @@ enum token_type
 {
     WORD,
     A_SPACE = ' ',
-    // O_PARE = '(',
-    // C_PARE = ')',
     PIPE = '|',
     OUT_REDIR = '>',
     INT_REDIR = '<',
@@ -49,7 +47,7 @@ enum token_state{
 
 typedef struct token_list
 {
-    void *content;
+    char	*token;
     enum token_type type;
     enum token_state state;
     struct token_list *next;
@@ -65,5 +63,14 @@ typedef struct tree{
 }   t_trees;
  //will may add messages option {}
 
+/*******************LINKED LIST FUNCTION*********************************/
+t_token_list *build_new_token_node(char *token_data,\
+            enum token_type type, enum token_state state);
+void    add_tokens_to_list(t_token_list **token, \
+            t_token_list *next_token);
+/************************************************************************/
 
+/*************************TOKENIZER UTILS********************************/
+void	lexical_analysis(char *commande);
+/************************************************************************/
 #endif

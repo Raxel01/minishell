@@ -1,13 +1,14 @@
-SRC = ./Parsing/lexical_analysis.c
+SRC = ./Parsing/lexical_analysis.c ./Parsing/Linked_list_tools.c
 
 Header = ./Header/header.h
 
 CFLAGS = -Wall -Wextra -Werror
 
 
-INCLUDES= -I/goinfre/$(USER)/homebrew/opt/readline/include
+# INCLUDES= -I/goinfre/$(USER)/homebrew/opt/readline/include
 
-READLINE= -lreadline -L/goinfre/$(USER)/homebrew/opt/readline/lib
+READLINE= -lreadline 
+# -L/goinfre/$(USER)/homebrew/opt/readline/lib
 
 NAME = Minishell
 
@@ -21,7 +22,7 @@ $(NAME): $(HEADER) $(OBJ)
 	@$(CC)  $(READLINE) -o  $@  $(OBJ) 
 
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@	
+	@$(CC) $(CFLAGS)  -c $< -o $@	
 
 clean :
 	@$(RM) $(OBJ)

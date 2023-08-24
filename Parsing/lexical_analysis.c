@@ -1,6 +1,5 @@
-#include <unistd.h>
 #include "../Header/header.h"
-#include <string.h>
+
 // void    testing(char *commande)
 // {
 //     char *end = commande+ft_strlen(commande) -1;
@@ -27,6 +26,13 @@
 //        commande++;
 //     }
 // }
+
+int Quoted_symbole(char c)
+{
+	return ( c == '|' || c == '<'|| c ==  '>' || c == '$' || \
+		 c == '"' || c == '\''|| c == ' ' || c == '\n'|| \
+		 c == '\t');
+}
 
 int ft_isalpha(int c)
 {
@@ -134,21 +140,25 @@ int ft_metacaracters(char input)
 
 char *ft_strndup(char *to_dup, int len)
 {
-        int i;
-        char *duped;
-        i = 0;
-        duped = malloc(sizeof(char) * (len + 1));
-        if (!duped)
-                return (NULL);
-        while (to_dup[i] && i < len)
+        if (to_dup)
         {
-                duped[i] = to_dup[i];
-                i++;
+                int i;
+                char *duped;
+                
+                i = 0;
+                duped = malloc(sizeof(char) * (len + 1));
+                if (!duped)
+                        return (NULL);
+                while (to_dup[i] && i < len)
+                {
+                        duped[i] = to_dup[i];
+                        i++;
+                }
+                duped[i] = '\0';
+                return (duped);
         }
-        duped[i] = '\0';
-        return (duped);
+        return (NULL);
 }
-
 
 char *epur_string(char *commande)
 {
@@ -242,7 +252,6 @@ char *ft_substr(char const *s, size_t start, size_t len)
         return (NULL);
 }
 
-
 int extract_special_token(char *commande, char search_for, int j, int *flag)
 {
         if (search_for == '\'' || search_for == '\"')
@@ -273,58 +282,109 @@ int    check_symetric_metacaracters(char member, char next_member)
         return (0);
 }
 
-void Tokenizer(char *commande)
+// void Tokenizer(char *commande)
+// {
+//         int i = 0;
+//         size_t j = 0;
+//         int flag;
+//         int s_quote;   
+//         s_quote = 0;
+//         while (j < ft_strlen(commande) && commande[j])
+//         {
+//                 flag = 0;
+//                 i = j;
+//                 j = extract_special_token(commande, commande[j], j, &s_quote);// cmd, cmd[0],0,
+//                 while (j < ft_strlen(commande) && !ft_metacaracters(commande[j]))
+//                 {
+//                         flag = 1;
+//                         ++j;
+//                 }
+//                 if (s_quote == 2)
+//                 {
+//                         i++;
+//                         j -= 1 ;
+//                 }
+//                 if (flag)
+//                         printf("%s\n", ft_substr(commande, i, j));
+//                 if (j < ft_strlen(commande) && ft_metacaracters(commande[j]))
+//                 {
+//                         i = j;
+//                         if (check_symetric_metacaracters(commande[j], commande[j+1]))
+//                                 ++j;
+//                         ++j;
+//                         printf("%s\n", ft_substr(commande, i, j));
+//                 }
+//                 j--;
+//                 j++;
+//         }
+// }
+
+char *get_t_word_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
 {
-        int i = 0;
-        size_t j = 0;
-        int flag;
-        int s_quote;
+        int j;
         
-        s_quote = 0;
-        while (j < ft_strlen(commande) && commande[j])
-        {
-                flag = 0;
-                i = j;
-                j = extract_special_token(commande, commande[j], j, &s_quote);// cmd, cmd[0],0,
-                while (j < ft_strlen(commande) && !ft_metacaracters(commande[j]))
-                {
-                        flag = 1;
-                        ++j;
-                }
-                if (s_quote == 2)
-                {
-                        i++;
-                        j -= 1 ;
-                }
-                if (flag)
-                        printf("%s\n", ft_substr(commande, i, j));
-                if (j < ft_strlen(commande) && ft_metacaracters(commande[j]))
-                {
-                        i = j;
-                        if (check_symetric_metacaracters(commande[j], commande[j+1]))
-                                ++j;
-                        ++j;
-                        printf("%s\n", ft_substr(commande, i, j));
-                }
-                j--;
+        j = 0;
+        while (commande[j] && !Quoted_symbole(commande[j]))
                 j++;
+        add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j), t_type, s_token));
+        return (commande + j);
+}
+
+char *get_space_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,1), t_type, s_token));
+        return (commande + 1);
+}
+
+char*  lexems_finder(char *commande, t_token_list **token)
+{
+        if (!Quoted_symbole(*commande))
+                commande = get_t_word_token(commande, token, WORD, NORMAL);
+        else if (*commande == ' ')
+                commande = get_space_token(commande, token,A_SPACE, NORMAL);
+        return (commande);
+}
+
+void    print_tokens(t_token_list **begin)
+{
+    t_token_list *cursur;
+    cursur = (*begin);
+    while (cursur)
+    {           printf("-TOKEN_DATA\t----------------------------------------------------|\n");
+                printf ("%s\t|\t%d\t|\t%d|\n", cursur->token, cursur->type, cursur->state);
+                // printf("================================\n");
+            cursur = cursur->next;
+    }
+}
+
+void	lexical_analysis(char *commande)
+{
+	t_token_list *token;
+        enum token_type t_token;
+        enum token_state s_token;
+        token = NULL;
+        t_token = 0;
+        s_token = 0;
+        
+        while (*commande)
+        {
+                commande = lexems_finder(commande, &token);
+                // break;
         }
+                print_tokens(&token);
+
 }
 
 int main()
 {
-        t_token_list *node_token;
         t_commande commande;
-
-        node_token = NULL;
         while (1)
         {
                 commande.commande = readline("MINISHELL[~] -> ");
                 if (commande.commande == NULL)
                         return (0);
                 commande.commande = epur_string(commande.commande);
-        // printf("strdup : %s \n", ft_strndup(commande.commande + 5, 9));
-                Tokenizer(commande.commande);
+                lexical_analysis(commande.commande);
         }
         free(commande.commande);
         return (0);
