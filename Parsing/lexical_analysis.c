@@ -27,6 +27,16 @@
 //     }
 // }
 
+int digit_case(char c)
+{
+        return(c >= '0' && c <= '9');
+}
+
+int is_alphanum(char c)
+{
+        return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || digit_case(c));
+}
+
 int Quoted_symbole(char c)
 {
 	return ( c == '|' || c == '<'|| c ==  '>' || c == '$' || \
@@ -140,7 +150,7 @@ int ft_metacaracters(char input)
 
 char *ft_strndup(char *to_dup, int len)
 {
-        if (to_dup)
+        if (to_dup && to_dup[0] != '\0')
         {
                 int i;
                 char *duped;
@@ -319,7 +329,7 @@ int    check_symetric_metacaracters(char member, char next_member)
 //         }
 // }
 
-char *get_t_word_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+char* get_t_word_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
 {
         int j;
         
@@ -330,11 +340,139 @@ char *get_t_word_token(char *commande, t_token_list **token, enum token_type t_t
         return (commande + j);
 }
 
-char *get_space_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+char* get_space_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
 {
         add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,1), t_type, s_token));
         return (commande + 1);
 }
+/*RE=CHECK THE LOGIC*/
+char* get_pipe_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int geter;
+
+        geter = 0;
+        while (commande[geter] && commande[geter] == '|')
+                geter++;
+        add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), t_type, s_token));
+        return (commande + geter); 
+}
+
+char* single_quote_content(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int j;
+
+        j = 0;
+        commande++;
+        while (commande[j] && commande[j] != '\'' )
+                j++;
+        if (j)
+                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j), t_type, s_token));
+        if (commande[j] == '\'')
+                j++;
+        return (commande + j);
+}
+
+char* dollar_geter(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int j;
+
+        if(digit_case(*(commande + 1)) || \
+                *(commande + 1) == '?' || *(commande+1) == '$')
+                {
+                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,2), \
+                        SPECIAL_VAR, s_token));
+                        return (commande + 2);
+                }
+        j = 0;
+                while (commande[j+1] && (is_alphanum(commande[j+1]) || commande[j+1] == '_'))
+                        j++;
+        if (j)
+                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j + 1), \
+                        t_type, s_token));
+        else
+        {
+                j++;
+                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j + 1), \
+                        t_type, s_token));
+        }
+        return (commande + j + 1);
+}
+
+
+char*   double_quote_content(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int j;
+        j = 0;
+        commande++;
+        while (commande[j] && commande[j] != '\"' )
+        {
+                if (commande[j] == '$')
+                {
+                        if (j)
+                                 add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j), t_type, s_token));
+                        commande = dollar_geter(commande + j, token,ENV_VAR,s_token);
+                        j = 0;
+                }
+                else
+                        j++;
+        }
+        if (j)
+                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j), t_type, s_token));
+        if (commande[j] == '\"')
+                j++;
+        return (commande + j);
+}
+
+int syntaxe_quote_checker(char *commande)
+{
+        int s_quote;
+        int d_quote;
+
+        s_quote = 0;
+        d_quote = 0;
+        while (commande && *commande)
+        {
+                if (*commande == '\'')
+                        s_quote++;
+                else if (*commande == '\"')
+                        d_quote++;
+                
+                commande++;
+        }
+        if ((s_quote % 2 != 0) || (d_quote % 2 != 0))
+                return (0);
+        return (1);
+}
+
+/*RE=CHECK THE LOGIC*/
+/*>>*/
+
+char *get_out_redir_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int geter;
+
+        geter = 0;
+        while (commande[geter] && commande[geter] == '>')
+                geter++;
+        add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), t_type, s_token));
+        return (commande + geter); 
+
+}
+
+/*RE=CHECK THE LOGIC*/
+// <<
+char *get_in_redir_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+{
+        int geter;
+
+        geter = 0;
+        while (commande[geter] && commande[geter] == '<')
+                geter++;
+        add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), t_type, s_token));
+        return (commande + geter); 
+
+}
+
 
 char*  lexems_finder(char *commande, t_token_list **token)
 {
@@ -342,6 +480,18 @@ char*  lexems_finder(char *commande, t_token_list **token)
                 commande = get_t_word_token(commande, token, WORD, NORMAL);
         else if (*commande == ' ')
                 commande = get_space_token(commande, token,A_SPACE, NORMAL);
+        else if (*commande == '|')
+                commande = get_pipe_token(commande, token,PIPE, NORMAL);
+        else if (*commande == '\'')
+                commande = single_quote_content(commande,token, WORD, IN_SQUOT);
+        else if (*commande == '\"')
+                commande = double_quote_content(commande,token, WORD, IN_DQUOT);
+        else if (*commande == '>')
+                commande = get_out_redir_token(commande,token, OUT_REDIR, NORMAL);
+        else if (*commande == '<')
+                commande = get_in_redir_token(commande,token, IN_REDIR, NORMAL);
+        else if (*commande == '$')
+                commande = dollar_geter(commande,token, ENV_VAR, NORMAL);
         return (commande);
 }
 
@@ -350,7 +500,7 @@ void    print_tokens(t_token_list **begin)
     t_token_list *cursur;
     cursur = (*begin);
     while (cursur)
-    {           printf("-TOKEN_DATA\t----------------------------------------------------|\n");
+    {           //printf("-TOKEN_DATA\t----------------------------------------------------|\n");
                 printf ("%s\t|\t%d\t|\t%d|\n", cursur->token, cursur->type, cursur->state);
                 // printf("================================\n");
             cursur = cursur->next;
@@ -360,19 +510,11 @@ void    print_tokens(t_token_list **begin)
 void	lexical_analysis(char *commande)
 {
 	t_token_list *token;
-        enum token_type t_token;
-        enum token_state s_token;
-        token = NULL;
-        t_token = 0;
-        s_token = 0;
         
+        token = NULL;
         while (*commande)
-        {
                 commande = lexems_finder(commande, &token);
-                // break;
-        }
-                print_tokens(&token);
-
+        print_tokens(&token);
 }
 
 int main()

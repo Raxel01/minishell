@@ -37,14 +37,3 @@ void    add_tokens_to_list(t_token_list **token, t_token_list *next_token)
         next_token->prev = cursur;
     }
 }
-
-// void    print_tokens(t_token_list **begin)
-// {
-//     t_token_list *cursur;
-//     cursur = (*begin);
-//     while (cursur)
-//     {
-//                 printf ("token_data := %s | %c | %d\n", cursur->token, cursur->type, cursur->state);
-//             cursur = cursur->next;
-//     }
-// }

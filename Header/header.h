@@ -20,24 +20,19 @@ typedef struct details
 
 } t_data_details;
 
-/*O : mean OPEN*/
-/*C: CLOSE*/
 enum token_type
 {
     WORD,
     A_SPACE = ' ',
     PIPE = '|',
     OUT_REDIR = '>',
-    INT_REDIR = '<',
-    // O_SINGLE_QUOT = '\'',
-    // C_SIGLE_QUOT = '\'',
-    // O_DOUBLE_QUOT = '\"',
-    // C_DOUBLE_QUOT = '\"',
+    IN_REDIR = '<',
+    ENV_VAR,
+    SPECIAL_VAR,
     HERE_DOC,
     APPEND_SYM
-    // O_BRAKETS = '{',
-    // C_BRAKETS = '}'
 };
+//SPECIAL_vAR IN SHELL LIKE : $1 $0..$?..$$.
 
 enum token_state{
     NORMAL,
@@ -61,8 +56,7 @@ typedef struct tree{
     struct tree *left;
     struct tree *right;
 }   t_trees;
- //will may add messages option {}
-
+ //will may add messages option {} 
 /*******************LINKED LIST FUNCTION*********************************/
 t_token_list *build_new_token_node(char *token_data,\
             enum token_type type, enum token_state state);

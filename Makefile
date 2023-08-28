@@ -4,11 +4,12 @@ Header = ./Header/header.h
 
 CFLAGS = -Wall -Wextra -Werror
 
-
 # INCLUDES= -I/goinfre/$(USER)/homebrew/opt/readline/include
 
-READLINE= -lreadline 
+READLINE = -lreadline 
+
 # -L/goinfre/$(USER)/homebrew/opt/readline/lib
+
 
 NAME = Minishell
 
@@ -19,10 +20,10 @@ OBJ = ${SRC:.c=.o}
 all : $(NAME)
 
 $(NAME): $(HEADER) $(OBJ)
-	@$(CC)  $(READLINE) -o  $@  $(OBJ) 
+	@$(CC) -o $@  $(OBJ)  $(READLINE)
 
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS)  -c $< -o $@	
+	@$(CC) $(CFLAGS) $(CFLAGS) -c $< -o  $@	
 
 clean :
 	@$(RM) $(OBJ)
