@@ -1,76 +1,98 @@
-#include "../Header/header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer_accompag_func.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/09/04 00:08:57 by abait-ta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-size_t ft_strlen(const char *s)
+#include "../Header/Parsing_Header.h"
+
+size_t	ft_strlen(const char *s)
 {
-        size_t i;
+	size_t	i;
 
-        i = 0;
-        while (s[i])
-                i++;
-        return (i);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-char *ft_strndup(char *to_dup, int len)
+char	*ft_strndup(char *to_dup, int len)
 {
-        if (to_dup && to_dup[0] != '\0')
-        {
-                int i;
-                char *duped;
-                
-                i = 0;
-                duped = malloc(sizeof(char) * (len + 1));
-                if (!duped)
-                        return (NULL);
-                while (to_dup[i] && i < len)
-                {
-                        duped[i] = to_dup[i];
-                        i++;
-                }
-                duped[i] = '\0';
-                return (duped);
-        }
-        return (NULL);
+	int		i;
+	char	*duped;
+
+	if (to_dup && to_dup[0] != '\0')
+	{
+		i = 0;
+		duped = malloc(sizeof(char) * (len + 1));
+		if (!duped)
+			return (NULL);
+		while (to_dup[i] && i < len)
+		{
+			duped[i] = to_dup[i];
+			i++;
+		}
+		duped[i] = '\0';
+		return (duped);
+	}
+	return (NULL);
 }
 
-char* single_quote_content(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+char	*single_quote_content(char *commande, t_token_list **token,
+		enum e_token_type t_type, enum e_token_state s_token)
 {
-        int j;
+	int	j;
 
-        j = 0;
-        commande++;
-        while (commande[j] && commande[j] != '\'' )
-                j++;
-        if (j)
-                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,j), t_type, s_token));
-        if (commande[j] == '\'')
-                j++;
-        return (commande + j);
+	j = 0;
+	commande++;
+	while (commande[j] && commande[j] != '\'')
+		j++;
+	if (j)
+		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j),
+				t_type, s_token));
+	if (commande[j] == '\'')
+		j++;
+	return (commande + j);
 }
+
 /*>>*/
-char *get_out_redir_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
+char	*get_out_redir_token(char *commande, t_token_list **token,
+		enum e_token_type t_type, enum e_token_state s_token)
 {
-        int geter;
+	int	geter;
 
-        geter = 1;
-        if (commande[geter] == '>')
-                geter++;
-        if (geter == 2)
-                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), APPEND_SYM, s_token));
-        else
-                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), t_type, s_token));
-        return (commande + geter); 
+	geter = 1;
+	if (commande[geter] == '>')
+		geter++;
+	if (geter == 2)
+		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), APPEND_SYM, s_token));
+	else
+		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), t_type, s_token));
+	return (commande + geter);
 }
-/*<<*/
-char* get_in_redir_token(char *commande, t_token_list **token, enum token_type t_type, enum token_state s_token)
-{
-        int geter;
 
-        geter = 1;
-        if (commande[geter] == '<')
-                geter++;
-        if (geter == 2)
-                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), HERE_DOC, s_token));
-        else
-                add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,geter), t_type, s_token));
-        return (commande + geter); 
+/*<<*/
+char	*get_in_redir_token(char *commande, t_token_list **token,
+		enum e_token_type t_type, enum e_token_state s_token)
+{
+	int	geter;
+
+	geter = 1;
+	if (commande[geter] == '<')
+		geter++;
+	if (geter == 2)
+		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), HERE_DOC, s_token));
+	else
+		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), t_type, s_token));
+	return (commande + geter);
 }

@@ -1,72 +1,86 @@
-#include "../Header/header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commande_reform.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/02 23:57:32 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/09/08 21:24:22 by abait-ta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int word_epur_helper(char *commande)
+#include "../Header/Parsing_Header.h"
+
+int	word_epur_helper(char *commande)
 {
-        int word;
-        int i;
+	int	word;
+	int	i;
 
-        i = 0;
-        word = 0;
-        while (commande[i])
-        {
-                if (((commande[i] != ' ' && commande[i] != '\t') && (commande[i+1] == ' ' || commande[i+1] == '\t')) ||\
-                         ((commande[i] != ' ' && commande[i] != '\t') && commande[i + 1] == '\0'))
-                        word++;
-                i++;
-        }
-return (word);
+	i = 0;
+	word = 0;
+	while (commande[i])
+	{
+		if (((commande[i] != ' ' && commande[i] != '\t') && \
+			(commande[i + 1] == ' ' || commande[i + 1] == '\t'))
+			|| ((commande[i] != ' ' && commande[i] != '\t') && \
+			commande[i + 1] == '\0'))
+			word++;
+		i++;
+	}
+	return (word);
 }
 
-int epur_len_helper(char *commande)
+int	epur_len_helper(char *commande)
 {
-        int i;
-        int not_whitspace;
-        
-        i = 0;
-        not_whitspace = 0;
-        while (commande[i])
-        {
-                if (commande[i] != ' ' && commande[i] != '\t')
-                        not_whitspace++;
-                i++;
-        }
-        return (not_whitspace);
+	int	i;
+	int	not_whitspace;
+
+	i = 0;
+	not_whitspace = 0;
+	while (commande[i])
+	{
+		if (commande[i] != ' ' && commande[i] != '\t')
+			not_whitspace++;
+		i++;
+	}
+	return (not_whitspace);
 }
 
-char *epur_string(char *commande)
+void	data_init(t_var *vars, char *commande)
 {
-        if (commande && commande[0])
-        {
-        int i;
-        int flg = 0;
-        char *epured_string;
-        char *begin;
+	vars->flg = 0;
+	vars->epured_string = malloc(sizeof(char) * (epur_len_helper(commande)
+				+ (word_epur_helper(commande) - 1) + 1));
+	vars->begin = vars->epured_string;
+	vars->i = 0;
+}
 
-        epured_string = malloc(sizeof(char) * (epur_len_helper(commande) + (word_epur_helper(commande) -1) + 1));
-        begin = epured_string;
-        i = 0;
+char	*epur_string(char *commande)
+{
+	t_var	var;
 
-        while (commande[i] && (commande[i] == ' ' || commande[i] == '\t'))
-                ++i;
-        while (commande[i])
-        {
-                if (commande[i] == ' ' || commande[i] == '\t')
-                        flg = 1;
-                if (!(commande[i] == ' ' || commande[i] == '\t'))
-                {
-                        if (flg)
-                        {
-                                *epured_string = ' ';
-                                epured_string++;
-                        }
-                        flg = 0;
-                        *epured_string = commande[i];
-                        epured_string++;
-                }
-                i += 1;
-        }
-        *epured_string = '\0';
-        return (begin);
-        }
-        return ("");
+	data_init(&var, commande);
+	while (commande[var.i] && (commande[var.i] == ' '
+			|| commande[var.i] == '\t'))
+		++var.i;
+	while (commande[var.i])
+	{
+		if (commande[var.i] == ' ' || commande[var.i] == '\t')
+			var.flg = 1;
+		if (!(commande[var.i] == ' ' || commande[var.i] == '\t'))
+		{
+			if (var.flg)
+			{
+				*(var.epured_string) = ' ';
+				var.epured_string++;
+			}
+			var.flg = 0;
+			*var.epured_string = commande[var.i];
+			var.epured_string++;
+		}
+		var.i += 1;
+	}
+	*(var.epured_string) = '\0';
+	return (var.begin);
 }

@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
+#    Updated: 2023/09/04 00:19:30 by abait-ta         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC = ./Parsing/lexical_analysis.c ./Parsing/Linked_list_tools.c ./Parsing/commande_reform.c \
  ./Parsing/commande_tokenizer.c ./Parsing/tokenizer_sequel.c ./Parsing/tokenizer_accompag_func.c \
 Global_main.c
 
-Header = ./Header/header.h
+Header = ./Header/Parsing_Header.h
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -11,7 +23,6 @@ CFLAGS = -Wall -Wextra -Werror
 READLINE = -lreadline 
 
 # -L/goinfre/$(USER)/homebrew/opt/readline/lib
-
 
 NAME = Minishell
 
@@ -25,7 +36,7 @@ $(NAME): $(HEADER) $(OBJ)
 	@$(CC) -o $@  $(OBJ)  $(READLINE)
 
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) $(CFLAGS)  -c $< -o  $@	
+	@$(CC) $(CFLAGS) $(CFLAGS) -c $< -o  $@	
 
 clean :
 	@$(RM) $(OBJ)
