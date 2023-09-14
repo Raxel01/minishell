@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/09 12:39:28 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:48:34 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	word_epur_helper(char *commande)
 
 	i = 0;
 	word = 0;
-	while (commande[i])
+	while (commande && commande[i])
 	{
 		if (((commande[i] != ' ' && commande[i] != '\t') && \
 			(commande[i + 1] == ' ' || commande[i + 1] == '\t'))
@@ -38,7 +38,7 @@ int	epur_len_helper(char *commande)
 
 	i = 0;
 	not_whitspace = 0;
-	while (commande[i])
+	while (commande && commande[i])
 	{
 		if (commande[i] != ' ' && commande[i] != '\t')
 			not_whitspace++;
@@ -50,6 +50,7 @@ int	epur_len_helper(char *commande)
 void	data_init(t_var *vars, char *commande)
 {
 	vars->flg = 0;
+	
 	vars->epured_string = malloc(sizeof(char) * (epur_len_helper(commande)
 				+ (word_epur_helper(commande) - 1) + 1));
 	vars->begin = vars->epured_string;
@@ -82,5 +83,6 @@ char	*epur_string(char *commande)
 		var.i += 1;
 	}
 	*(var.epured_string) = '\0';
+	free(commande);
 	return (var.begin);
 }

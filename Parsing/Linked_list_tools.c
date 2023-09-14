@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:41 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/08 22:12:32 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:14:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_token_list	*build_new_token_node(char *token_data, enum e_token_type type,
 	token->token = token_data;
 	token->type = type;
 	token->state = state;
+	token->index = 0;
+	token->node_member = 0;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
@@ -60,6 +62,7 @@ void free_token_list(t_token_list **head)
     while (*head) {
         tmp = *head;
         *head = (*head)->next;
+		free(tmp->token);
         free(tmp);
     }
     *head = NULL;
