@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:34 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/04 00:08:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:16:14 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_pipe_token(char *commande, t_token_list **token,
 			t_type, s_token));
 	return (commande + 1);
 }
-
+/*HERE WE GET TOKEN LINKED LIST*/
 char	*lexems_finder(char *commande, t_token_list **token)
 {
 	if (!quoted_symbole(*commande))

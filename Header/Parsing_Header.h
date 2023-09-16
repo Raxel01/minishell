@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 00:14:30 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/14 16:19:17 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:00:26 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
 # include <unistd.h>

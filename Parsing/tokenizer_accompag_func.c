@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/14 11:26:58 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:23:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strndup(char *to_dup, int len)
 	}
 	return (NULL);
 }
-
+/*the LAST CONDITION IS ABOUT SKIPPING THE '\'' IF THE BOUCLE WAS STOPED BY IT*/
 char	*single_quote_content(char *commande, t_token_list **token,
 		enum e_token_type t_type, enum e_token_state s_token)
 {
@@ -73,14 +73,17 @@ char	*get_out_redir_token(char *commande, t_token_list **token,
 	int	geter;
 
 	geter = 1;
-	if (commande[geter] == '>')
+	while (commande[geter] && commande[geter] == '>')
 		geter++;
 	if (geter == 2)
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
 					geter), APPEND_SYM, s_token));
-	else
+	else if(geter == 1)
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
 					geter), t_type, s_token));
+	else
+			add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), WORD, s_token));
 	return (commande + geter);
 }
 
@@ -91,13 +94,16 @@ char	*get_in_redir_token(char *commande, t_token_list **token,
 	int	geter;
 
 	geter = 1;
-	if (commande[geter] == '<')
+	while (commande[geter] && commande[geter] == '<')
 		geter++;
 	if (geter == 2)
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
 					geter), HERE_DOC, s_token));
-	else
+	else if(geter == 1)
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
 					geter), t_type, s_token));
+	else
+			add_tokens_to_list(token, build_new_token_node(ft_strndup(commande,
+					geter), WORD, s_token));
 	return (commande + geter);
 }

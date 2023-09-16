@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:38 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/14 20:48:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:54:27 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (++j < len_s2)
 		join[i + j] = s2[j];
 	join[i + j] = '\0';
+	free(s1);
 	return (join);
 }
 
@@ -79,8 +80,6 @@ void    print_tokens(t_token_list **begin)
     printf("*******************************************************************\n");
     printf("*        TOKENS         |       TOKEN TYPE      |   TOKEN STATE   *\n");
     printf("*******************************************************************\n");
-	if (!cursur){
-		printf("NULL");exit(0);}
 	while (cursur)
     {
         printf ("*%-20s\t|\t%-10s\t|\t%-10s*\n", cursur->token, token_content[cursur->type], token_state[cursur->state]);
@@ -101,7 +100,7 @@ void    print_tokensat(t_token_list **begin)
 				printf("\n");
     }
 }
-
+// ============HERE======================================================================
 int new_token_len(char *new_token, enum e_token_state state)
 {
 	int i;
@@ -161,7 +160,6 @@ char*	token_withoutquote(char *token, enum e_token_state state)
 		new_token = extract_clean(token, to_alloc, '\'');
 	else if (state == IN_DQUOT)
 		new_token = extract_clean(token, to_alloc, '\"');
-	
 	free(token);
 	return (new_token);
 }
@@ -184,32 +182,16 @@ int	affect_index(t_token_list **token)
 {
 	t_token_list *cursur;
 	int node_member;
-	int i;
 	
-	i = 0;
 	node_member = 0;
 	cursur = (*token);
 	while (cursur)
 	{
-		cursur->index = i;
-		i++;
+		cursur->index = node_member;
+		node_member++;
 		cursur = cursur->next;
 	}
-	node_member = i;
 	return(node_member);
-}
-
-void	tokens_cleaner(t_token_list **tokens)
-{
-	t_token_list *cursur;
-
-	cursur = (*tokens);
-	while (cursur)
-	{
-		if (true_case_quote(cursur->token) )
-			cursur->token = token_withoutquote(cursur->token, cursur->state);
-		cursur = cursur->next;
-	}
 }
 
 void	init_holder(t_pos_get ** holder,t_token_list **tokens)
@@ -258,8 +240,6 @@ char*	assemble_data(t_token_list *begin,int end)
 	while (begin->index < end)
 	{
 		join = ft_strjoin(join, begin->next->token);
-		// printf ("\ntoken :%s | end :%d  | join : \"%s\"\n", begin->next->token, end, join);
-		// exit(0);
 		begin = begin->next;
 	}
 	return (join);
@@ -270,21 +250,78 @@ t_token_list *data_assembler(t_token_list **tokens,t_pos_get *position)
 	t_token_list *cursur;
 	t_token_list *new_node;
 	
-	new_node = build_new_token_node(NULL,WORD,NORMAL);
 	cursur = (*tokens);
 	while (cursur)
 	{
 		if (cursur->index == position->start)
 		{
-			new_node->token = assemble_data(cursur, position->end);
+			new_node = build_new_token_node(assemble_data(cursur, position->end) ,WORD,NORMAL);
 			new_node->index = position->start;
-			return (new_node);
+			new_node->prev = cursur->prev;
 		}
+		if (cursur->index == position->end)
+			new_node->next = cursur->next;
 		cursur = cursur->next;
 	}
 	return(new_node);
 }
 
+/*visit all node : if a node contien a (' || ") the clean this token to be !quote*/
+/*	// Special case: Removing nodes at the beginning*/
+/*Special case: Removing nodes at the end*/
+/*Insert the replacement node in place*/
+void addclean_token(t_token_list **head, int start_index, int end_index, t_token_list *replacementNode) {
+
+    t_token_list *start;
+    t_token_list *end;
+	int			 i;
+	
+	start = *head;
+	end = *head;
+	i = -1;
+    while(++i < start_index && start != NULL){
+        start = start->next;}
+	i = -1;
+	while (++i < end_index && end != NULL)
+        end = end->next;
+    if (start->prev == NULL)
+        *head = replacementNode;
+	else
+        start->prev->next = replacementNode;
+    if (end->next != NULL){
+        end->next->prev = replacementNode;
+	}
+    replacementNode->prev = start->prev;
+    replacementNode->next = end->next;
+}
+
+void	tokens_cleaner(t_token_list **tokens)
+{
+	t_token_list *cursur;
+	t_pos_get *to_extract;
+
+	cursur = (*tokens);
+	while (cursur)
+	{
+		if (true_case_quote(cursur->token) )
+		{
+			cursur->token = token_withoutquote(cursur->token, cursur->state);
+			cursur->state = NORMAL;
+		}
+		cursur = cursur->next;
+	}
+	cursur = (*tokens);
+	while (cursur)
+	{
+		to_extract = index_range_getter(tokens);
+		if (to_extract->start != to_extract->end)
+			addclean_token(tokens, to_extract->start, to_extract->end, \
+				data_assembler(tokens, to_extract));
+		cursur = cursur->next;
+		free(to_extract);
+	}
+}
+/*should free the tokens selected to be joined*/
 t_token_list	*lexical_analysis(char *commande)
 {
 	t_token_list	*token;
@@ -293,7 +330,6 @@ t_token_list	*lexical_analysis(char *commande)
 	while (commande && *commande)
 		commande = lexems_finder(commande, &token);
 	tokens_cleaner(&token);
-	t_token_list *new_one = data_assembler(&token, index_range_getter(&token));
-	printf("new_one :%s && new_one index: %d\n", new_one->token, new_one->index);
+	print_tokens(&token);
 	return (token);
 }

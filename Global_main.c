@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/14 20:43:40 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:44:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ void history_acces(char *commande)
 	}
 }
 
-int	Minishell(void)
+int	Minishell(int ac, char **av, char **env)
 {
 	t_commande	commande;
 	t_token_list *token;
-	
+	(void)ac;
+	(void)av;
+	(void)env;
 	signal(SIGINT, seg_handler_c);
 	while (1)
 	{
@@ -70,8 +72,8 @@ int	Minishell(void)
 }
 
 /*تبدو وظيفة عادية لكن هيهاات هيهااات */
-int main ()
+int main (int ac, char **av, char **env)
 {
-	Minishell();
+	Minishell(ac, av, env);
 	return (0);
 }
