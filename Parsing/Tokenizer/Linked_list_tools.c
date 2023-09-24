@@ -6,11 +6,11 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:41 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/15 19:45:23 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/22 22:17:54 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Header/Parsing_Header.h"
+#include "../../Header/Parsing.h"
 
 // t_token_list *init_head(t_token_list **node)
 // {
@@ -55,16 +55,16 @@ void	add_tokens_to_list(t_token_list **token, t_token_list *next_token)
 	}
 }
 
-void free_token_list(t_token_list **head)
+void	free_token_list(t_token_list **head)
 {
-    t_token_list *tmp;
+	t_token_list	*tmp;
 
-    while (*head) {
-        tmp = *head;
-        *head = (*head)->next;
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
 		free(tmp->token);
-        free(tmp);
-    }
-    *head = NULL;
+		free(tmp);
+	}
+	*head = NULL;
 }
-

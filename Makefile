@@ -6,15 +6,15 @@
 #    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/09/16 19:57:55 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/09/23 21:50:47 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ./Parsing/lexical_analysis.c ./Parsing/Linked_list_tools.c ./Parsing/commande_reform.c \
- ./Parsing/commande_tokenizer.c ./Parsing/tokenizer_sequel.c ./Parsing/tokenizer_accompag_func.c \
-Global_main.c
-
-Header = ./Header/Parsing_Header.h
+SRC = ./Parsing/Tokenizer/lexical_analysis.c ./Parsing/Tokenizer/Linked_list_tools.c ./Parsing/Tokenizer/commande_reform.c \
+ ./Parsing/Tokenizer/commande_tokenizer.c ./Parsing/Tokenizer/tokenizer_sequel.c ./Parsing/Tokenizer/tokenizer_accompag_func.c \
+Global_main.c ./Parsing/Tokenizer/cleaner_end.c ./Parsing/Tokenizer/cleaner_sequel.c ./Parsing/Tokenizer/token_cleaner.c \
+./Parsing/Syntax_analysis/syntax_checker.c ./Parsing/Environnement/env.c
+Header = ./Header/Parsing.h
 
 CFLAGS = -Wall -Wextra -Werror
 
