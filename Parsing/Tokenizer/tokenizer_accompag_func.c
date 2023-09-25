@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 13:12:39 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:50:53 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*ft_strndup(char *to_dup, int len)
 {
 	int		i;
 	char	*duped;
-	if (to_dup && to_dup[0] != '\0')
-	{
+	// if (to_dup && to_dup[0] != '\0')
+	// {
 		i = 0;
 		duped = malloc(sizeof(char) * (len + 1));
 		if (!duped)
@@ -29,8 +29,8 @@ char	*ft_strndup(char *to_dup, int len)
 		}
 		duped[i] = '\0';
 		return (duped);
-	}
-	return (NULL);
+	// }
+	// return (NULL);
 }
 
 // int get_squote(char *commande)
@@ -62,17 +62,17 @@ char	*single_quote_content(char *commande, t_token_list **token, enum e_token_ty
 		j++;
 	}
 	
-	// if (commande[j] == 0 || !(*commande))
-	// {
-	// 	t_type = SYNTAX_ERROR;
-	// 	s_token = Q_UNCLOSE;
-	// 	if (*commande == commande[j])
-	// 	{
-	// 		add_tokens_to_list(token, build_new_token_node(strdup("SYNTAXE_ERROR"),
-	// 			t_type, s_token));
-	// 		return (commande + j);
-	// 	}
-	// }
+	if (commande[j] == 0 || !(*commande))
+	{
+		t_type = SYNTAX_ERROR;
+		s_token = Q_UNCLOSE;
+		if (*commande == commande[j])
+		{
+			add_tokens_to_list(token, build_new_token_node(ft_strndup("SYNTAXE_ERROR", \
+				ft_strlen("SYNTAXE_ERROR")), t_type, s_token));
+			return (commande + j);
+		}
+	}
 	
 	if (j)
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j),

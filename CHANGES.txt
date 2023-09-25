@@ -1,0 +1,27 @@
+/********************************************************
+    CHANGE FILE  (THIS FILE CAN SAVE YOU ONE DAY)       * 
+/********************************************************
+        * WE DON'T CARE ABOUT l2AKHTA2 l2IMLA2IYA*
+                    ------------------    
+                    |PARSING_CHANGES:|
+/*************************************************************
+I will change f single quotes logic to check for syntax-
+error begin by line 67
+file : tokenizer_sequel.c
+STATUS  : ba9a lfikra tmma ^^^^^^
+
+change in single quotes but still have chi blan 
+*---> TRUE CHANGE :
+    in true_case_quote function line : 114 add second condition
+7itach I changed in logic selection of tokens so kay3tini wa7d 
+token b state o type machi IN_SQUOT || IN_DQUOT return (new = NULL)
+so token = NULL whada mablanch.
+*---->
+/**************************************************************
+/**************************************************************
+                    |TO_CHECK MNBE3D|
+                    -----------------
+LEAK : if the variable don't exist in env ->I return duped("");
+but chi blan tma;
+ft_strndup don't alloc when to_dup = '\0';
+/**************************************************************/

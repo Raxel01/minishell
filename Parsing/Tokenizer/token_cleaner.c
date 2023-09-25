@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:40:05 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 21:26:33 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/25 08:28:04 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,13 @@ char	*token_withoutquote(char *token, enum e_token_state state)
 
 void	tokens_cleaner(t_token_list **tokens)
 {
+	(void)tokens;
 	t_token_list	*cursur;
-
 	cursur = (*tokens);
 	while (cursur)
 	{
-		if (true_case_quote(cursur->token))
+		if (true_case_quote(cursur->token)  \
+			&& (cursur->state == IN_DQUOT || cursur->state == IN_SQUOT))
 		{
 			cursur->token = token_withoutquote(cursur->token, cursur->state);
 			cursur->state = NORMAL;

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:38 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 19:17:16 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/25 08:15:37 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	print_tokens(t_token_list **begin)
 	if (!(*begin))
 		return;
 	cursur = (*begin);
-	printf("\t*******************************************************************\n");
-	printf("\t*        TOKENS         |       TOKEN TYPE      |   TOKEN STATE   *\n");
-	printf("\t*******************************************************************\n");
+	printf("*******************************************************************\n");
+	printf("*        TOKENS         |       TOKEN TYPE      |   TOKEN STATE   *\n");
+	printf("*******************************************************************\n");
 	while (cursur)
 	{
-		printf("\t*%-20s\t|\t%-10s\t|\t%-10s*\n", cursur->token,
+		printf("*%-20s\t|\t%-10s\t|\t%-10s*\n", cursur->token,
 			token_content[cursur->type], token_state[cursur->state]);
-		printf("***************************************************************************\n");
+		printf("*******************************************************************\n");
 		cursur = cursur->next;
 	}
 }

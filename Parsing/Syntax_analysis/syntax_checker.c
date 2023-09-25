@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/22 22:17:48 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/24 22:09:26 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int syntax_error(t_token_list *head)
             if (cursur->state == Q_UNCLOSE)
                 error_announcer(STDERR_FILENO, "bash : syntax error unclosed `' OR \"'\n");
             else if (cursur->state == RED_ERR)
-                error_announcer(STDERR_FILENO, "bash : syntax error false redirection `< > << >>c'\n");
+                error_announcer(STDERR_FILENO, "bash : syntax error false redirection `< > << >>'\n");
             else
                 error_announcer(STDERR_FILENO, "dick\n");
             return (ERROR_EXIT);

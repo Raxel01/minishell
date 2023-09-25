@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 18:15:35 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:41:55 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	history_acces(char *commande)
 		add_history(commande);
 }
 
+void	clean_memory(t_token_list **token, my_env **env, char *command)
+{
+	free_token_list(token);
+	free_env(env);
+	free(command);
+}
 int	minishell(int ac, char **av, char **env)
 {
 	t_commande		commande;
@@ -54,7 +60,6 @@ int	minishell(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	(void)env;
 	signal(SIGINT, seg_handler_c);
 	while (1)
 	{
@@ -65,10 +70,15 @@ int	minishell(int ac, char **av, char **env)
 		history_acces(commande.commande);
 		my_env = import_env(env);
 		token = lexical_analysis(commande.commande,&my_env);
+		if (syntax_error(token) == SUCCES_PROC)
+		{
+			print_tokens(&token);
+			clean_memory(&token, &my_env, commande.commande);
+		}
+		else{
 		print_tokens(&token);
-		free_token_list(&token);
-		free_env(&my_env);
-		free(commande.commande);
+		clean_memory(&token, &my_env, commande.commande);
+		}
 	}
 	return (0);
 }

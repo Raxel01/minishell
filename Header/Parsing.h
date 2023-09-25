@@ -175,11 +175,12 @@ int syntax_error(t_token_list *head);
 /*********************************Environnement : envp******************/
 void    env_var_expansion(t_token_list **tokens, my_env **env);
 char    *ft_substr(char const *s, unsigned int start, size_t len);
-int   ft_strchr(char *s, char c);
-my_env *build_member(char *env_member);
+int   	ft_strchr(char *s, char c);
+my_env 	*build_member(char *env_member);
 void    add_member(my_env **head_members, my_env *new_member);
 my_env  *init_head(my_env **env_head, char ** sys_env);
-my_env*    import_env(char **sys_env);
+my_env 	*import_env(char **sys_env);
+int		ft_strcmp(char *s1, char *s2);
 void    free_env(my_env **env);
 void    print_env(my_env **env);
 /***********************************************************************/
