@@ -16,12 +16,29 @@ change in single quotes but still have chi blan
 7itach I changed in logic selection of tokens so kay3tini wa7d 
 token b state o type machi IN_SQUOT || IN_DQUOT return (new = NULL)
 so token = NULL whada mablanch.
-*---->
-/**************************************************************
-/**************************************************************
+
+Currently :
+    change on single quote fcts for norminette; test too;
+*----> Status ^^^^^
+    CHANGES ACCEPTED;
+NEXT:
+    change in Dquote for norminette;
+*---> Status ^^^^
+    Accepted kan wa7d lblan khfif f return mekhtalf bin mnin kanl9a chi ENV_VAR olla 
+    mnin matatkonch
+Begin : Today : 26 - 12:13
+Goals : syntax error caused by all type of redirection
+*-----> CHECKED <<<
+    Add in line 45 of ysntax error but norminette error.
+*----->
+True changes : 
+    reimplementation of redirection check case like :"ls >| wc -l"
+/***************************************************************
+/***************************************************************
                     |TO_CHECK MNBE3D|
                     -----------------
 LEAK : if the variable don't exist in env ->I return duped("");
 but chi blan tma;
 ft_strndup don't alloc when to_dup = '\0';
-/**************************************************************/
+GO TO SLEEP  00:00
+/***************************************************************/

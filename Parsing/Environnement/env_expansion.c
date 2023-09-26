@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 21:49:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/25 19:38:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:44:07 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void    env_var_expansion(t_token_list **tokens, my_env **env)
     cursur = (*tokens);
     while (cursur)
     {
-        if (cursur->state == IN_DQUOT && (cursur->type == ENV_VAR || cursur->type == SPECIAL_VAR))
+        if ((cursur->type == ENV_VAR) || (cursur->state == IN_DQUOT && (cursur->type == ENV_VAR || cursur->type == SPECIAL_VAR)))
         {
             cursur->token = replaceby_content(cursur->token, env);
             cursur->type = WORD;

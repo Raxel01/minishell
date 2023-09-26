@@ -39,11 +39,7 @@ typedef struct variable
 	char				*begin;
 }						t_var;
 
-typedef struct details
-{
-	char	*env_var;
-	char	*content;
-}						t_env;
+
 
 /*SPECIAL_vAR IN SHELL LIKE : $1 $0..$?..$$.*/
 enum					e_token_type

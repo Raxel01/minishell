@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:54 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 23:11:49 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:22:28 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,37 @@ char	*dollar_geter(char *commande, t_token_list **token, enum e_token_type t_typ
 	return (commande + j + 1);
 }
 
-// int extract_content(char *commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
-// {
-// 	int j;
-// 	return (j);
-// }
+int	extract_dquot_content(char **commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
+{
+	int j;
+	
+	j = 0;
+	while ((*commande)[j] && (*commande)[j] != '\"')
+	{
+		if ((*commande)[j] == '$')
+		{
+			if (j)
+				add_tokens_to_list(token, \
+					build_new_token_node(ft_strndup((*commande), j), t_type, s_token));
+			(*commande) = dollar_geter((*commande) + j, token, ENV_VAR, s_token);
+			j = 0;
+		}
+		else
+		{
+			if ((*commande)[j + 1] == '\"' && (*commande)[j + 2] == '\"')
+				j += 2;
+			j++;
+		}
+	}
+	return (j);
+}
 
 char	*double_quote_content(char *commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
 {
 	int	j;
 
 	commande++;
-	j = 0;
-	while (commande[j] && commande[j] != '\"')
-	{
-		if (commande[j] == '$')
-		{
-			if (j)
-				add_tokens_to_list(token, \
-					build_new_token_node(ft_strndup(commande, j), t_type, s_token));
-			commande = dollar_geter(commande + j, token, ENV_VAR, s_token);
-			j = 0;
-		}
-		else
-		{
-			if (commande[j + 1] == '\"' && commande[j + 2] == '\"')
-				j += 2;
-			j++;
-		}
-	}
+	j = extract_dquot_content(&commande, token, t_type, s_token);
 	if (commande[j] == 0 || !(*commande))
 	{
 		t_type = SYNTAX_ERROR;
