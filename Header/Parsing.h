@@ -23,8 +23,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-#define ERROR_EXIT 2
-#define SUCCES_PROC 0
+# define ERROR_EXIT 2
+# define SUCCES_PROC 0
 
 typedef struct commande
 {
@@ -38,8 +38,6 @@ typedef struct variable
 	char				*epured_string;
 	char				*begin;
 }						t_var;
-
-
 
 /*SPECIAL_vAR IN SHELL LIKE : $1 $0..$?..$$.*/
 enum					e_token_type
@@ -85,12 +83,12 @@ typedef struct token_list
 }						t_token_list;
 typedef struct v_envp
 {
-	char			*var;
-	char			*var_content;
-	char			**m_env;
-	struct	v_envp 	*next;
-	struct	v_envp 	*prev;
-}	my_env;
+	char				*var;
+	char				*var_content;
+	char				**m_env;
+	struct v_envp		*next;
+	struct v_envp		*prev;
+}						t_my_env;
 
 typedef struct tree
 {
@@ -114,7 +112,7 @@ void					print_tokens(t_token_list **begin);
 void					free_token_list(t_token_list **head);
 /************************************************************************/
 /*************************TOKENIZER =>TOOLS******************************/
-t_token_list			*lexical_analysis(char *commande, my_env **env);
+t_token_list			*lexical_analysis(char *commande, t_my_env **env);
 char					*lexems_finder(char *commande, t_token_list **token);
 int						quoted_symbole(char c);
 char					*get_t_word_token(char *commande, t_token_list **token,
@@ -166,25 +164,28 @@ int						new_token_len(char *new_token,
 							enum e_token_state state);
 /***********************************************************************/
 /*******************************SYNTAXE CHECK***************************/
-int				syntax_error(t_token_list *head);
-void			error_type(t_token_list *cursur);
-int				redir_case(enum e_token_type	type);
-int				redir_analyser(t_token_list *cursur);
-void			error_announcer(int fd, char *error);
-int				pipe_analyser (t_token_list *cursus);
-t_token_list	*behind_getter(t_token_list *cursus);
-t_token_list	*forward_getter(t_token_list *cursus);
+int						syntax_error(t_token_list *head);
+void					error_type(t_token_list *cursur);
+int						redir_case(enum e_token_type type);
+int						redir_analyser(t_token_list *cursur);
+void					error_announcer(int fd, char *error);
+int						pipe_analyser(t_token_list *cursus);
+t_token_list			*behind_getter(t_token_list *cursus);
+t_token_list			*forward_getter(t_token_list *cursus);
 /***********************************************************************/
 /*********************************Environnement : envp******************/
-void    env_var_expansion(t_token_list **tokens, my_env **env);
-char    *ft_substr(char const *s, unsigned int start, size_t len);
-int   	ft_strchr(char *s, char c);
-my_env 	*build_member(char *env_member);
-void    add_member(my_env **head_members, my_env *new_member);
-my_env  *init_head(my_env **env_head, char ** sys_env);
-my_env 	*import_env(char **sys_env);
-int		ft_strcmp(char *s1, char *s2);
-void    free_env(my_env **env);
-void    print_env(my_env **env);
+void					env_var_expansion(t_token_list **tokens,
+							t_my_env **env);
+char					*ft_substr(char const *s, unsigned int start,
+							size_t len);
+int						ft_strchr(char *s, char c);
+t_my_env				*build_member(char *env_member);
+void					add_member(t_my_env **head_members,
+							t_my_env *new_member);
+t_my_env				*init_head(t_my_env **env_head, char **sys_env);
+t_my_env				*import_env(char **sys_env);
+int						ft_strcmp(char *s1, char *s2);
+void					free_env(t_my_env **env);
+void					print_env(t_my_env **env);
 /***********************************************************************/
 #endif

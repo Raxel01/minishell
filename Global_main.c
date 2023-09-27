@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 21:13:42 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:00:41 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	history_acces(char *commande)
 		add_history(commande);
 }
 
-void	clean_memory(t_token_list **token, my_env **env, char *command)
+void	clean_memory(t_token_list **token, t_my_env **env, char *command)
 {
 	free_token_list(token);
 	free_env(env);
@@ -57,7 +57,7 @@ int	minishell(int ac, char **av, char **env)
 {
 	t_commande		commande;
 	t_token_list	*token;
-	my_env			*my_env;
+	t_my_env			*my_env;
 
 	(void)ac;
 	(void)av;
@@ -68,21 +68,22 @@ int	minishell(int ac, char **av, char **env)
 		if (commande.commande == NULL)
 		{
 			write(1, "exit\n", 6);
-			exit (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		}
 		commande.commande = epur_string(commande.commande);
 		history_acces(commande.commande);
 		my_env = import_env(env);
-		token = lexical_analysis(commande.commande,&my_env);
+		token = lexical_analysis(commande.commande, &my_env);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
 			// print_tokens(&token);
 			clean_memory(&token, &my_env, commande.commande);
 		}
-		else{
-		// print_tokens(&token);
-		clean_memory(&token, &my_env, commande.commande);
+		else
+		{
+			// print_tokens(&token);
+			clean_memory(&token, &my_env, commande.commande);
 		}
 	}
 	return (SUCCES_PROC);
