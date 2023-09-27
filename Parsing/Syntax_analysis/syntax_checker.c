@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/26 20:43:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:30:03 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,8 @@
 // false redirection >>>> <<<<<
 // Redirection Logic changed 
 /**********PIPES*************/
-//Pipe in ladt noeud [| => next == NULL]
+// change the Logic of pipe too 
 /*******************************/
-void    error_announcer(int fd, char *error)
-{
-        write(fd, error, ft_strlen(error));
-}
 
 void error_type(t_token_list *cursur)
 {
@@ -35,12 +31,13 @@ void error_type(t_token_list *cursur)
             error_announcer(STDERR_FILENO, "bash : syntax error false redirection `< > << >>'\n");
 }
 
-int    redir_check(t_token_list *cursur)
+int    redir_analyser(t_token_list *cursur)
 {
     t_token_list *tokens;
     
-    if (cursur->type == OUT_REDIR && cursur->next->type == PIPE)
-        return (SUCCES_PROC);
+    if (cursur->next)
+        if (cursur->type == OUT_REDIR && cursur->next->type == PIPE)
+            return (SUCCES_PROC);
     tokens = cursur->next;
     while (tokens && tokens->type == A_SPACE)
         tokens = tokens->next;
@@ -55,6 +52,19 @@ int    redir_case(enum e_token_type	type)
         || type ==APPEND_SYM || type ==HERE_DOC);
 }
 
+int pipe_analyser (t_token_list *cursus)
+{
+    t_token_list *behind;
+    t_token_list *forward;
+    
+    behind = behind_getter(cursus);
+    forward = forward_getter(cursus);
+    if (!behind || !forward || ((behind->type != WORD && behind->next->type != PIPE)) \
+        || (forward->type != WORD && !redir_case(forward->type)))
+        return (ERROR_EXIT);
+    return (SUCCES_PROC);
+}
+
 int syntax_error(t_token_list *head)
 {
     t_token_list *cursur;
@@ -62,19 +72,16 @@ int syntax_error(t_token_list *head)
     cursur = head;
     while (cursur)
     {
-        if (cursur->type == SYNTAX_ERROR)
-        {
-            error_type(cursur);  
-            return (ERROR_EXIT);
-        }
+        if (cursur->type == SYNTAX_ERROR) 
+            return (error_type(cursur), ERROR_EXIT);
         if (redir_case(cursur->type))
-        {
-            if (redir_check(cursur) == ERROR_EXIT)
-            {
-                error_announcer(STDERR_FILENO, "syntax error bad use of redir OR ambiguous redir `< > << >>'\n");
-                return (ERROR_EXIT);
-            } 
-        }
+            if (redir_analyser(cursur) == ERROR_EXIT)
+                return (error_announcer(STDERR_FILENO, \
+                    "syntax error bad use of redir OR ambiguous redir `< > << >>'\n"), ERROR_EXIT);
+        if (cursur->type == PIPE)
+            if (pipe_analyser(cursur) == ERROR_EXIT)
+                return(error_announcer(STDERR_FILENO, \
+                    "syntax error : illegal use of pipe `|\'\n"), ERROR_EXIT);
         cursur = cursur->next;
     }
     return (SUCCES_PROC);

@@ -166,7 +166,14 @@ int						new_token_len(char *new_token,
 							enum e_token_state state);
 /***********************************************************************/
 /*******************************SYNTAXE CHECK***************************/
-int syntax_error(t_token_list *head);
+int				syntax_error(t_token_list *head);
+void			error_type(t_token_list *cursur);
+int				redir_case(enum e_token_type	type);
+int				redir_analyser(t_token_list *cursur);
+void			error_announcer(int fd, char *error);
+int				pipe_analyser (t_token_list *cursus);
+t_token_list	*behind_getter(t_token_list *cursus);
+t_token_list	*forward_getter(t_token_list *cursus);
 /***********************************************************************/
 /*********************************Environnement : envp******************/
 void    env_var_expansion(t_token_list **tokens, my_env **env);

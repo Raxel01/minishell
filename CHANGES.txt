@@ -32,7 +32,23 @@ Goals : syntax error caused by all type of redirection
     Add in line 45 of ysntax error but norminette error.
 *----->
 True changes : 
-    reimplementation of redirection check case like :"ls >| wc -l"
+    reimplementation of redirection check case like :"ls >| wc -l";
+
+NOW_ITS TIME FOR pipe syntaxe error :
+PIPE:
+	- left: [WSPACE] (STRING)
+	- right: [WSPACE](STRING | REDIRECT)
+fih Maydar :
+        STOP :23:54;
+    {
+        creat pipe look for behind;
+        forward THEN if some on o f them EQUAL null return (ERROR_EXIT)
+        si non consulter autre condition;
+    }
+BEGIN : 13 : 06;
+
+****---------->
+
 /***************************************************************
 /***************************************************************
                     |TO_CHECK MNBE3D|

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/26 19:57:04 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:13:42 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ int	minishell(int ac, char **av, char **env)
 	{
 		commande.commande = readline("MINISHELL[~] -> ");
 		if (commande.commande == NULL)
-			return (SUCCES_PROC);
+		{
+			write(1, "exit\n", 6);
+			exit (EXIT_SUCCESS);
+		}
 		commande.commande = epur_string(commande.commande);
 		history_acces(commande.commande);
 		my_env = import_env(env);
@@ -74,11 +77,11 @@ int	minishell(int ac, char **av, char **env)
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
-			print_tokens(&token);
+			// print_tokens(&token);
 			clean_memory(&token, &my_env, commande.commande);
 		}
 		else{
-		print_tokens(&token);
+		// print_tokens(&token);
 		clean_memory(&token, &my_env, commande.commande);
 		}
 	}
