@@ -6,12 +6,21 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 21:49:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 22:30:12 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:39:01 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
 
+//  NEW UPDATE(see option)
+
+// separer les fonction du syntaxe error pour norminette
+
+// change ctrl \D behaviour by adding ''e'x'i't'(Error_exit)
+
+// PIPE SYNTAXE but still not clean 100%
+
+// Last version before check the norm
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
