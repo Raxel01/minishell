@@ -90,20 +90,13 @@ typedef struct v_envp
 	struct v_envp		*prev;
 }						t_my_env;
 
-typedef struct tree
-{
-	void				*data;
-	enum e_token_state	state;
-	struct tree			*left;
-	struct tree			*right;
-}						t_trees;
 /*will may add messages option {}*/
-/****************EPUR_STRING : COMMANDE CLEANER ***********************/
+/****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
 char					*epur_string(char *commande);
 int						epur_len_helper(char *commande);
 int						word_epur_helper(char *commande);
 /************************************************************************/
-/*******************LINKED LIST FUNCTION*********************************/
+/*******************LINKED LIST FUNCTION:[4]*********************************/
 t_token_list			*build_new_token_node(char *token_data,
 							enum e_token_type type, enum e_token_state state);
 void					add_tokens_to_list(t_token_list **token,
@@ -111,7 +104,7 @@ void					add_tokens_to_list(t_token_list **token,
 void					print_tokens(t_token_list **begin);
 void					free_token_list(t_token_list **head);
 /************************************************************************/
-/*************************TOKENIZER =>TOOLS******************************/
+/*************************TOKENIZER =>TOOLS:[13]******************************/
 t_token_list			*lexical_analysis(char *commande, t_my_env **env);
 char					*lexems_finder(char *commande, t_token_list **token);
 int						quoted_symbole(char c);
@@ -141,7 +134,7 @@ char					*dollar_geter(char *commande, t_token_list **token,
 							enum e_token_state s_token);
 size_t					ft_strlen(const char *s);
 char					*ft_strndup(char *to_dup, int len);
-/**************************************TOKEN_CLEANER*********************/
+/**************************************TOKEN_CLEANER:[7]*********************/
 void					tokens_cleaner(t_token_list **tokens);
 char					*token_withoutquote(char *token,
 							enum e_token_state state);
@@ -153,7 +146,7 @@ t_token_list			*data_assembler(t_token_list **tokens,
 void					specialcase_handler(t_token_list **tokens);
 void					free_region(t_token_list **start, t_token_list **end);
 /************************************************************************/
-/******************************barkellah khellaaah**************************/
+/******************************barkellah khellaaah:[7]*******************/
 char					*ft_strjoin(char *s1, char *s2);
 int						true_case_quote(char *to_search);
 int						affect_index(t_token_list **token);
@@ -163,17 +156,18 @@ void					init_holder(t_pos_get **holder, t_token_list **tokens);
 int						new_token_len(char *new_token,
 							enum e_token_state state);
 /***********************************************************************/
-/*******************************SYNTAXE CHECK***************************/
+/*******************************SYNTAXE CHECK:[8]***************************/
 int						syntax_error(t_token_list *head);
 void					error_type(t_token_list *cursur);
 int						redir_case(enum e_token_type type);
 int						redir_analyser(t_token_list *cursur);
 void					error_announcer(int fd, char *error);
 int						pipe_analyser(t_token_list *cursus);
+int						is_outred(t_token_list *behind, t_token_list *forward);
 t_token_list			*behind_getter(t_token_list *cursus);
 t_token_list			*forward_getter(t_token_list *cursus);
 /***********************************************************************/
-/*********************************Environnement : envp******************/
+/*********************************Environnement : envp : [10]******************/
 void					env_var_expansion(t_token_list **tokens,
 							t_my_env **env);
 char					*ft_substr(char const *s, unsigned int start,

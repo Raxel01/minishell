@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 22:00:41 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/30 12:51:24 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,44 @@ void	clean_memory(t_token_list **token, t_my_env **env, char *command)
 	free(command);
 }
 
+void	printos_env(char **env)
+{
+	int i;
+
+	i = 0;	
+	while (env[i])
+	{
+		if (ft_strchr(env[i], '-') != 404)
+			printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+char	*get_input_line(char*	commande)
+{
+	commande = readline("MINISHELL[~] -> ");
+		if (commande == NULL)
+		{
+			write(1, "exit\n", 6);
+			exit(EXIT_SUCCESS);
+		}
+		commande = epur_string(commande);
+		history_acces(commande);
+	return (commande);
+}
+
 int	minishell(int ac, char **av, char **env)
 {
 	t_commande		commande;
 	t_token_list	*token;
-	t_my_env			*my_env;
+	t_my_env		*my_env;
 
 	(void)ac;
 	(void)av;
 	signal(SIGINT, seg_handler_c);
 	while (1)
 	{
-		commande.commande = readline("MINISHELL[~] -> ");
-		if (commande.commande == NULL)
-		{
-			write(1, "exit\n", 6);
-			exit(EXIT_SUCCESS);
-		}
-		commande.commande = epur_string(commande.commande);
-		history_acces(commande.commande);
+		commande.commande = get_input_line(commande.commande); 
 		my_env = import_env(env);
 		token = lexical_analysis(commande.commande, &my_env);
 		if (syntax_error(token) == SUCCES_PROC)

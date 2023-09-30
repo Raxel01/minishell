@@ -46,6 +46,9 @@ fih Maydar :
         si non consulter autre condition;
     }
 BEGIN : 13 : 06;
+STOP : 22 : 43: Had nhar bedat madert fih ta9elwa ;
+BEGIN after one day : 12 : 03 29/09:
+
 
 ****---------->
 
