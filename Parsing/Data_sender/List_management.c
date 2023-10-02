@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/01 22:26:33 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:08:09 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_cmd  *build_node(char *data, enum e_token_type intype, enum e_token_state in_state)
 {
-    t_cmd *node;
+    t_cmd   *node;
 
     node = (t_cmd *)malloc(sizeof(t_cmd));
     if (!node)
@@ -22,6 +22,8 @@ t_cmd  *build_node(char *data, enum e_token_type intype, enum e_token_state in_s
     node->content = data;
     node->state = in_state;
     node->type = intype;
+    node->file = NONEF;
+    node->category = NONE;
     node->next = NULL;
     node->prev = NULL;
     return (node);
@@ -43,10 +45,23 @@ void    addto_list(t_cmd **cmd, t_cmd *next_data)
     }
 }
 
-t_cmd  *build_list(t_token_list **tokens)
+void    free_cmd(t_cmd **cmd)
+{
+    t_cmd	*cursur;
+
+	while (*cmd)
+	{
+		cursur = *cmd;
+		(*cmd) = (*cmd)->next;
+		free(cursur);
+	}
+
+}
+
+t_cmd  *parsing(t_token_list **tokens)
  {
-    t_token_list *cursus;
-    t_cmd *head;
+    t_token_list    *cursus;
+    t_cmd           *head;
 
     head = NULL;
     cursus = (*tokens);
@@ -56,6 +71,8 @@ t_cmd  *build_list(t_token_list **tokens)
             addto_list(&head, build_node(cursus->token, cursus->type, cursus->state));
         cursus = cursus->next;
     }
-    printcmd_list(&head);
+    redirect_recognizer(&head);
+    commande_recognizer(&head);
+    options_recognizer(&head);
     return (head);
  }

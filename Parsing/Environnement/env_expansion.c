@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 21:49:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 22:43:07 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:54:13 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ char	*replaceby_content(char *search_for, t_my_env **env)
 	return (ft_strndup("", ft_strlen("")));
 }
 
+// int	here_doc_case(t_token_list *cursur)
+// {
+// 	if (cursur->prev)
+// 	{
+		
+// 	}
+// }
+
 void	env_var_expansion(t_token_list **tokens, t_my_env **env)
 {
 	t_token_list	*cursur;
@@ -49,8 +57,7 @@ void	env_var_expansion(t_token_list **tokens, t_my_env **env)
 	cursur = (*tokens);
 	while (cursur)
 	{
-		if ((cursur->type == ENV_VAR) || (cursur->state == IN_DQUOT
-				&& (cursur->type == ENV_VAR || cursur->type == SPECIAL_VAR)))
+		if (cursur->type == ENV_VAR || cursur->type == SPECIAL_VAR)
 		{
 			cursur->token = replaceby_content(cursur->token, env);
 			cursur->type = WORD;

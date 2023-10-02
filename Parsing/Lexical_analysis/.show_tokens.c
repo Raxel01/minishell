@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 13:21:53 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/01 22:29:22 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:51:04 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,13 @@ const char *token_state[] = {"NORMAL", "IN_SQUOT",
  "IN_DQUOT", "Q_UNCLOSE",
 			"RED_ERR"};
 
-int	syntaxe_quote_checker(char *commande)
-{
-	int	s_quote;
-	int	d_quote;
-	s_quote = 0;
-	d_quote = 0;
-	while (commande && *commande)
-	{
-		if (*commande == '\'')
-			s_quote++;
-		else if (*commande == '\"')
-			d_quote++;
-		commande++;
-	}
-	if ((s_quote % 2 != 0) || (d_quote % 2 != 0))
-		return (0);
-	return (1);
-}
+const char *content_category[] = {"NONE","CMD", "OPTION", "FD_FILE", "PIPELEFT", "PIPERIGHT"
+};
+
+const char *files[] = {"NONE", "OUTFILE",
+	"INFILE",
+	"APPEND",
+	"HEREDOC_LIM",};
 
 void	print_tokens(t_token_list **begin)
 {
@@ -65,14 +54,14 @@ void    printcmd_list(t_cmd **cmd)
     t_cmd *cursur;
 
     cursur = (*cmd);
-    printf("*******************************************************************\n");
-	printf("*        CONTENT         |          TYPE         |       STATE    *\n");
-	printf("*******************************************************************\n");
+    printf("*********************************************************************\n");
+	printf("*        CONTENT         |        CATEGORY       |       MODE       *\n");
+	printf("*********************************************************************\n");
     while (cursur)
     {                                                            
-        printf("*%-20s\t|\t%-10s\t|\t%-10s*\n", cursur->content,
-			token_content[cursur->type], token_state[cursur->state]);
-		printf("*******************************************************************\n");
+        printf("*%-20s\t|\t%-10s\t|\t%-10s *\n", cursur->content,
+			content_category[cursur->category], files[cursur->file]);
+		printf("*********************************************************************\n");
         cursur = cursur->next;
     }
 }

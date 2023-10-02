@@ -53,8 +53,11 @@ BEGIN after one day : 12 : 03 29/09:
 find error and handle it : echo "$" should be echo A_SPACE WORD
 so I add && command[j + 1] != '\"';
 
+I should handl cas of expansion should n't expand << "$PATH" || << $PATH 
+
 
 ****---------->
+GOOD DAAAY. STOP : 20:15 begin -> 9:00 : 11H
 
 /***************************************************************
 /***************************************************************

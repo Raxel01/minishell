@@ -92,20 +92,21 @@ typedef struct v_envp
 
 enum	e_type
 {
-	CMD = 1,
+	NONE,
+	CMD,
 	OPTION,
 	FD_FILE,
 	PIPELEFT,
-	PIPERIGHT,
-	LIMITER
+	PIPERIGHT
 };
 
 enum	e_file_type
 {
-	OUTFILE = 1,
+	NONEF,
+	OUTFILE,
 	INFILE,
 	APPEND,
-	HEREDOC,
+	HEREDOC_LIM,
 };
 
 
@@ -221,10 +222,15 @@ void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
 /***********************************************************************/
 /******************************SEND_DATA********************************/
-t_cmd					*build_list(t_token_list **tokens);
+t_cmd					*parsing(t_token_list **tokens);
 void					printcmd_list(t_cmd **cmd);
 void					addto_list(t_cmd **cmd, t_cmd *next_data);
 t_cmd					*build_node(char *data, enum e_token_type intype, \
 						enum e_token_state in_state);
+void					redir_cleaner(t_cmd** head);
+void					commande_recognizer(t_cmd **cmd);
+void    				redirect_recognizer(t_cmd **cmd);
+void					options_recognizer(t_cmd **cmd);
+void					free_cmd(t_cmd **cmd);
 /***********************************************************************/
 #endif

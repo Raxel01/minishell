@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/02 09:32:23 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:03:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	minishell(int ac, char **av, char **env)
 	t_commande		commande;
 	t_token_list	*token;
 	t_my_env		*my_env;
-	t_cmd			*abstract_syntax;
+	t_cmd			*syntax;
 
 	(void)ac;
 	(void)av;
@@ -97,13 +97,14 @@ int	minishell(int ac, char **av, char **env)
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
-			// print_tokens(&token);
-			// build_list(&token);
+			syntax= parsing(&token);
+			printcmd_list(&syntax);
+			free_cmd(&syntax);
 			clean_memory(&token, &my_env, commande.commande);
 		}
 		else
 			clean_memory(&token, &my_env, commande.commande);
-		// print_tokens(&token
+		// print_tokens(&token);
 	}
 	return (SUCCES_PROC);
 }
