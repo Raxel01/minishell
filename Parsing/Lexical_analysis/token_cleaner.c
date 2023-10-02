@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:40:05 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/25 08:28:04 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/01 19:24:07 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_token_list	*data_assembler(t_token_list **tokens, t_pos_get *position)
 	return (new_node);
 }
 
-void	addclean_token(t_token_list **head, int start_index, int end_index, t_token_list *clean_node)
+void	addclean_token(t_token_list **head, int start_index, \
+		int end_index, t_token_list *clean_node)
 {
 	t_token_list	*start;
 	t_token_list	*end;
@@ -69,9 +70,8 @@ t_pos_get	*index_range_getter(t_token_list **tokens)
 	init_holder(&holder, tokens);
 	while (current && current->next)
 	{
-		while (current && current->next && current->index < holder->node_member
-			&& (current->state == IN_SQUOT || current->state == IN_DQUOT || current->type == WORD) \
-				&& (current->next->state == IN_SQUOT || current->next->state == IN_DQUOT || current->next->type == WORD))
+		while (current && current->next && current->index < holder->node_member \
+			&& true_state(current) && true_state(current->next))
 		{
 			if (holder->flag == 0)
 				holder->start = current->index;
@@ -105,12 +105,12 @@ char	*token_withoutquote(char *token, enum e_token_state state)
 
 void	tokens_cleaner(t_token_list **tokens)
 {
-	(void)tokens;
 	t_token_list	*cursur;
+
 	cursur = (*tokens);
 	while (cursur)
 	{
-		if (true_case_quote(cursur->token)  \
+		if (true_case_quote(cursur->token) \
 			&& (cursur->state == IN_DQUOT || cursur->state == IN_SQUOT))
 		{
 			cursur->token = token_withoutquote(cursur->token, cursur->state);

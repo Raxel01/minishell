@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:54 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/25 22:22:28 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/01 19:16:32 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,23 @@ int	is_alphanum(char c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || digit_case(c));
 }
+
 /*return (commande + J + 1) because $ is not inclu in j calculated*/
-char	*dollar_geter(char *commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
+char	*dollar_geter(char *commande, t_token_list **token, \
+		enum e_token_type t_type, enum e_token_state s_token)
 {
 	int	j;
 
 	j = 0;
-	if (*(commande + 1) && (digit_case(*(commande + 1)) || *(commande
-				+ 1) == '?' || *(commande + 1) == '$'))
+	if (*(commande + 1) && (digit_case(*(commande + 1)) \
+		|| *(commande + 1) == '?' || *(commande + 1) == '$'))
 	{
-		if (*(commande + 1) == '?')
-			t_type = EXIT_STATUS;
-		else
-			t_type = SPECIAL_VAR;
+		t_type = type_is(*(commande + 1));
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, 2),
 				t_type, s_token));
 		return (commande + 2);
 	}
-	while (commande[j + 1] && (is_alphanum(commande[j + 1]) || commande[j
-			+ 1] == '_'))
-		j++;
+	j = var_extracter(commande, j);
 	if (!j)
 		t_type = WORD;
 	if (j)
@@ -48,18 +45,18 @@ char	*dollar_geter(char *commande, t_token_list **token, enum e_token_type t_typ
 					+ 1), t_type, s_token));
 	else
 	{
-		if (commande[j + 1])
-			j++;
+		j = set_j(commande, j);
 		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j
 					+ 1), t_type, s_token));
 	}
 	return (commande + j + 1);
 }
 
-int	extract_dquot_content(char **commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
+int	extract_dquot_content(char **commande, t_token_list **token, \
+	enum e_token_type t_type, enum e_token_state s_token)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	while ((*commande)[j] && (*commande)[j] != '\"')
 	{
@@ -67,8 +64,10 @@ int	extract_dquot_content(char **commande, t_token_list **token, enum e_token_ty
 		{
 			if (j)
 				add_tokens_to_list(token, \
-					build_new_token_node(ft_strndup((*commande), j), t_type, s_token));
-			(*commande) = dollar_geter((*commande) + j, token, ENV_VAR, s_token);
+					build_new_token_node(ft_strndup((*commande), j), \
+					t_type, s_token));
+			(*commande) = dollar_geter((*commande) + j, \
+				token, ENV_VAR, s_token);
 			j = 0;
 		}
 		else
@@ -81,7 +80,8 @@ int	extract_dquot_content(char **commande, t_token_list **token, enum e_token_ty
 	return (j);
 }
 
-char	*double_quote_content(char *commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
+char	*double_quote_content(char *commande, t_token_list **token, \
+		enum e_token_type t_type, enum e_token_state s_token)
 {
 	int	j;
 
@@ -93,13 +93,15 @@ char	*double_quote_content(char *commande, t_token_list **token, enum e_token_ty
 		s_token = Q_UNCLOSE;
 		if (*commande == commande[j])
 		{
-			add_tokens_to_list(token, build_new_token_node(ft_strndup("SYNTAXE_ERROR", \
+			add_tokens_to_list(token, \
+				build_new_token_node(ft_strndup("SYNTAXE_ERROR", \
 				ft_strlen("SYNTAXE_ERROR")), t_type, s_token));
 			return (commande + j);
 		}
 	}
 	if (j)
-		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j), t_type, s_token));
+		add_tokens_to_list(token, \
+			build_new_token_node(ft_strndup(commande, j), t_type, s_token));
 	if (commande[j] == '\"')
 		j++;
 	return (commande + j);

@@ -90,6 +90,36 @@ typedef struct v_envp
 	struct v_envp		*prev;
 }						t_my_env;
 
+enum	e_type
+{
+	CMD = 1,
+	OPTION,
+	FD_FILE,
+	PIPELEFT,
+	PIPERIGHT,
+	LIMITER
+};
+
+enum	e_file_type
+{
+	OUTFILE = 1,
+	INFILE,
+	APPEND,
+	HEREDOC,
+};
+
+
+typedef struct cmd
+{
+	char				*content;
+	enum e_type			category;
+	enum e_file_type	file;
+	enum e_token_type	type;
+	enum e_token_state	state;
+	struct cmd			*next;
+	struct cmd			*prev;
+}	t_cmd;
+
 /*will may add messages option {}*/
 /****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
 char					*epur_string(char *commande);
@@ -123,6 +153,8 @@ char					*single_quote_content(char *commande,
 char					*double_quote_content(char *commande,
 							t_token_list **token, enum e_token_type t_type,
 							enum e_token_state s_token);
+int						set_j(char *command, int j);
+int						var_extracter(char *commande, int j);
 char					*get_out_redir_token(char *commande,
 							t_token_list **token, enum e_token_type t_type,
 							enum e_token_state s_token);
@@ -132,13 +164,19 @@ char					*get_in_redir_token(char *commande,
 char					*dollar_geter(char *commande, t_token_list **token,
 							enum e_token_type t_type,
 							enum e_token_state s_token);
+enum					e_token_type type_is(char c);
+char					*home_geter(char *commande, t_token_list **token,
+						enum e_token_type t_type, enum e_token_state s_token);
+int						var_extracter(char *commande, int j);
 size_t					ft_strlen(const char *s);
 char					*ft_strndup(char *to_dup, int len);
+int						is_alphanum(char c);
 /**************************************TOKEN_CLEANER:[7]*********************/
 void					tokens_cleaner(t_token_list **tokens);
 char					*token_withoutquote(char *token,
 							enum e_token_state state);
 t_pos_get				*index_range_getter(t_token_list **tokens);
+int						true_state(t_token_list *current);
 void					addclean_token(t_token_list **head, int start_index,
 							int end_index, t_token_list *clean_node);
 t_token_list			*data_assembler(t_token_list **tokens,
@@ -181,5 +219,12 @@ t_my_env				*import_env(char **sys_env);
 int						ft_strcmp(char *s1, char *s2);
 void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
+/***********************************************************************/
+/******************************SEND_DATA********************************/
+t_cmd					*build_list(t_token_list **tokens);
+void					printcmd_list(t_cmd **cmd);
+void					addto_list(t_cmd **cmd, t_cmd *next_data);
+t_cmd					*build_node(char *data, enum e_token_type intype, \
+						enum e_token_state in_state);
 /***********************************************************************/
 #endif

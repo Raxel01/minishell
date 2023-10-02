@@ -49,6 +49,10 @@ BEGIN : 13 : 06;
 STOP : 22 : 43: Had nhar bedat madert fih ta9elwa ;
 BEGIN after one day : 12 : 03 29/09:
 
+==>|when I get status I should replace it by it's valu|
+find error and handle it : echo "$" should be echo A_SPACE WORD
+so I add && command[j + 1] != '\"';
+
 
 ****---------->
 

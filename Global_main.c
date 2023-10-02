@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/30 12:51:24 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:32:23 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,27 @@ void	clean_memory(t_token_list **token, t_my_env **env, char *command)
 
 void	printos_env(char **env)
 {
-	int i;
+	int	i;
 
-	i = 0;	
+	i = 0;
 	while (env[i])
 	{
-		if (ft_strchr(env[i], '-') != 404)
+		if (ft_strchr(env[i], '=') != 404)
 			printf("%s\n", env[i]);
 		i++;
 	}
 }
 
-char	*get_input_line(char*	commande)
+char	*get_input_line(char *commande)
 {
 	commande = readline("MINISHELL[~] -> ");
-		if (commande == NULL)
-		{
-			write(1, "exit\n", 6);
-			exit(EXIT_SUCCESS);
-		}
-		commande = epur_string(commande);
-		history_acces(commande);
+	if (commande == NULL)
+	{
+		write(1, "exit\n", 6);
+		exit(EXIT_SUCCESS);
+	}
+	commande = epur_string(commande);
+	history_acces(commande);
 	return (commande);
 }
 
@@ -84,6 +84,7 @@ int	minishell(int ac, char **av, char **env)
 	t_commande		commande;
 	t_token_list	*token;
 	t_my_env		*my_env;
+	t_cmd			*abstract_syntax;
 
 	(void)ac;
 	(void)av;
@@ -97,13 +98,12 @@ int	minishell(int ac, char **av, char **env)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
 			// print_tokens(&token);
+			// build_list(&token);
 			clean_memory(&token, &my_env, commande.commande);
 		}
 		else
-		{
-			// print_tokens(&token);
 			clean_memory(&token, &my_env, commande.commande);
-		}
+		// print_tokens(&token
 	}
 	return (SUCCES_PROC);
 }

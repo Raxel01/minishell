@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 21:28:17 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 22:23:19 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/30 14:03:04 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,16 @@ t_token_list	*forward_getter(t_token_list *cursus)
 	while (forward && forward->type == A_SPACE)
 		forward = forward->next;
 	return (forward);
+}
+
+int	is_outred(t_token_list *behind, t_token_list *forward)
+{
+	if (behind->type == OUT_REDIR)
+	{
+		if (behind->next->type == PIPE && !redir_case(forward->type))
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
 }

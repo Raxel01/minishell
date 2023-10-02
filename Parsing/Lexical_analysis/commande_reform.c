@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/29 15:33:37 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/30 13:55:56 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	word_epur_helper(char *commande)
 	word = 0;
 	while (commande && commande[i])
 	{
-		if (((commande[i] != ' ' && commande[i] != '\t') && (commande[i
-					+ 1] == ' ' || commande[i + 1] == '\t'))
-			|| ((commande[i] != ' ' && commande[i] != '\t') && commande[i
-				+ 1] == '\0'))
+		if (((commande[i] != ' ' && commande[i] != '\t') \
+			&& (commande[i + 1] == ' ' || commande[i + 1] == '\t'))
+			|| ((commande[i] != ' ' && commande[i] != '\t') \
+			&& commande[i + 1] == '\0'))
 			word++;
 		i++;
 	}
@@ -56,7 +56,7 @@ void	data_init(t_var *vars, char *commande)
 	vars->i = 0;
 }
 
-void get_new_string(char *commande ,t_var var)
+void	get_new_string(char *commande, t_var var)
 {
 	while (commande[var.i])
 	{
@@ -83,7 +83,8 @@ char	*epur_string(char *commande)
 	t_var	var;
 
 	data_init(&var, commande);
-	while (commande[var.i] && (commande[var.i] == ' ' || commande[var.i] == '\t'))
+	while (commande[var.i] \
+		&& (commande[var.i] == ' ' || commande[var.i] == '\t'))
 		++var.i;
 	get_new_string(commande, var);
 	free(commande);

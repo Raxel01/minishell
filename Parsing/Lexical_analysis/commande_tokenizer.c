@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:34 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/22 22:20:36 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/01 19:15:04 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	quoted_symbole(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '$' || c == '"'
-		|| c == '\'' || c == ' ' || c == '\n' || c == '\t');
+		|| c == '\'' || c == ' ' || c == '\n' || c == '\t' || c == '~');
 }
 
 char	*get_t_word_token(char *commande, t_token_list **token,
@@ -46,6 +46,7 @@ char	*get_pipe_token(char *commande, t_token_list **token,
 			t_type, s_token));
 	return (commande + 1);
 }
+
 /*HERE WE GET TOKEN LINKED LIST*/
 char	*lexems_finder(char *commande, t_token_list **token)
 {
@@ -65,5 +66,7 @@ char	*lexems_finder(char *commande, t_token_list **token)
 		commande = get_in_redir_token(commande, token, IN_REDIR, NORMAL);
 	else if (*commande == '$')
 		commande = dollar_geter(commande, token, ENV_VAR, NORMAL);
+	else if (*commande == '~')
+		commande = home_geter(commande, token, ENV_VAR, NORMAL);
 	return (commande);
 }

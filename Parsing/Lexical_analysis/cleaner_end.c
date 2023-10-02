@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:09:59 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 21:26:42 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/30 13:52:25 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,26 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void free_region(t_token_list **start, t_token_list **end) {
-    t_token_list *current;
-	t_token_list *next;
-    
-	current = *start;
-	while (current != NULL) {
-        next = current->next;
-        free(current->token);
-        free(current);
-        current = next;
-        if (current == *end) {
-			free(current->token);
-            free(current);
-            break;
-        }
-    }
-}
+void	free_region(t_token_list **start, t_token_list **end)
+{
+	t_token_list	*current;
+	t_token_list	*next;
 
+	current = *start;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->token);
+		free(current);
+		current = next;
+		if (current == (*end))
+		{
+			free(current->token);
+			free(current);
+			break;
+		}
+	}
+}
 
 /*I KNOW THIS IS A BAD NAME*/
 void	specialcase_handler(t_token_list **tokens)
@@ -100,5 +102,3 @@ void	specialcase_handler(t_token_list **tokens)
 		free(to_extract);
 	}
 }
-
-

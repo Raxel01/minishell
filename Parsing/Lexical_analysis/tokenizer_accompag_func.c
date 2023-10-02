@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/25 19:56:52 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/09/30 13:31:43 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strndup(char *to_dup, int len)
 {
 	int		i;
 	char	*duped;
-	
+
 	i = 0;
 	duped = malloc(sizeof(char) * (len + 1));
 	if (!duped)
@@ -31,9 +31,9 @@ char	*ft_strndup(char *to_dup, int len)
 }
 
 /*DANGEEEEEEEER HEEEEEEEEEEEEEEEEEERE US STRDUP*/
-int		extract_squot_content(char *commande)
+int	extract_squot_content(char *commande)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (commande[j] && commande[j] != '\'')
@@ -44,11 +44,13 @@ int		extract_squot_content(char *commande)
 	}
 	return (j);
 }
-/*the LAST CONDITION IS ABOUT SKIPPING THE '\'' IF THE BOUCLE WAS STOPED BY IT*/
-char	*single_quote_content(char *commande, t_token_list **token, enum e_token_type t_type, enum e_token_state s_token)
+
+/*integrer '\'' IF it stop boucle*/
+char	*single_quote_content(char *commande, t_token_list **token, \
+		enum e_token_type t_type, enum e_token_state s_token)
 {
-	int j;
-	
+	int	j;
+
 	commande++;
 	j = extract_squot_content(commande);
 	if (commande[j] == 0 || !(*commande))
@@ -57,7 +59,8 @@ char	*single_quote_content(char *commande, t_token_list **token, enum e_token_ty
 		s_token = Q_UNCLOSE;
 		if (*commande == commande[j])
 		{
-			add_tokens_to_list(token, build_new_token_node(ft_strndup("SYNTAXE_ERROR", \
+			add_tokens_to_list(token, \
+				build_new_token_node(ft_strndup("SYNTAXE_ERROR", \
 				ft_strlen("SYNTAXE_ERROR")), t_type, s_token));
 			return (commande + j);
 		}
