@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:06:00 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/02 20:08:02 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:47:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,23 @@ void    redirect_recognizer(t_cmd **cmd)
     cursur = *cmd;
     while(cursur)
     {
-        if (redir_case(cursur->type)) 
-            cursur->next->category = FD_FILE;
+        if (redir_case(cursur->type))
+        {
+            if (cursur->next->type == PIPE)
+            {
+                cursur->next->next->category = FD_FILE; 
+                cursur->next->category = NONE;
+            }
+            else
+                cursur->next->category = FD_FILE;
+        }
         if (cursur->type == OUT_REDIR)
-            cursur->next->file = OUTFILE;
+        {
+            if (cursur->next->type == PIPE)
+                 cursur->next->next->file = OUTFILE; 
+            else
+                cursur->next->file = OUTFILE;
+        }
         else if (cursur->type == IN_REDIR)
             cursur->next->file = INFILE;
         else if (cursur->type == APPEND_SYM)
@@ -32,7 +45,7 @@ void    redirect_recognizer(t_cmd **cmd)
         cursur = cursur->next;
     }
 }
-
+/*ADD HERE*/
 void    commande_recognizer(t_cmd **cmd)
 {
     t_cmd *cursur;
@@ -44,7 +57,7 @@ void    commande_recognizer(t_cmd **cmd)
                 cursur->category = CMD;
         if (cursur->file == HEREDOC_LIM && cursur->next && cursur->next->type == WORD)
                 cursur->next->category = CMD;
-        else if (cursur->type == PIPE && (!redir_case(cursur->next->type)))
+        else if (cursur->type == PIPE && (!redir_case(cursur->next->type))  && cursur->next->category == NONE)
                 cursur->next->category = CMD;
         cursur = cursur->next;
     }
