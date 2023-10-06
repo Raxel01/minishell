@@ -59,6 +59,12 @@ I should handl cas of expansion should n't expand << "$PATH" || << $PATH
 ****---------->
 GOOD DAAAY. STOP : 20:15 begin -> 9:00 : 11H
 
+TO do : 
+circul in list if I find >| I remove '|';
+reform the case likke : < infile cmd(WORD) option(word) '|(OPER)'
+recheck ki kanlga cmd,
+add syntaxe reformer the check the case >| : succes
+file detection  cmd detection : succes
 /***************************************************************
 /***************************************************************
                     |TO_CHECK MNBE3D|
