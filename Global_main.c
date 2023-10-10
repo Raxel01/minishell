@@ -6,11 +6,20 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/06 21:37:04 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:51:14 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Header/Parsing.h"
+
+/*********Exist_status_var****************/
+int		g_exit_status = 0;
+/*****************************************/
+
+void	status_setter(int status)
+{
+	g_exit_status = status;
+}
 
 void	seg_handler_c(int sigstatus)
 {
@@ -46,31 +55,13 @@ void	history_acces(char *commande)
 		add_history(commande);
 }
 
-void	clean_memory(t_token_list **token, t_my_env **env, char *command)
-{
-	free_token_list(token);
-	free_env(env);
-	free(command);
-}
-
-void	printos_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strchr(env[i], '=') != 404)
-			printf("%s\n", env[i]);
-		i++;
-	}
-}
-
 char	*get_input_line(char *commande)
 {
 	commande = readline("MINISHELL[~] -> ");
 	if (commande == NULL)
 	{
+		status_setter(EXIT_SUCCESS);
+		rl_clear_history();
 		write(1, "exit\n", 6);
 		exit(EXIT_SUCCESS);
 	}
@@ -79,35 +70,81 @@ char	*get_input_line(char *commande)
 	return (commande);
 }
 
+int	free_cmd_table(t_cmd_table **cmd)
+{
+	t_cmd_table	*tmp;
+
+	if (!cmd)
+		return (0);
+	while (*cmd)
+	{
+		tmp = *cmd;
+		*cmd = (*cmd)->next;
+		free(tmp->cmd_table);
+		free(tmp->infile);
+		free(tmp->outfile);
+		free(tmp->append);
+		free(tmp->here_doc);
+		free(tmp);
+	}
+	*cmd = NULL;
+	return (1);
+}
+
+void	clean_memory(t_token_list **token, char *command)
+{
+	free_token_list(token);
+	free(command);
+}
+
+void	print_flag(t_my_env **emv)
+{
+	t_my_env *curs;
+
+	curs = (*emv)->next;
+	while (curs)
+	{
+		if (!ft_strcmp(curs->var ,"PWD"))
+			printf ("PWD = %s\n", curs->var_content);
+		if (!ft_strcmp(curs->var, "OLDPWD"))
+			printf ("OLDPWD = %s\n", curs->var_content);		
+	curs = curs->next;
+	}
+}
+
 int	minishell(int ac, char **av, char **env)
 {
 	t_commande		commande;
 	t_token_list	*token;
 	t_my_env		*my_env;
-	t_cmd			*syntax;
-	
-	// dup2();
+	t_cmd		*cmd_syntax;
+
 	(void)ac;
 	(void)av;
 	signal(SIGINT, seg_handler_c);
+	cmd_syntax = NULL;
+	my_env = import_env(env);
 	while (1)
 	{
-		commande.commande = get_input_line(commande.commande); 
-		my_env = import_env(env);
+		commande.commande = get_input_line(commande.commande);
 		token = lexical_analysis(commande.commande, &my_env);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
-			// print_tokens(&token);
-			syntax= parsing(&token);
-			// printcmd_list(&syntax);
-			// print_tokens(&token);
-			free_cmd(&syntax);
-			clean_memory(&token, &my_env, commande.commande);
+			cmd_syntax = parsing(&token);
+			// print_flag(&my_env);
+			printf ("=================\n");
+			char *cmd[]= {"echo","ono", "trodo", NULL};
+			builtin_recognizer(cmd, &my_env);
+			printf ("\n=========stat :%d========\n", g_exit_status);
+			free_cmd(&cmd_syntax);
+			clean_memory(&token, commande.commande);
 		}
 		else
-			clean_memory(&token, &my_env, commande.commande);
-		// print_tokens(&token);
+		{
+			status_setter(SYNTAXE_ERR_STATUS);
+			clean_memory(&token, commande.commande);
+		}
 	}
 	return (SUCCES_PROC);
 }

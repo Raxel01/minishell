@@ -64,7 +64,12 @@ circul in list if I find >| I remove '|';
 reform the case likke : < infile cmd(WORD) option(word) '|(OPER)'
 recheck ki kanlga cmd,
 add syntaxe reformer the check the case >| : succes
-file detection  cmd detection : succes
+file detection  cmd detection : succes;
+
+/********************Begin : BUILT-IN***********************/
+    /---->> OBJ : BUILT-IN COMMAND----\
+cd : use function in test understand it;
+
 /***************************************************************
 /***************************************************************
                     |TO_CHECK MNBE3D|

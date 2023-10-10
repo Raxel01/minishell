@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/30 14:09:46 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/09 19:35:45 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@
 void	error_type(t_token_list *cursur)
 {
 	if (cursur->state == Q_UNCLOSE)
-		error_announcer(STDERR_FILENO, \
-			"syntax error : unclosed `' OR \"'\n");
+		error_announcer("unclosed `' OR \"'\n", 1);
 	else if (cursur->state == RED_ERR)
-		error_announcer(STDERR_FILENO, \
-			"syntax error : error redirection `< > << >>'\n");
+		error_announcer("error redirection `< > << >>'\n", 1);
 }
 
 int	redir_analyser(t_token_list *cursur)
@@ -79,13 +77,11 @@ int	syntax_error(t_token_list *head)
 			return (error_type(cursur), ERROR_EXIT);
 		if (redir_case(cursur->type))
 			if (redir_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer(STDERR_FILENO, \
-					"syntax error : redir OR ambiguous redir `< > << >>'\n"), \
+				return (error_announcer("redir-ambiguous redir\n", 1), \
 					ERROR_EXIT);
 		if (cursur->type == PIPE)
 			if (pipe_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer(STDERR_FILENO, \
-						"syntax error : illegal use of pipe `|\'\n"), \
+				return (error_announcer("illegal pipe `|'\n", 1), \
 						ERROR_EXIT);
 		cursur = cursur->next;
 	}

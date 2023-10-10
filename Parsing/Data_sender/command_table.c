@@ -6,18 +6,17 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:55:48 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/06 22:09:10 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/09 19:16:46 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
 
+/*
 int arg_count(t_cmd **head)
 {
     t_cmd *curs;
-    
     int args_number;
-
     args_number = 0;
     curs = *head;
     while (curs && curs->type != PIPE)
@@ -202,7 +201,7 @@ char **herdoc_getter(t_cmd **head)
     heredoc[i] = NULL;
     return (heredoc);
 }
-/*Hadchi kaykhleeeee3*/
+
 t_cmd_table *build_commandtable_node(t_cmd **head)
 {
     t_cmd_table *node;
@@ -235,4 +234,4 @@ void    addto_listt(t_cmd_table **cmd, t_cmd_table *next_data)
         cursur->next = next_data;
         next_data->prev = cursur;
     }
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 13:21:53 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/02 17:51:04 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:23:00 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ const char *token_state[] = {"NORMAL", "IN_SQUOT",
 const char *content_category[] = {"NONE","CMD", "OPTION", "FD_FILE", "PIPELEFT", "PIPERIGHT"
 };
 
-const char *files[] = {"NONE", "OUTFILE",
+const char *files[] = {"NONEF", "OUTFILE",
 	"INFILE",
 	"APPEND",
 	"HEREDOC_LIM",};
@@ -58,7 +58,7 @@ void    printcmd_list(t_cmd **cmd)
 	printf("*        CONTENT         |        CATEGORY       |       MODE       *\n");
 	printf("*********************************************************************\n");
     while (cursur)
-    {                                                            
+    {                                                         
         printf("*%-20s\t|\t%-10s\t|\t%-10s *\n", cursur->content,
 			content_category[cursur->category], files[cursur->file]);
 		printf("*********************************************************************\n");

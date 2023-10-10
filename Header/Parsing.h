@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Parsing.h                                   :+:      :+:    :+:   */
+/*   Parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 00:14:30 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/22 21:44:16 by abait-ta         ###   ########.fr       */
+/*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/10/10 12:42:28 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -26,10 +27,13 @@
 # define ERROR_EXIT 2
 # define SUCCES_PROC 0
 
+#define	SYNTAXE_ERR_STATUS 2
 # define in_default 0
 # define out_default 1
 # define err_default 2
-
+/**************EXIT_STATUS_VAR************/
+/****/	extern int g_exit_status;	/****/
+/***************************************/
 typedef struct commande
 {
 	char				*commande;
@@ -221,16 +225,18 @@ int						syntax_error(t_token_list *head);
 void					error_type(t_token_list *cursur);
 int						redir_case(enum e_token_type type);
 int						redir_analyser(t_token_list *cursur);
-void					error_announcer(int fd, char *error);
+void					error_announcer(char *error, int syntax);
 int						pipe_analyser(t_token_list *cursus);
 int						is_outred(t_token_list *behind, t_token_list *forward);
 t_token_list			*behind_getter(t_token_list *cursus);
 t_token_list			*forward_getter(t_token_list *cursus);
 /***********************************************************************/
 /*********************************Environnement : envp : [10]******************/
-void					env_var_expansion(t_token_list **tokens,
+void					env_var_expansion(t_token_list **tokens, \
 							t_my_env **env);
-char					*ft_substr(char const *s, unsigned int start,
+char					*replaceby_content(char *search_for, \
+						t_my_env **env);
+char					*ft_substr(char const *s, unsigned int start, \
 							size_t len);
 int						ft_strchr(char *s, char c);
 t_my_env				*build_member(char *env_member);
@@ -261,5 +267,17 @@ int						outfile_size(t_cmd **head);
 int						append_size(t_cmd **head);
 int						heredoc_size(t_cmd **head);
 t_cmd_table				*build_commandtable_node(t_cmd **head);
+void                    addto_listt(t_cmd_table **cmd, \
+                        t_cmd_table *next_data);
 /***********************************************************************/
+/*******************************BUILT_IN*********************************/
+int 					builtin_recognizer(char **cmd_table, t_my_env **env);
+int						run_cd(char **cmd_table, t_my_env **env);
+int						run_pwd(char **cmd_table);
+int						run_env(char **cmd_tabl, t_my_env **env);
+int						run_echo(char **cmd_table);
+/************************************************************************/
+/*************************STATUS_setter**********************************/
+void	status_setter(int status);
+/************************************************************************/
 #endif
