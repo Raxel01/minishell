@@ -6,7 +6,7 @@
 #    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/10 13:52:21 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/10/10 17:38:44 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ Global_main.c ./Parsing/Lexical_analysis/cleaner_end.c ./Parsing/Lexical_analysi
 ./Parsing/Lexical_analysis/out_function.c ./Parsing/Data_sender/List_management.c \
 ./Parsing/Data_sender/recognizer.c ./Parsing/Data_sender/command_table.c \
 ./Built-in/cd.c ./Built-in/env_displayer.c ./Built-in/exit.c ./Built-in/export.c ./Built-in/pwd.c \
-./Built-in/unset.c  ./Built-in/echo.c test.c
+./Built-in/unset.c ./Built-in/echo.c 
 
 Header = ./Header/Parsing.h
 
@@ -41,10 +41,10 @@ OBJ = ${SRC:.c=.o}
 all : $(NAME)
 
 $(NAME): $(HEADER) $(OBJ)
-	@$(CC) $(CFLAGS) -o $@   $(OBJ)  $(READLINE) && rm $(OBJ)
+	@$(CC) $(CFLAGS) -o $@ -fsanitize=address -g  $(OBJ)  $(READLINE) && rm $(OBJ)
 
 %.o : %.c $(HEADER)
-	@$(CC)  $(CFLAGS) -c  $< -o  $@	
+	@$(CC)  $(CFLAGS) -c -fsanitize=address -g $< -o  $@	
 
 clean :
 	@$(RM) $(OBJ)

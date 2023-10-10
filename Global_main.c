@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/10 12:51:14 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:29:13 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,13 @@ int	minishell(int ac, char **av, char **env)
 		{
 			/*HENNA MNIIIN ATBDA NTA LEE3B*/
 			cmd_syntax = parsing(&token);
-			// print_flag(&my_env);
+			print_flag(&my_env);
 			printf ("=================\n");
-			char *cmd[]= {"echo","ono", "trodo", NULL};
+			char *cmd[]= {"cd", NULL};
 			builtin_recognizer(cmd, &my_env);
-			printf ("\n=========stat :%d========\n", g_exit_status);
+			printf ("=================\n");
+			print_flag(&my_env);
+			// printf ("\n=========stat :%d========\n", g_exit_status);
 			free_cmd(&cmd_syntax);
 			clean_memory(&token, commande.commande);
 		}

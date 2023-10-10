@@ -65,7 +65,9 @@ reform the case likke : < infile cmd(WORD) option(word) '|(OPER)'
 recheck ki kanlga cmd,
 add syntaxe reformer the check the case >| : succes
 file detection  cmd detection : succes;
-
+/********** new mission :
+echo implementation;
+and exit;
 /********************Begin : BUILT-IN***********************/
     /---->> OBJ : BUILT-IN COMMAND----\
 cd : use function in test understand it;

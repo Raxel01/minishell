@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/10 12:50:36 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:16:54 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ void    env_updater(t_my_env **env, char *to_update, char *update_by)
     curs = *env;
     while (curs)
     {
-        if (ft_strcmp(to_update, curs->var))
+        if (!ft_strcmp(to_update, curs->var))
         {
-            printf("\nto_update : %s | update_By : %s\n", to_update, update_by);
             free(curs->var_content);
             curs->var_content = ft_strndup(update_by, ft_strlen(update_by));
             return;
@@ -60,15 +59,15 @@ char    *get_cwd()
 }
 
 // should free existing dir;
-int    goto_new_dir(char *tonew_path, t_my_env **env)
+int    goto_new_dir(char *goto_path, t_my_env **env)
 {
     char *existin_dir;
     
     existin_dir = get_cwd();
-    printf ("existing dir : %s \n", existin_dir);
-    if (chdir(tonew_path) == -1)
+    if (chdir(goto_path) == -1)
     {
             free(existin_dir);
+            free(goto_path);
             return(error_announcer("no such file or directory", 0), 1);
     }
     else
@@ -76,8 +75,10 @@ int    goto_new_dir(char *tonew_path, t_my_env **env)
         /*UPDATE oldpwd*/
         /*SET_NEW : PWD*/
         env_updater(env, "OLDPWD", existin_dir);
-        env_updater(env, "PWD", tonew_path);
+        env_updater(env, "PWD", goto_path);
         // status_setter(0);
+        free(existin_dir);
+        free(goto_path);
         return (0);
     }
 }
@@ -95,6 +96,7 @@ char *home_value(t_my_env **env)
     }
     return (NULL);
 }
+
 /*no_option alloced free it */
 int    run_cd(char **cmd_table, t_my_env **env)
 {
@@ -108,5 +110,6 @@ int    run_cd(char **cmd_table, t_my_env **env)
             return (error_announcer("cd : HOME not set\n", 0), 1);
         return (goto_new_dir(no_option, env));
     }
+    
        return (113); 
 }
