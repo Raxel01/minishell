@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/09 18:44:09 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:49:15 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void    syntax_reformer(t_cmd **cmd)
 {
     t_cmd   *cursur;
     t_cmd   *tmp;
-    t_cmd   *garder;
     
     cursur = *cmd;
     while (cursur)
@@ -79,6 +78,16 @@ void    syntax_reformer(t_cmd **cmd)
          cursur = cursur->next;   
     }
     redirect_recognizer(cmd);
+    grammar_adapter(cmd);
+}
+/*Begin in while and make function*/
+void    grammar_adapter(t_cmd ** cmd)
+{
+    //before changes
+    t_cmd   *tmp;
+    t_cmd   *cursur;
+    t_cmd   *garder;
+    
     tmp = NULL;
     cursur = *cmd;
     while (cursur)
@@ -119,11 +128,6 @@ t_cmd   *head_cursur(t_cmd *head)
     return (head);
 }
 
-// void    command_table_builder(t_cmd_table **cmd, t_cmd **head)
-// {
-    
-// }
-
 t_cmd *parsing(t_token_list **tokens)
  {
     t_token_list    *cursus;
@@ -140,51 +144,5 @@ t_cmd *parsing(t_token_list **tokens)
     syntax_reformer(&head);
     commande_recognizer(&head);
     options_recognizer(&head);
-    // begin = head;
-    // while (head)
-    // {
-    //     addto_listt(&cmd_tabl, build_commandtable_node(&head));
-    //     head = head_cursur(head);
-    // }
-    // head = begin;
-    // printcmd_list(&head);
-    // int i;
-    // i = 0;
-    // while (cmd_tabl->cmd_table[i])
-    // {
-    //     if (i == 0)
-    //         printf ("cmd[%d] := %s \n", i, cmd_tabl->cmd_table[i]);
-    //     else
-    //         printf ("option[%d] := %s \n", i, cmd_tabl->cmd_table[i]);
-    // i++;
-    // }
-    // printf ("====================\n");
-    // i = 0;
-    // while (cmd_tabl->infile[i])
-    // {
-    //     printf ("infile[%d] := %s\n", i, cmd_tabl->infile[i]);
-    //     i++;
-    // }
-    // i = 0;
-    // printf ("====================\n");
-    // while (cmd_tabl->outfile[i])
-    // {
-    //     printf ("outfile[%d] := %s\n", i, cmd_tabl->outfile[i]);
-    //     i++;
-    // }
-    // i = 0;
-    // printf ("====================\n");
-    // while (cmd_tabl->append[i])
-    // {
-    //     printf ("append[%d] := %s\n", i, cmd_tabl->append[i]);
-    //     i++;
-    // }
-    // i = 0;
-    // printf ("====================\n");
-    // while (cmd_tabl->here_doc[i])
-    // {
-    //     printf ("here_doc[%d] := %s\n", i, cmd_tabl->here_doc[i]);
-    //     i++;
-    // }
     return (head);
  }

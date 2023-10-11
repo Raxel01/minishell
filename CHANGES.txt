@@ -71,7 +71,11 @@ and exit;
 /********************Begin : BUILT-IN***********************/
     /---->> OBJ : BUILT-IN COMMAND----\
 cd : use function in test understand it;
-
+11 / 10 : GOAL==> begin : 10:05 
+    *finish cd;
+    *exit;
+    *unset;
+    hard test to accept it;
 /***************************************************************
 /***************************************************************
                     |TO_CHECK MNBE3D|

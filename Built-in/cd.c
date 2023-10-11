@@ -6,12 +6,13 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/10 22:16:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:58:08 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Header/Parsing.h"
 
+/*****************THERE IS ISSUE HERE IN FREING AND . .. HANDLE ERROR */
 int builtin_recognizer(char **cmd_table, t_my_env **env)
 {
     if (cmd_table[0] && ft_strcmp(cmd_table[0], "pwd") == 0)
@@ -26,8 +27,8 @@ int builtin_recognizer(char **cmd_table, t_my_env **env)
     //     return (status_setter(run_unset(cmd_table, env)), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "env") == 0)
         return (status_setter(run_env(cmd_table, env)), 1);
-    // else if (cmd_table[0] && ft_strcmp(cmd_table[0], "exit") == 0)
-    //     return (status_setter(run_exit(cmd_table, env)), 1);
+    else if (cmd_table[0] && ft_strcmp(cmd_table[0], "exit") == 0)
+        return (status_setter(run_exit(cmd_table, env)), 1);
     return (0);
 }
 
@@ -66,14 +67,16 @@ int    goto_new_dir(char *goto_path, t_my_env **env)
     existin_dir = get_cwd();
     if (chdir(goto_path) == -1)
     {
-            free(existin_dir);
-            free(goto_path);
-            return(error_announcer("no such file or directory", 0), 1);
+        free(existin_dir);
+        free(goto_path);
+        return(error_announcer("no such file or directory\n", 0), 1);
     }
     else
     {
         /*UPDATE oldpwd*/
         /*SET_NEW : PWD*/
+        // ge = get_cwd();
+        goto_path = get_cwd();
         env_updater(env, "OLDPWD", existin_dir);
         env_updater(env, "PWD", goto_path);
         // status_setter(0);
@@ -83,14 +86,14 @@ int    goto_new_dir(char *goto_path, t_my_env **env)
     }
 }
 
-char *home_value(t_my_env **env)
+char *getcontent(char *toget, t_my_env **env)
 {
     t_my_env *curs;
 
     curs = *env;
     while (curs)
     {
-        if (ft_strcmp("HOME", curs->var) == 0)
+        if (ft_strcmp(toget, curs->var) == 0)
             return (ft_strndup(curs->var_content, ft_strlen(curs->var_content)));
         curs = curs->next;
     }
@@ -100,16 +103,28 @@ char *home_value(t_my_env **env)
 /*no_option alloced free it */
 int    run_cd(char **cmd_table, t_my_env **env)
 {
-    char *no_option;
+    char *goto_dir;
     
     if (!cmd_table[1])
     {
-        no_option = home_value(env);
-        printf("home_value: %s\n", no_option);
-        if (!no_option)
+        goto_dir = getcontent("HOME", env);
+        if (!goto_dir)
             return (error_announcer("cd : HOME not set\n", 0), 1);
-        return (goto_new_dir(no_option, env));
+        return (goto_new_dir(goto_dir, env));
     }
-    
-       return (113); 
+    if (cmd_table[1][0] == '-')
+    {
+        if (cmd_table[1][1] == '\0')
+        {
+            goto_dir = getcontent("OLDPWD", env);
+            if (!goto_dir)
+                return(error_announcer("cd : OLDPWD not set\n", 0), 1);
+            return (goto_new_dir(goto_dir, env));
+        }
+        else
+            return (error_announcer("invalid option\n", 0), 2);
+    }
+    else
+        return (goto_new_dir(ft_strndup(cmd_table[1], \
+                ft_strlen(cmd_table[1])), env));
 }

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/10 12:42:28 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/11 21:00:35 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,14 @@ typedef struct l_cmd
 	struct l_cmd *next;
 	struct l_cmd *prev;
 }	t_cmd_table;
+
 /*will may add messages option {}*/
+/***************************GLOBAL_OUTFUNCTION*****************************/
+void					white_space(char *str, size_t i, \
+						size_t len, int *state);
+void					clean_memory(t_token_list **token, \
+						char *command);
+/**************************************************************************/
 /****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
 char					*epur_string(char *commande);
 int						epur_len_helper(char *commande);
@@ -258,6 +265,7 @@ void					redir_cleaner(t_cmd** head);
 void					commande_recognizer(t_cmd **cmd);
 void    				redirect_recognizer(t_cmd **cmd);
 void					options_recognizer(t_cmd **cmd);
+void					grammar_adapter(t_cmd ** cmd);
 void					free_cmd(t_cmd **cmd);
 /***********************************************************************/
 /*************************Build_Last_list*******************************/
@@ -276,6 +284,7 @@ int						run_cd(char **cmd_table, t_my_env **env);
 int						run_pwd(char **cmd_table);
 int						run_env(char **cmd_tabl, t_my_env **env);
 int						run_echo(char **cmd_table);
+int						run_exit(char **cmd_table, t_my_env **env);
 /************************************************************************/
 /*************************STATUS_setter**********************************/
 void	status_setter(int status);
