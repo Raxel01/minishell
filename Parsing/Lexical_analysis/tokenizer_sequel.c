@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:54 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/01 19:16:32 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:42:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	extract_dquot_content(char **commande, t_token_list **token, \
 	return (j);
 }
 
+/*CHANGES HERE*/
 char	*double_quote_content(char *commande, t_token_list **token, \
 		enum e_token_type t_type, enum e_token_state s_token)
 {
@@ -99,9 +100,8 @@ char	*double_quote_content(char *commande, t_token_list **token, \
 			return (commande + j);
 		}
 	}
-	if (j)
-		add_tokens_to_list(token, \
-			build_new_token_node(ft_strndup(commande, j), t_type, s_token));
+	add_tokens_to_list(token, \
+		build_new_token_node(ft_strndup(commande, j), t_type, s_token));
 	if (commande[j] == '\"')
 		j++;
 	return (commande + j);

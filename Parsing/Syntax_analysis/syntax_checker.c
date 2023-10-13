@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/09 19:35:45 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:10:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	error_type(t_token_list *cursur)
 		error_announcer("error redirection `< > << >>'\n", 1);
 }
 
+/*Here for case ls > $NOT_FOUND_VAR considered as ambigious but id the enter in "" error in it  */
 int	redir_analyser(t_token_list *cursur)
 {
 	t_token_list	*tokens;
@@ -41,7 +42,7 @@ int	redir_analyser(t_token_list *cursur)
 	tokens = cursur->next;
 	while (tokens && tokens->type == A_SPACE)
 		tokens = tokens->next;
-	if (!tokens || tokens->type != WORD || !ft_strcmp(tokens->token, ""))
+	if (!tokens || tokens->type != WORD || (!ft_strcmp(tokens->token, "") && tokens->state == NORMAL))
 		return (ERROR_EXIT);
 	return (SUCCES_PROC);
 }

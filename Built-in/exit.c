@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:28 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 20:59:26 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:13:11 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int integer(char *integer)
     int i;
     
     i = 0;
-    if (integer[i] == '-')
+    if (integer[i] == '-' || integer[i] == '+')
         i++;
     while (integer[i])
     {
@@ -38,30 +38,25 @@ int integer(char *integer)
 /*DANGER ZONE USING ATOI*/
 int    run_exit(char **cmd_table, t_my_env **env)
 {
+    int status;
+
+    status = 0;
     write(1, "exit\n", 6);
     if (!cmd_table[1])
-    {
-        free_env(env);
         exit(0);
-    }
-    if (cmd_table[1] && cmd_table[2])
+    else if (cmd_table[1] && cmd_table[2])
     {
         error_announcer("exit: too many arguments\n", 0);
-        status_setter(1);
-        free_env(env);
-        exit(1);
+        status = 1;
     }
     if (cmd_table[1] && integer(cmd_table[1]))
-    {
-        exit(to_uns(atoi(cmd_table[1])));
-        free_env(env);
-    }
+        status = atoi(cmd_table[1]);
     else
     {
-            error_announcer("exit: n: numeric argument required", 0);
-            status_setter(2);
-            free_env(env);
-            exit(2);
+            error_announcer("exit: n: numeric argument required\n", 0);
+            status = 2;
     }
-   return (0); 
+    free_env(env);
+    exit(to_uns(status));
+   return (to_uns(status)); 
 }

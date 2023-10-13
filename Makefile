@@ -6,7 +6,7 @@
 #    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/11 20:55:00 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/10/12 22:35:02 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,10 @@ OBJ = ${SRC:.c=.o}
 all : $(NAME)
 
 $(NAME): $(HEADER) $(OBJ)
-	@$(CC) $(CFLAGS) -o $@   $(OBJ)  $(READLINE) && rm $(OBJ)
+	@$(CC) $(CFLAGS) -o $@ -fsanitize=address -g  $(OBJ)  $(READLINE) && rm $(OBJ)
 
 %.o : %.c $(HEADER)
-	@$(CC)  $(CFLAGS) -c  $< -o  $@	
+	@$(CC)  $(CFLAGS) -c -fsanitize=address -g  $< -o  $@	
 
 clean :
 	@$(RM) $(OBJ)

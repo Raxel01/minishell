@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 21:00:07 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:44:01 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ char	*get_input_line(char *commande)
 		tmp = *cmd;
 		*cmd = (*cmd)->next;
 		free(tmp->cmd_table);
-		free(tmp->infile);
-		free(tmp->outfile);
-		free(tmp->append);
-		free(tmp->here_doc);
 		free(tmp);
 	}
 	*cmd = NULL;
@@ -87,16 +83,53 @@ void	print_flag(t_my_env **emv)
 	}
 }
 
+void	print_cmd_table(t_cmd_table **cmd_tab)
+{
+	t_cmd_table *curs;
+	int i;
+	int j = 1;
+	int count = 1;
+
+	i = 0;
+	curs = *cmd_tab;
+	if (!curs)
+		{
+			printf("EMPTY\n");
+			return;
+		}
+	while (curs)
+	{
+		i = 0;
+		count = 1;                                    
+		printf("*********Node[%d]***************************\n", j);
+		printf("*   CMD_OPTION     |         FD           *\n");
+		while (curs->cmd_table[i]){
+		printf("*[%d] : %-10s  |",i, curs->cmd_table[i]);
+		if (count)
+			{
+				printf ("\t IN_FD : %d \t  *\n* \t\t\t OUT_FD : %d       *\n", curs->in_fd, curs->out_fd);
+				count--;
+			}
+		printf ("\n");
+		i++;
+		}
+		printf("\n*******************************************\n");
+		if (curs->next)
+			printf("\t           *\n\t           *\n\t           \\/\n");
+		curs = curs->next;
+		j++;
+	}
+}
+
 int	minishell(int ac, char **av, char **env)
 {
 	t_commande		commande;
 	t_token_list	*token;
 	t_my_env		*my_env;
-	t_cmd			*cmd_syntax;
+	t_cmd_table			*cmd_tabl;
 
 	(void)ac; (void)av;
 	signal(SIGINT, seg_handler_c);
-	cmd_syntax = NULL;
 	my_env = import_env(env);
 	while (1)
 	{
@@ -104,16 +137,8 @@ int	minishell(int ac, char **av, char **env)
 		token = lexical_analysis(commande.commande, &my_env);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
-			cmd_syntax = parsing(&token);
-			// printcmd_list(&cmd_syntax);
-			// print_flag(&my_env);
-			// printf ("=================\n");
-			char *cmd[]= {"exit", NULL};
-			builtin_recognizer(cmd, &my_env);
-			// printf ("=================\n");
-			// print_flag(&my_env);
-			// // printf ("\n=========stat :%d========\n", g_exit_status);
-			free_cmd(&cmd_syntax);
+			cmd_tabl = parsing(&token);
+			print_cmd_table(&cmd_tabl);
 			clean_memory(&token, commande.commande);
 		}
 		else

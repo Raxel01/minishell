@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/30 13:31:43 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/12 11:55:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ char	*single_quote_content(char *commande, t_token_list **token, \
 			return (commande + j);
 		}
 	}
-	if (j)
-		add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j),
-				t_type, s_token));
+	add_tokens_to_list(token, build_new_token_node(ft_strndup(commande, j),
+			t_type, s_token));
 	if (commande[j] == '\'')
 		j++;
 	return (commande + j);

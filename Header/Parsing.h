@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 21:00:35 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:52:21 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 # include <unistd.h>
 
 # define ERROR_EXIT 2
 # define SUCCES_PROC 0
 
 #define	SYNTAXE_ERR_STATUS 2
-# define in_default 0
-# define out_default 1
-# define err_default 2
+# define IN_DEF 0
+# define OUT_DEF 1
+# define ERR_DEF 2
 /**************EXIT_STATUS_VAR************/
 /****/	extern int g_exit_status;	/****/
 /***************************************/
@@ -127,22 +128,11 @@ typedef struct cmd
 	struct cmd			*prev;
 }	t_cmd;
 
-enum e_global_mode
-{
-	DEFAULT,
-	PIPELEFT,
-	BETWEENPIPE,
-	PIPERIGHT
-};
-
 typedef struct l_cmd
 {
-	enum e_global_mode mode;
 	char **cmd_table;
-	char **infile;
-	char **outfile;
-	char **append;
-	char **here_doc;
+	int in_fd;
+	int out_fd;
 	struct l_cmd *next;
 	struct l_cmd *prev;
 }	t_cmd_table;
@@ -256,7 +246,7 @@ void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
 /***********************************************************************/
 /******************************SEND_DATA*[14]*******************************/
-t_cmd					*parsing(t_token_list **tokens);
+t_cmd_table				*parsing(t_token_list **tokens);
 void					printcmd_list(t_cmd **cmd);
 void					addto_list(t_cmd **cmd, t_cmd *next_data);
 t_cmd					*build_node(char *data, enum e_token_type intype, \
@@ -271,7 +261,7 @@ void					free_cmd(t_cmd **cmd);
 /*************************Build_Last_list*******************************/
 int						arg_count(t_cmd **head);
 int						infile_size(t_cmd **head);
-int						outfile_size(t_cmd **head);
+int						outfile_getter(t_cmd **head);
 int						append_size(t_cmd **head);
 int						heredoc_size(t_cmd **head);
 t_cmd_table				*build_commandtable_node(t_cmd **head);

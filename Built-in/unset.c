@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:38 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 20:41:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:55:02 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 // int    run_unset(char **cmd_table, t_my_env **env)
 // {
+//     int i;
+
+//     i = 1;
+//     if (!cmd_table[1])
+//         return (0);
+//     while (cmd_table[i])
+//     {
+        
+//         i++;
+//     }
     
     
 //     return (0);
