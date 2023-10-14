@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 16:44:01 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 21:13:48 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	history_acces(char *commande)
 
 char	*get_input_line(char *commande)
 {
-	commande = readline("MINISHELL[~] -> ");
+	commande = readline("└─$ MINISHELL[~] -> ");
 	if (commande == NULL)
 	{
 		status_setter(EXIT_SUCCESS);
@@ -51,12 +51,12 @@ char	*get_input_line(char *commande)
 	return (commande);
 }
 
-/*
+void	free_cmd_table(t_cmd_table ** cmd)
 {
 	t_cmd_table	*tmp;
 
 	if (!cmd)
-		return (0);
+		return;
 	while (*cmd)
 	{
 		tmp = *cmd;
@@ -65,60 +65,6 @@ char	*get_input_line(char *commande)
 		free(tmp);
 	}
 	*cmd = NULL;
-	return (1);
-}*/
-
-void	print_flag(t_my_env **emv)
-{
-	t_my_env *curs;
-
-	curs = (*emv)->next;
-	while (curs)
-	{
-		if (!ft_strcmp(curs->var ,"PWD"))
-			printf ("PWD = %s\n", curs->var_content);
-		if (!ft_strcmp(curs->var, "OLDPWD"))
-			printf ("OLDPWD = %s\n", curs->var_content);		
-	curs = curs->next;
-	}
-}
-
-void	print_cmd_table(t_cmd_table **cmd_tab)
-{
-	t_cmd_table *curs;
-	int i;
-	int j = 1;
-	int count = 1;
-
-	i = 0;
-	curs = *cmd_tab;
-	if (!curs)
-		{
-			printf("EMPTY\n");
-			return;
-		}
-	while (curs)
-	{
-		i = 0;
-		count = 1;                                    
-		printf("*********Node[%d]***************************\n", j);
-		printf("*   CMD_OPTION     |         FD           *\n");
-		while (curs->cmd_table[i]){
-		printf("*[%d] : %-10s  |",i, curs->cmd_table[i]);
-		if (count)
-			{
-				printf ("\t IN_FD : %d \t  *\n* \t\t\t OUT_FD : %d       *\n", curs->in_fd, curs->out_fd);
-				count--;
-			}
-		printf ("\n");
-		i++;
-		}
-		printf("\n*******************************************\n");
-		if (curs->next)
-			printf("\t           *\n\t           *\n\t           \\/\n");
-		curs = curs->next;
-		j++;
-	}
 }
 
 int	minishell(int ac, char **av, char **env)
@@ -126,7 +72,7 @@ int	minishell(int ac, char **av, char **env)
 	t_commande		commande;
 	t_token_list	*token;
 	t_my_env		*my_env;
-	t_cmd_table			*cmd_tabl;
+	t_cmd_table		*cmd_tabl;
 
 	(void)ac; (void)av;
 	signal(SIGINT, seg_handler_c);
@@ -135,10 +81,14 @@ int	minishell(int ac, char **av, char **env)
 	{
 		commande.commande = get_input_line(commande.commande);
 		token = lexical_analysis(commande.commande, &my_env);
+		// print_tokens(&token);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
 			print_cmd_table(&cmd_tabl);
+			// char *cmd[] = {"echo", "-n", "cat lol.c | cat > lol.c", NULL};
+			// builtin_recognizer(cmd, &my_env);
+			// free_cmd_table(&cmd_tabl);
 			clean_memory(&token, commande.commande);
 		}
 		else

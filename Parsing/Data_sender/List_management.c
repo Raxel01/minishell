@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 12:51:43 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:25:11 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void    syntax_reformer(t_cmd **cmd)
 /*Begin in while and make function*/
 void    grammar_adapter(t_cmd ** cmd)
 {
-    //before changes
     t_cmd   *tmp;
     t_cmd   *cursur;
     t_cmd   *garder;
@@ -128,18 +127,6 @@ t_cmd   *head_cursur(t_cmd *head)
     return (head);
 }
 
-void    cmd_table_builder(t_cmd_table **cmd_table, t_cmd **head)
-{
-    t_cmd *curs;
-
-    curs = (*head);
-    while (curs)
-    {
-        addto_listt(cmd_table, build_commandtable_node(&curs));
-        curs = head_cursur(curs);
-    }
-}
-
 t_cmd_table *parsing(t_token_list **tokens)
  {
     t_token_list    *cursus;
@@ -159,6 +146,8 @@ t_cmd_table *parsing(t_token_list **tokens)
     commande_recognizer(&head);
     options_recognizer(&head);
     cmd_table_builder(&cmd_table, &head);
+    printcmd_list(&head);
+    // exit(0);
     free_cmd(&head);
     return (cmd_table);
  }

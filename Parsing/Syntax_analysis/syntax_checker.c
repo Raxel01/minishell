@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 12:10:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:46:39 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 void	error_type(t_token_list *cursur)
 {
 	if (cursur->state == Q_UNCLOSE)
-		error_announcer("unclosed `' OR \"'\n", 1);
+		error_announcer("unclosed `' OR \"'", 1);
 	else if (cursur->state == RED_ERR)
-		error_announcer("error redirection `< > << >>'\n", 1);
+		error_announcer("error redirection `< > << >>'", 1);
 }
 
 /*Here for case ls > $NOT_FOUND_VAR considered as ambigious but id the enter in "" error in it  */
@@ -78,11 +78,11 @@ int	syntax_error(t_token_list *head)
 			return (error_type(cursur), ERROR_EXIT);
 		if (redir_case(cursur->type))
 			if (redir_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer("redir-ambiguous redir\n", 1), \
+				return (error_announcer("redir-ambiguous redir", 1), \
 					ERROR_EXIT);
 		if (cursur->type == PIPE)
 			if (pipe_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer("illegal pipe `|'\n", 1), \
+				return (error_announcer("illegal pipe `|'", 1), \
 						ERROR_EXIT);
 		cursur = cursur->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 20:58:08 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:45:45 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int    goto_new_dir(char *goto_path, t_my_env **env)
     {
         free(existin_dir);
         free(goto_path);
-        return(error_announcer("no such file or directory\n", 0), 1);
+        return(error_announcer(strerror(errno), 0), 1);
     }
     else
     {
@@ -109,7 +109,7 @@ int    run_cd(char **cmd_table, t_my_env **env)
     {
         goto_dir = getcontent("HOME", env);
         if (!goto_dir)
-            return (error_announcer("cd : HOME not set\n", 0), 1);
+            return (error_announcer("cd : HOME not set", 0), 1);
         return (goto_new_dir(goto_dir, env));
     }
     if (cmd_table[1][0] == '-')
@@ -118,11 +118,11 @@ int    run_cd(char **cmd_table, t_my_env **env)
         {
             goto_dir = getcontent("OLDPWD", env);
             if (!goto_dir)
-                return(error_announcer("cd : OLDPWD not set\n", 0), 1);
+                return(error_announcer("cd : OLDPWD not set", 0), 1);
             return (goto_new_dir(goto_dir, env));
         }
         else
-            return (error_announcer("invalid option\n", 0), 2);
+            return (error_announcer("invalid option", 0), 2);
     }
     else
         return (goto_new_dir(ft_strndup(cmd_table[1], \

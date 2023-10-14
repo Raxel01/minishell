@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 12:52:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:27:30 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,12 @@ typedef struct l_cmd
 	struct l_cmd *next;
 	struct l_cmd *prev;
 }	t_cmd_table;
+
+typedef struct in_out
+{
+	int in_fd;
+	int out_fd;
+}	t_in_out;
 
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
@@ -267,6 +273,11 @@ int						heredoc_size(t_cmd **head);
 t_cmd_table				*build_commandtable_node(t_cmd **head);
 void                    addto_listt(t_cmd_table **cmd, \
                         t_cmd_table *next_data);
+void					print_cmd_table(t_cmd_table **cmd_tab);
+t_in_out				process_fd(t_cmd **head);
+void					cmd_table_builder(t_cmd_table **cmd_table, \
+						t_cmd **head);
+t_cmd					*head_cursur(t_cmd *head);
 /***********************************************************************/
 /*******************************BUILT_IN*********************************/
 int 					builtin_recognizer(char **cmd_table, t_my_env **env);

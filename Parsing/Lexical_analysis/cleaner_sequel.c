@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:55:47 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/24 17:02:39 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:10:54 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*extract_clean(char *token, int to_alloc, char c)
 	int		j;
 
 	new_token = (char *)malloc((sizeof(char) * to_alloc));
+	if (new_token == NULL)
+		return (NULL);
 	j = 0;
 	i = 0;
 	while (token[i])

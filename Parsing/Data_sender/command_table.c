@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:55:48 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 12:38:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:25:32 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char **cmd_table_remplisseur(t_cmd **head)
 
     i = 0;
     cmd_table = malloc(sizeof(char *)* (arg_count (head) + 1));
+    if (!cmd_table)
+        return (error_announcer(strerror(errno), 0), NULL);
     cursur = (*head);
     while (cursur && cursur->type != PIPE)
     {
@@ -49,65 +51,18 @@ char **cmd_table_remplisseur(t_cmd **head)
     return (cmd_table);
 }
 
-int outfile_getter(t_cmd **head)
-{
-    t_cmd   *curs;
-    int     out_fd;
-
-    out_fd = OUT_DEF;
-    curs = (*head);
-    while (curs && curs->type != PIPE)
-    {
-        if (curs->file == OUTFILE || curs->file == APPEND)
-        {
-            if (curs->file == OUTFILE)
-                out_fd = open(curs->content, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-            else
-                out_fd = open (curs->content, O_CREAT | O_WRONLY | O_APPEND, 0666);
-            if (out_fd == -1)
-            {
-                error_announcer("FILE : Error when opening file\n", 0);
-                break;
-            }       
-        }
-        curs = curs->next;
-    }
-    return (out_fd);
-}
-
-int infile_getter(t_cmd **head)
-{
-    t_cmd   *curs;
-    int     in_fd;
-
-    in_fd = IN_DEF;
-    curs = (*head);
-    while (curs && curs->type != PIPE)
-    {
-        if (curs->file == INFILE)
-        {
-            in_fd = open (curs->content, O_RDONLY);
-            if (in_fd == -1)
-            {
-                error_announcer("FILE : Error when opening file\n", 0);
-                break;
-            }       
-        }
-        curs = curs->next;
-    }
-    return (in_fd);
-}
-
 t_cmd_table *build_commandtable_node(t_cmd **head)
 {
     t_cmd_table *node;
-
+    t_in_out fd;
+    
+    fd = process_fd(head);
     node = (t_cmd_table *)malloc(sizeof(t_cmd_table));
     if (!node)
         return (NULL);
     node->cmd_table =  cmd_table_remplisseur(head);
-    node->in_fd = infile_getter(head);
-    node->out_fd = outfile_getter(head);
+    node->in_fd = fd.in_fd;
+    node->out_fd = fd.out_fd;
     node->next = NULL;
     node->prev = NULL;
     return(node);
@@ -126,5 +81,17 @@ void    addto_listt(t_cmd_table **cmd, t_cmd_table *next_data)
             cursur = cursur->next;
         cursur->next = next_data;
         next_data->prev = cursur;
+    }
+}
+
+void    cmd_table_builder(t_cmd_table **cmd_table, t_cmd **head)
+{
+    t_cmd *curs;
+
+    curs = (*head);
+    while (curs)
+    {
+        addto_listt(cmd_table, build_commandtable_node(&curs));
+        curs = head_cursur(curs);
     }
 }

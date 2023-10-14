@@ -6,7 +6,7 @@
 #    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/12 22:35:02 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/10/14 23:21:50 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ Global_main.c ./Parsing/Lexical_analysis/cleaner_end.c ./Parsing/Lexical_analysi
 ./Parsing/Environnement/env_expansion.c ./Parsing/Environnement/env_builder.c \
 ./Parsing/Syntax_analysis/syntax_outfunction.c ./Parsing/Lexical_analysis/.show_tokens.c \
 ./Parsing/Lexical_analysis/out_function.c ./Parsing/Data_sender/List_management.c \
-./Parsing/Data_sender/recognizer.c ./Parsing/Data_sender/command_table.c \
+./Parsing/Data_sender/recognizer.c ./Parsing/Data_sender/command_table.c ./Parsing/Data_sender/fd_generator.c\
 ./Built-in/cd.c ./Built-in/env_displayer.c ./Built-in/exit.c ./Built-in/export.c ./Built-in/pwd.c \
-./Built-in/unset.c ./Built-in/echo.c Global_outfunc.c
+./Built-in/unset.c ./Built-in/echo.c Global_outfunc.c 
 
 Header = ./Header/Parsing.h
 
@@ -41,10 +41,10 @@ OBJ = ${SRC:.c=.o}
 all : $(NAME)
 
 $(NAME): $(HEADER) $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ -fsanitize=address -g  $(OBJ)  $(READLINE) && rm $(OBJ)
+	@$(CC) $(CFLAGS) -o $@   $(OBJ)  $(READLINE) && rm $(OBJ)
 
 %.o : %.c $(HEADER)
-	@$(CC)  $(CFLAGS) -c -fsanitize=address -g  $< -o  $@	
+	@$(CC)  $(CFLAGS) -c   $< -o  $@	
 
 clean :
 	@$(RM) $(OBJ)

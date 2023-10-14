@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/30 13:55:56 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:11:59 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	data_init(t_var *vars, char *commande)
 	vars->flg = 0;
 	vars->epured_string = malloc(sizeof(char) * (epur_len_helper(commande) \
 				+ (word_epur_helper(commande) - 1) + 1));
+	if (!vars->epured_string)
+		return;
 	vars->begin = vars->epured_string;
 	vars->i = 0;
 }

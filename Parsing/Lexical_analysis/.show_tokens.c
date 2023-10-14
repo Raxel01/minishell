@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 13:21:53 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/09 18:23:00 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:19:34 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,43 @@ void    printcmd_list(t_cmd **cmd)
 		printf("*********************************************************************\n");
         cursur = cursur->next;
     }
+}
+
+void	print_cmd_table(t_cmd_table **cmd_tab)
+{
+	return;
+	t_cmd_table *curs;
+	int i;
+	int j = 1;
+	int count = 1;
+
+	i = 0;
+	curs = *cmd_tab;
+	if (!curs)
+		{
+			printf("EMPTY\n");
+			return;
+		}
+	while (curs)
+	{
+		i = 0;
+		count = 1;                                    
+		printf("*********Node[%d]***************************\n", j);
+		printf("*   CMD_OPTION     |         FD           *\n");
+		while (curs->cmd_table[i]){
+		printf("*[%d] : %-10s  |",i, curs->cmd_table[i]);
+		if (count)
+			{
+				printf ("\t IN_FD : %d \t  *\n* \t\t\t OUT_FD : %d       *\n", curs->in_fd, curs->out_fd);
+				count--;
+			}
+		printf ("\n");
+		i++;
+		}
+		printf("\n*******************************************\n");
+		if (curs->next)
+			printf("\t           *\n\t           *\n\t           \\/\n");
+		curs = curs->next;
+		j++;
+	}
 }

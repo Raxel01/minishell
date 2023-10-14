@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 12:57:21 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/10 12:30:07 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:46:00 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	run_env(char **cmd_tabl, t_my_env **env)
 	
 	if (cmd_tabl[1])
 	{
-		error_announcer("env:no option/argument required\n", 0);
+		error_announcer("env:no option/argument required", 0);
 		return (EXIT_FAILURE);
 	}
 	curs = (*env)->next;

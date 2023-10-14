@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 21:28:17 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/09 19:38:49 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:43:43 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	error_announcer(char *error, int syntax)
 	if (syntax)
     	write (STDERR_FILENO, syntaxe, ft_strlen(syntaxe));
 	write(STDERR_FILENO, error, ft_strlen(error));
+	write(1, "\n", 2);
 }
 
 t_token_list	*behind_getter(t_token_list *cursus)
