@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/17 16:34:14 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:51:35 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,14 +289,16 @@ t_in_out				process_fd(t_cmd **head);
 void					cmd_table_builder(t_cmd_table **cmd_table, \
 						t_cmd **head);
 t_cmd					*head_cursur(t_cmd *head);
+void					free_cmd_table(t_cmd_table ** cmd);
 /***********************************************************************/
 /*******************************BUILT_IN*********************************/
-int 					builtin_recognizer(char **cmd_table, t_my_env **env);
+int						builtin_recognizer(t_cmd_table **head, char **cmd_table, \
+						t_my_env **env);
 int						run_cd(char **cmd_table, t_my_env **env);
 int						run_pwd(char **cmd_table);
 int						run_env(char **cmd_tabl, t_my_env **env);
 int						run_echo(char **cmd_table);
-int						run_exit(char **cmd_table, t_my_env **env);
+int						run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env);
 int						run_unset(char **cmd_table, t_my_env **env);
 /************************************************************************/
 /********************************HERE_DOC_FUNCTION***********************/

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/17 20:00:14 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/18 20:21:37 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		g_exit_status = 0;
 void	seg_handler_c(int sigstatus)
 {
 	(void)(sigstatus);
+	status_setter(130);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -36,20 +37,19 @@ void	history_acces(char *commande)
 		add_history(commande);
 }
 
-char	*get_input_line(char *commande, t_my_env **my_env)
+void	get_input_line(char **commande, t_my_env **my_env)
 {
-	commande = readline("└─$ MINISHELL[~] -> ");
-	if (commande == NULL)
+	*commande = readline("└─$ MINISHELL[~] -> ");
+	if (*commande == NULL)
 	{
 		status_setter(EXIT_SUCCESS);
 		rl_clear_history();
-		write(1, "exit\n", 6);
 		free_env(my_env);
+		write(1, "exit\n", 6);
 		exit(EXIT_SUCCESS);
 	}
-	commande = epur_string(commande);
-	history_acces(commande);
-	return (commande);
+	*commande = epur_string(*commande);
+	history_acces(*commande);
 }
 
 void	free_cmd_table(t_cmd_table ** cmd)
@@ -75,33 +75,23 @@ void	free_cmd_table(t_cmd_table ** cmd)
 	*cmd = NULL;
 }
 
-int	minishell(int ac, char **av, char **env)
+int	minishell(char **env)
 {
-	t_commande		commande;
+	char			*readedline;
 	t_token_list	*token;
 	t_my_env		*my_env;
 	t_cmd_table		*cmd_tabl;
-	// int pid;
 
-	(void)ac; (void)av;
 	signal(SIGINT, seg_handler_c);
 	my_env = import_env(env);
+	readedline = NULL;
 	while (1)
 	{
-		commande.commande = get_input_line(commande.commande, &my_env);
-		token = lexical_analysis(commande.commande, &my_env);
+		get_input_line(&readedline, &my_env);
+		token = lexical_analysis(readedline, &my_env);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
-			print_cmd_table(&cmd_tabl);
-			// pid = fork();
-			// if (pid == 0)
-			// {
-			// 	int fd = here_doc_("ABDO", NORMAL, &my_env);
-			// 	dup2(fd, 0);
-			// 	execve("/usr/bin/cat", cmd_tabl->cmd_table, NULL);
-			// }
-			// wait(NULL);
 			free_cmd_table(&cmd_tabl);
 		}
 		else
@@ -116,7 +106,9 @@ int	minishell(int ac, char **av, char **env)
 /*تبدو وظيفة عادية لكن هيهاات هيهااات */
 int	main(int ac, char **av, char **env)
 {
-	minishell(ac, av, env);
+	(void)ac;
+	(void)av;
+	minishell(env);
 	return (SUCCES_PROC);
 }
 

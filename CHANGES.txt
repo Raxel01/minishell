@@ -108,5 +108,14 @@ Here doc implementation with expand var;
 free the line getted from here_doc function because I have creat a linked list;
 then creat an alloced new_line char free it after in the same while;
 hada makan then free_here list cause I getted the line that I need.
+============================================================LAST=======================================================
+add status setter after pressing ctrl+c
+change minishell prototype from : minishell(ac, av, env);
+ /***>   to : minishell (env);
 
-
+remove the struct command;
+replace it by char *readedline;
+the get_input_line change it prototype ;
+it be without return and take double pointer;
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^LAST push changes^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=======================================================================================================

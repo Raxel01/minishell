@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:28 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 11:46:09 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:50:20 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int integer(char *integer)
 /*Grammer exit ![[+][-]exit_status]*/
 // recheck status when go to school
 /*DANGER ZONE USING ATOI*/
-int    run_exit(char **cmd_table, t_my_env **env)
+int    run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env)
 {
     int status;
 
@@ -57,6 +57,7 @@ int    run_exit(char **cmd_table, t_my_env **env)
             status = 2;
     }
     free_env(env);
+    free_cmd_table(head);
     exit(to_uns(status));
    return (to_uns(status)); 
 }
