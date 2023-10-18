@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 23:11:59 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:12:42 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,17 @@ void	get_new_string(char *commande, t_var var)
 char	*epur_string(char *commande)
 {
 	t_var	var;
-
-	data_init(&var, commande);
-	while (commande[var.i] \
-		&& (commande[var.i] == ' ' || commande[var.i] == '\t'))
-		++var.i;
-	get_new_string(commande, var);
+	
+	if (commande[0])
+	{
+		data_init(&var, commande);
+		while (commande[var.i] \
+			&& (commande[var.i] == ' ' || commande[var.i] == '\t'))
+			++var.i;
+		get_new_string(commande, var);
+		free(commande);
+		return (var.begin);
+	}
 	free(commande);
-	return (var.begin);
+	return(ft_strndup("", ft_strlen("")));
 }

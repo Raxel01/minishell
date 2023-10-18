@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 11:46:39 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:19:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	redir_analyser(t_token_list *cursur)
 	tokens = cursur->next;
 	while (tokens && tokens->type == A_SPACE)
 		tokens = tokens->next;
-	if (!tokens || tokens->type != WORD || (!ft_strcmp(tokens->token, "") && tokens->state == NORMAL))
+	if (!tokens || (tokens->type != WORD && tokens->type != EXIT_STATUS) \
+		|| (!ft_strcmp(tokens->token, "") && tokens->state == NORMAL))
 		return (ERROR_EXIT);
 	return (SUCCES_PROC);
 }

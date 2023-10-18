@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 23:27:30 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:34:14 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,23 @@ typedef struct in_out
 	int out_fd;
 }	t_in_out;
 
+enum 	e_heredoc
+{
+	STRING,
+	VAR,
+};
+typedef struct here_d
+{
+	char	*data;
+	enum e_heredoc type;
+	struct here_d *next;
+	
+}	t_here_doc;
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
 void					white_space(char *str, size_t i, \
 						size_t len, int *state);
-void					clean_memory(t_token_list **token, \
-						char *command);
+void					clean_memory(t_token_list **token);
 /**************************************************************************/
 /****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
 char					*epur_string(char *commande);
@@ -286,6 +297,24 @@ int						run_pwd(char **cmd_table);
 int						run_env(char **cmd_tabl, t_my_env **env);
 int						run_echo(char **cmd_table);
 int						run_exit(char **cmd_table, t_my_env **env);
+int						run_unset(char **cmd_table, t_my_env **env);
+/************************************************************************/
+/********************************HERE_DOC_FUNCTION***********************/
+t_here_doc				*creatnodes(char *content, enum e_heredoc h_type);
+void					list_builder(t_here_doc **head, t_here_doc *new_node);
+char					*get_string(char *readed_data, enum e_heredoc type, \
+						t_here_doc **head);
+char					*get_var(char *readed_data, enum e_heredoc type, \
+						t_here_doc **head);
+int						digit_case(char c);
+char					*extract_elems(char *readed_data, t_here_doc **head);
+char					*data_expander(char *readed_data, t_my_env **env);
+int						here_doc_(char *eof, enum e_token_state state, \
+						t_my_env **env);
+void					elem_expansion(t_here_doc **head, t_my_env **env);
+void					free_herelist(t_here_doc **head);
+char					*concatenate_data(t_here_doc **head);
+
 /************************************************************************/
 /*************************STATUS_setter**********************************/
 void	status_setter(int status);

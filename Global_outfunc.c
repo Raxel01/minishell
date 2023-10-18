@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:55:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/11 14:05:31 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:29:36 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ void	white_space(char *str, size_t i, size_t len, int *state)
 	}
 }
 
-void	clean_memory(t_token_list **token, char *command)
+void	clean_memory(t_token_list **token)
 {
 	free_token_list(token);
-	free(command);
 }
 
 void	status_setter(int status)

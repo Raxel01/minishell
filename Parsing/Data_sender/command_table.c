@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:55:48 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 23:25:32 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/16 18:23:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ char **cmd_table_remplisseur(t_cmd **head)
     {
         if (cursur->category == CMD || cursur->category == OPTION)
         {
-            cmd_table[i] = cursur->content;
+            cmd_table[i] = ft_strndup(cursur->content, ft_strlen(cursur->content));
             i++;
         }
         cursur = cursur->next;
     }
     cmd_table[i] = NULL;
     return (cmd_table);
+    // ft_strndup(cursur->content, ft_strlen(cursur->content));
 }
 
 t_cmd_table *build_commandtable_node(t_cmd **head)

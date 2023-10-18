@@ -1,0 +1,3 @@
+*/ error in infile cmd : 'standard input' : Input/output error
+*/ execve finish the process.
+

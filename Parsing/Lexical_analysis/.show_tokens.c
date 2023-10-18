@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 13:21:53 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 20:19:34 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:45:57 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void    printcmd_list(t_cmd **cmd)
 
 void	print_cmd_table(t_cmd_table **cmd_tab)
 {
-	return;
 	t_cmd_table *curs;
 	int i;
 	int j = 1;

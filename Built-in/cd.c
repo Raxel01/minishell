@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 11:45:45 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/16 11:43:02 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int builtin_recognizer(char **cmd_table, t_my_env **env)
         return (status_setter(run_cd(cmd_table, env)), 1);
     // else if (cmd_table[0] && ft_strcmp(cmd_table[0], "export") == 0)
     //     return (status_setter(run_export(cmd_table, env)), 1);
-    // else if (cmd_table[0] && ft_strcmp(cmd_table[0], "unset") == 0)
-    //     return (status_setter(run_unset(cmd_table, env)), 1);
+    else if (cmd_table[0] && ft_strcmp(cmd_table[0], "unset") == 0)
+        return (status_setter(run_unset(cmd_table, env)), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "env") == 0)
         return (status_setter(run_env(cmd_table, env)), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "exit") == 0)

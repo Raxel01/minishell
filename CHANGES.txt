@@ -76,6 +76,7 @@ cd : use function in test understand it;
     *exit;
     *unset;
     hard test to accept it;
+/**/
 /***************************************************************
 /***************************************************************
                     |TO_CHECK MNBE3D|
@@ -85,3 +86,27 @@ but chi blan tma;
 ft_strndup don't alloc when to_dup = '\0';
 GO TO SLEEP  00:00
 /***************************************************************/
+===================================================================================================================================================
+                                                  == CHANGES LI DERT==
+                                               == ============ ========= =======
+/****> heyedt dup mn init_fd
+FILE_NAME  : fd_generator;
+cause : send bad fd;
+/****> changes in epur string logic; 
+in case of entring an empty line (ENTREE)
+cause : kayn chi read and write in bad size (not enough)
+/****> leak:
+    -remove anything after finish with,
+    -but f token w head the are relieed cause head_cmd dont alloc for state, type 
+    -cause of that I get heap use after free
+    -free cmd in epur string initial commande and replace it with the epured string;
+    -then free final command in lexiacal anlysis after creating token;
+    -free token and cmd_flager after creat cmd_table;
+/*****> add unset
+/*****>
+Here doc implementation with expand var;
+free the line getted from here_doc function because I have creat a linked list;
+then creat an alloced new_line char free it after in the same while;
+hada makan then free_here list cause I getted the line that I need.
+
+
