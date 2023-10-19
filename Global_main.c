@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/19 22:44:24 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/19 23:00:39 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ void	free_cmd_table(t_cmd_table ** cmd)
 	}
 	*cmd = NULL;
 }
-
+/*CTRL\C RECHECK CODE*/
 void	seg_handler_c(int status)
 {
 	(void)status;
+	status_setter(130, 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -76,12 +77,12 @@ void	seg_handler_c(int status)
 
 int	minishell(char **env)
 {
-	signal(SIGINT, seg_handler_c);
 	char			*readedline;
 	t_token_list	*token;
 	t_my_env		*my_env;
 	t_cmd_table		*cmd_tabl;
 
+	signal(SIGINT, seg_handler_c);
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)
