@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/18 20:21:37 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:44:24 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 /*********Exist_status_var****************/
 int		g_exit_status = 0;
 /*****************************************/
-
-void	seg_handler_c(int sigstatus)
-{
-	(void)(sigstatus);
-	status_setter(130);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
 
 void	history_acces(char *commande)
 {
@@ -42,7 +32,7 @@ void	get_input_line(char **commande, t_my_env **my_env)
 	*commande = readline("└─$ MINISHELL[~] -> ");
 	if (*commande == NULL)
 	{
-		status_setter(EXIT_SUCCESS);
+		status_setter(EXIT_SUCCESS, 1);
 		rl_clear_history();
 		free_env(my_env);
 		write(1, "exit\n", 6);
@@ -75,14 +65,23 @@ void	free_cmd_table(t_cmd_table ** cmd)
 	*cmd = NULL;
 }
 
+void	seg_handler_c(int status)
+{
+	(void)status;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 int	minishell(char **env)
 {
+	signal(SIGINT, seg_handler_c);
 	char			*readedline;
 	t_token_list	*token;
 	t_my_env		*my_env;
 	t_cmd_table		*cmd_tabl;
 
-	signal(SIGINT, seg_handler_c);
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)
@@ -92,11 +91,13 @@ int	minishell(char **env)
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
+			run_cd(cmd_tabl->cmd_table, &my_env);
+			// run_echo(cmd_tabl->cmd_table);
 			free_cmd_table(&cmd_tabl);
 		}
 		else
 		{
-			status_setter(SYNTAXE_ERR_STATUS);
+			status_setter(SYNTAXE_ERR_STATUS, 1);
 			clean_memory(&token);
 		}
 	}

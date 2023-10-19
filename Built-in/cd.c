@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/18 14:47:18 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:54:28 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 int builtin_recognizer(t_cmd_table **head, char **cmd_table, t_my_env **env)
 {
     if (cmd_table[0] && ft_strcmp(cmd_table[0], "pwd") == 0)
-        return (status_setter(run_pwd(cmd_table)), 1);
+        return (status_setter(run_pwd(cmd_table), 1), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "echo") == 0)
-        return (status_setter(run_echo(cmd_table)), 1);
+        return (status_setter(run_echo(cmd_table), 1), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "cd") == 0)
-        return (status_setter(run_cd(cmd_table, env)), 1);
+        return (status_setter(run_cd(cmd_table, env), 1), 1);
     // else if (cmd_table[0] && ft_strcmp(cmd_table[0], "export") == 0)
-    //     return (status_setter(run_export(cmd_table, env)), 1);
+    //     return (status_setter(run_export(cmd_table, env), 1), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "unset") == 0)
-        return (status_setter(run_unset(cmd_table, env)), 1);
+        return (status_setter(run_unset(cmd_table, env), 1), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "env") == 0)
-        return (status_setter(run_env(cmd_table, env)), 1);
+        return (status_setter(run_env(cmd_table, env), 1), 1);
     else if (cmd_table[0] && ft_strcmp(cmd_table[0], "exit") == 0)
-        return (status_setter(run_exit(head,cmd_table, env)), 1);
+        return (status_setter(run_exit(head,cmd_table, env), 1), 1);
     return (0);
 }
 
@@ -48,6 +48,7 @@ void    env_updater(t_my_env **env, char *to_update, char *update_by)
         curs = curs->next;
     }
 }
+
 /*USE PATH MAX IN sted OF 1024*/
 char    *get_cwd()
 {
@@ -55,7 +56,7 @@ char    *get_cwd()
 
     my_dir = getcwd(NULL, 1024);
     if (!my_dir)
-        status_setter(1);
+        status_setter(1, 1);
     return (my_dir);
 }
 
@@ -76,7 +77,7 @@ int    goto_new_dir(char *goto_path, t_my_env **env)
         /*UPDATE oldpwd*/
         /*SET_NEW : PWD*/
         // ge = get_cwd();
-        goto_path = get_cwd();
+        // goto_path = get_cwd();
         env_updater(env, "OLDPWD", existin_dir);
         env_updater(env, "PWD", goto_path);
         // status_setter(0);

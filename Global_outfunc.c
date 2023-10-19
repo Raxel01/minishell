@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:55:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/16 15:29:36 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:20:42 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	clean_memory(t_token_list **token)
 	free_token_list(token);
 }
 
-void	status_setter(int status)
+int    status_setter(int code, int mode)
 {
-	g_exit_status = status;
+    static int exit_status;
+    if (mode)
+        exit_status = code;
+    return (exit_status)  ;  
 }

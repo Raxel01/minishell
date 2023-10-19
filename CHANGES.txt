@@ -119,3 +119,7 @@ the get_input_line change it prototype ;
 it be without return and take double pointer;
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^LAST push changes^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 =======================================================================================================
+16 : 27  begin status changes;
+problem in signals;
+implement setter getter function using static var;
+about exit_status:

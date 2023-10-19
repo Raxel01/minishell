@@ -6,7 +6,7 @@
 #    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/18 20:14:51 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/10/19 22:29:32 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ Global_main.c ./Parsing/Lexical_analysis/cleaner_end.c ./Parsing/Lexical_analysi
 ./Built-in/unset.c ./Built-in/echo.c Global_outfunc.c 
 # exit_status.c status_test.c
 
-Header = ./Header/Parsing.h
+Header = ./Header/Parsing.h .file.h
 
 CFLAGS = -Wall -Wextra -Werror
 
