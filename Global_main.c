@@ -6,15 +6,11 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/19 23:00:39 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:13:03 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Header/Parsing.h"
-
-/*********Exist_status_var****************/
-int		g_exit_status = 0;
-/*****************************************/
 
 void	history_acces(char *commande)
 {
@@ -42,28 +38,6 @@ void	get_input_line(char **commande, t_my_env **my_env)
 	history_acces(*commande);
 }
 
-void	free_cmd_table(t_cmd_table ** cmd)
-{
-	t_cmd_table	*tmp;
-	int i;
-
-	if (!cmd)
-		return;
-	while (*cmd)
-	{	
-		tmp = *cmd;
-		*cmd = (*cmd)->next;
-		i = 0;
-		while (tmp->cmd_table[i])
-		{
-			free(tmp->cmd_table[i]);
-			i++;
-		}
-		free(tmp->cmd_table);
-		free(tmp);
-	}
-	*cmd = NULL;
-}
 /*CTRL\C RECHECK CODE*/
 void	seg_handler_c(int status)
 {
@@ -92,8 +66,7 @@ int	minishell(char **env)
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
-			run_cd(cmd_tabl->cmd_table, &my_env);
-			// run_echo(cmd_tabl->cmd_table);
+			print_cmd_table(&cmd_tabl);
 			free_cmd_table(&cmd_tabl);
 		}
 		else
@@ -110,7 +83,7 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	status_setter(0, 1);
 	minishell(env);
 	return (SUCCES_PROC);
 }
-

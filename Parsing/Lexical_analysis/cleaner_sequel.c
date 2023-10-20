@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:55:47 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/16 12:19:48 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:45:39 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	affect_index(t_token_list **token)
 void	init_holder(t_pos_get **holder, t_token_list **tokens)
 {
 	if (*holder == NULL)
-		return;
+		return ;
 	(*holder)->start = 0;
 	(*holder)->end = 0;
 	(*holder)->flag = 0;

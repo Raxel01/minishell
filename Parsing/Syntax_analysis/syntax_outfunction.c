@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 21:28:17 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/16 12:10:52 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:54:15 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 void	error_announcer(char *error, int syntax)
 {
-	char *syntaxe;
+	char	*syntaxe;
+
 	if (syntax == 666)
 	{
 		write(STDERR_FILENO, "unset : ", 9);
 		write(STDERR_FILENO, "bad variable name : \n", 22);
 		write(2, "\"https://www.linkedin.com/pulse/", 33);
 		write(2, "bash-scripting-conventions-engin-polat\"\n", 41);
-		return;
-	}	
+		return ;
+	}
 	syntaxe = "syntax error : ";
 	if (syntax)
-    	write (STDERR_FILENO, syntaxe, ft_strlen(syntaxe));
+		write (STDERR_FILENO, syntaxe, ft_strlen(syntaxe));
 	write(STDERR_FILENO, error, ft_strlen(error));
 	write(1, "\n", 2);
 }

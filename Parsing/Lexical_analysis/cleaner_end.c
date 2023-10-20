@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:09:59 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/03 16:02:25 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:44:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	free_region(t_token_list **start, t_token_list **end)
 		{
 			free(current->token);
 			free(current);
-			break;
+			break ;
 		}
 	}
 }

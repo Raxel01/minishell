@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/17 12:19:22 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:51:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	error_type(t_token_list *cursur)
 		error_announcer("error redirection `< > << >>'", 1);
 }
 
-/*Here for case ls > $NOT_FOUND_VAR considered as ambigious but id the enter in "" error in it  */
+/*Here for case ls > $NOT_FOUND_VAR considered*/
+/*as ambigious but id the enter in "" error in it */
 int	redir_analyser(t_token_list *cursur)
 {
 	t_token_list	*tokens;

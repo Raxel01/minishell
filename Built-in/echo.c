@@ -6,27 +6,28 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:40:19 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/13 11:29:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:11:05 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Header/Parsing.h"
 
-int option_n(char *elem)
+int	option_n(char *elem)
 {
-    int i = 0;
-    
-    if (elem && elem[i] && elem[i] == '-' && elem[i + 1])
-    {
-        while (elem[++i])
-            if (elem[i] != 'n')
-                return (0);
-        return (1);
-    }
-    return (0);
+	int	i;
+
+	i = 0;
+	if (elem && elem[i] && elem[i] == '-' && elem[i + 1])
+	{
+		while (elem[++i])
+			if (elem[i] != 'n')
+				return (0);
+		return (1);
+	}
+	return (0);
 }
 
-int run_echo(char **cmd_table)
+int	run_echo(char **cmd_table)
 {
 	int	i;
 	int	_n;

@@ -123,3 +123,9 @@ it be without return and take double pointer;
 problem in signals;
 implement setter getter function using static var;
 about exit_status:
+
+issue with exemple : < in1 < i2 < i3 ls -la -b -a : all OPTION\
+but give it to cmd_tbl remplisseur it be good ikhan.
+norminette phase :
+more that 25 line in a func List_Management.c
+

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 21:49:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/14 21:18:31 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:43:32 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!s1 || !s2)
 		return (404);
@@ -56,13 +56,13 @@ void	env_var_expansion(t_token_list **tokens, t_my_env **env)
 		if (cursur->type == ENV_VAR || cursur->type == SPECIAL_VAR)
 		{
 			if (cursur->prev)
-            {
+			{
 				prev = behind_getter(cursur);
 				if (prev->type == HERE_DOC)
 				{
 					cursur->type = WORD;
-                	cursur = cursur->next; // Skip the current token and move to the next
-                	continue;
+					cursur = cursur->next;
+					continue ;
 				}
 			}
 			cursur->token = replaceby_content(cursur->token, env);

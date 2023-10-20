@@ -6,35 +6,33 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/19 21:51:23 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:08:54 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef H_MINISH_H
 # define H_MINISH_H
 
+# include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <fcntl.h>
 # include <unistd.h>
 
 # define ERROR_EXIT 2
 # define SUCCES_PROC 0
 
-#define	SYNTAXE_ERR_STATUS 2
+# define SYNTAXE_ERR_STATUS 2
 # define IN_DEF 0
 # define OUT_DEF 1
 # define ERR_DEF 2
-/**************EXIT_STATUS_VAR************/
-/****/	extern int g_exit_status;	/****/
-/***************************************/
+
 typedef struct commande
 {
 	char				*commande;
@@ -100,7 +98,7 @@ typedef struct v_envp
 	struct v_envp		*prev;
 }						t_my_env;
 
-enum	e_type
+enum					e_type
 {
 	NONE,
 	CMD,
@@ -108,7 +106,7 @@ enum	e_type
 	FD_FILE,
 };
 
-enum	e_file_type
+enum					e_file_type
 {
 	NONEF,
 	OUTFILE,
@@ -126,39 +124,39 @@ typedef struct cmd
 	enum e_token_state	state;
 	struct cmd			*next;
 	struct cmd			*prev;
-}	t_cmd;
+}						t_cmd;
 
 typedef struct l_cmd
 {
-	char **cmd_table;
-	int in_fd;
-	int out_fd;
-	struct l_cmd *next;
-	struct l_cmd *prev;
-}	t_cmd_table;
+	char				**cmd_table;
+	int					in_fd;
+	int					out_fd;
+	struct l_cmd		*next;
+	struct l_cmd		*prev;
+}						t_cmd_table;
 
 typedef struct in_out
 {
-	int in_fd;
-	int out_fd;
-}	t_in_out;
+	int					in_fd;
+	int					out_fd;
+}						t_in_out;
 
-enum 	e_heredoc
+enum					e_heredoc
 {
 	STRING,
 	VAR,
 };
 typedef struct here_d
 {
-	char	*data;
-	enum e_heredoc type;
-	struct here_d *next;
-	
-}	t_here_doc;
+	char				*data;
+	enum e_heredoc		type;
+	struct here_d		*next;
+
+}						t_here_doc;
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
-void					white_space(char *str, size_t i, \
-						size_t len, int *state);
+void					white_space(char *str, size_t i, size_t len,
+							int *state);
 void					clean_memory(t_token_list **token);
 /**************************************************************************/
 /****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
@@ -204,9 +202,10 @@ char					*get_in_redir_token(char *commande,
 char					*dollar_geter(char *commande, t_token_list **token,
 							enum e_token_type t_type,
 							enum e_token_state s_token);
-enum					e_token_type type_is(char c);
+enum e_token_type		type_is(char c);
 char					*home_geter(char *commande, t_token_list **token,
-						enum e_token_type t_type, enum e_token_state s_token);
+							enum e_token_type t_type,
+							enum e_token_state s_token);
 int						var_extracter(char *commande, int j);
 size_t					ft_strlen(const char *s);
 char					*ft_strndup(char *to_dup, int len);
@@ -246,11 +245,10 @@ t_token_list			*behind_getter(t_token_list *cursus);
 t_token_list			*forward_getter(t_token_list *cursus);
 /***********************************************************************/
 /*********************************Environnement : envp : [10]******************/
-void					env_var_expansion(t_token_list **tokens, \
+void					env_var_expansion(t_token_list **tokens,
 							t_my_env **env);
-char					*replaceby_content(char *search_for, \
-						t_my_env **env);
-char					*ft_substr(char const *s, unsigned int start, \
+char					*replaceby_content(char *search_for, t_my_env **env);
+char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 int						ft_strchr(char *s, char c);
 t_my_env				*build_member(char *env_member);
@@ -266,13 +264,13 @@ void					print_env(t_my_env **env);
 t_cmd_table				*parsing(t_token_list **tokens);
 void					printcmd_list(t_cmd **cmd);
 void					addto_list(t_cmd **cmd, t_cmd *next_data);
-t_cmd					*build_node(char *data, enum e_token_type intype, \
-						enum e_token_state in_state);
-void					redir_cleaner(t_cmd** head);
+t_cmd					*build_node(char *data, enum e_token_type intype,
+							enum e_token_state in_state);
+void					redir_cleaner(t_cmd **head);
 void					commande_recognizer(t_cmd **cmd);
-void    				redirect_recognizer(t_cmd **cmd);
+void					redirect_recognizer(t_cmd **cmd);
 void					options_recognizer(t_cmd **cmd);
-void					grammar_adapter(t_cmd ** cmd);
+void					grammar_adapter(t_cmd **cmd);
 void					free_cmd(t_cmd **cmd);
 /***********************************************************************/
 /*************************Build_Last_list*******************************/
@@ -282,43 +280,48 @@ int						outfile_getter(t_cmd **head);
 int						append_size(t_cmd **head);
 int						heredoc_size(t_cmd **head);
 t_cmd_table				*build_commandtable_node(t_cmd **head);
-void                    addto_listt(t_cmd_table **cmd, \
-                        t_cmd_table *next_data);
+void					addto_listt(t_cmd_table **cmd, t_cmd_table *next_data);
 void					print_cmd_table(t_cmd_table **cmd_tab);
 t_in_out				process_fd(t_cmd **head);
-void					cmd_table_builder(t_cmd_table **cmd_table, \
-						t_cmd **head);
+void					cmd_table_builder(t_cmd_table **cmd_table,
+							t_cmd **head);
 t_cmd					*head_cursur(t_cmd *head);
-void					free_cmd_table(t_cmd_table ** cmd);
+void					free_cmd_table(t_cmd_table **cmd);
 /***********************************************************************/
 /*******************************BUILT_IN*********************************/
-int						builtin_recognizer(t_cmd_table **head, char **cmd_table, \
-						t_my_env **env);
+int						builtin_recognizer(t_cmd_table **head, char **cmd_table,
+							t_my_env **env);
 int						run_cd(char **cmd_table, t_my_env **env);
 int						run_pwd(char **cmd_table);
 int						run_env(char **cmd_tabl, t_my_env **env);
 int						run_echo(char **cmd_table);
-int						run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env);
+int						run_exit(t_cmd_table **head, char **cmd_table,
+							t_my_env **env);
 int						run_unset(char **cmd_table, t_my_env **env);
 /************************************************************************/
 /********************************HERE_DOC_FUNCTION***********************/
 t_here_doc				*creatnodes(char *content, enum e_heredoc h_type);
 void					list_builder(t_here_doc **head, t_here_doc *new_node);
-char					*get_string(char *readed_data, enum e_heredoc type, \
-						t_here_doc **head);
-char					*get_var(char *readed_data, enum e_heredoc type, \
-						t_here_doc **head);
+char					*get_string(char *readed_data, enum e_heredoc type,
+							t_here_doc **head);
+char					*get_var(char *readed_data, enum e_heredoc type,
+							t_here_doc **head);
 int						digit_case(char c);
 char					*extract_elems(char *readed_data, t_here_doc **head);
 char					*data_expander(char *readed_data, t_my_env **env);
-int						here_doc_(char *eof, enum e_token_state state, \
-						t_my_env **env);
+int						here_doc_(char *eof, enum e_token_state state,
+							t_my_env **env);
 void					elem_expansion(t_here_doc **head, t_my_env **env);
 void					free_herelist(t_here_doc **head);
 char					*concatenate_data(t_here_doc **head);
-
 /************************************************************************/
 /*************************STATUS_setter**********************************/
 int						status_setter(int code, int mode);
+char					*ft_itoa(int n);
+int						nb_isdigit(int n);
+int						get_is_negative(int n);
+char					*strrev(char *str);
+long					ft_abs(long n);
+void					*ft_calloc(size_t count, size_t size);
 /************************************************************************/
 #endif
