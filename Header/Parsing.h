@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 18:08:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/22 13:04:08 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@
 
 # define ERROR_EXIT 2
 # define SUCCES_PROC 0
+# define NOT_VALID 1
 
 # define SYNTAXE_ERR_STATUS 2
-# define IN_DEF 0
-# define OUT_DEF 1
-# define ERR_DEF 2
+# define M_APPEND 13
+# define M_ECRASE 37
+# define M_CREAT 42
 
 typedef struct commande
 {
@@ -298,6 +299,9 @@ int						run_echo(char **cmd_table);
 int						run_exit(t_cmd_table **head, char **cmd_table,
 							t_my_env **env);
 int						run_unset(char **cmd_table, t_my_env **env);
+int						bashvar_norm(char *var);
+int						is_alpha(char c);
+int						run_export(char **cmd_table, t_my_env **env);
 /************************************************************************/
 /********************************HERE_DOC_FUNCTION***********************/
 t_here_doc				*creatnodes(char *content, enum e_heredoc h_type);

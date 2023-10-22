@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:04:00 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/27 22:28:12 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/21 17:38:31 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_my_env	*build_member(char *env_member)
 	if (equal_pos != 404)
 	{
 		member->var = ft_substr(env_member, 0, equal_pos);
-		member->var_content = ft_substr(env_member, equal_pos + 1,
+		member->var_content = ft_substr(env_member, equal_pos + 1, \
 				ft_strlen(env_member) - equal_pos);
 	}
 	else

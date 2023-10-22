@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:51:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:37:00 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ int	pipe_analyser(t_token_list *cursus)
 	behind = behind_getter(cursus);
 	forward = forward_getter(cursus);
 	if (!behind || !forward \
-		|| (behind->type != WORD && !is_outred(behind, forward)) \
-		|| (forward->type != WORD && !redir_case(forward->type)))
+		|| (behind->type != WORD && behind->type != EXIT_STATUS \
+			&& !is_outred(behind, forward)) \
+		|| (forward->type != WORD && forward->type != EXIT_STATUS \
+			&& !redir_case(forward->type)))
 		return (ERROR_EXIT);
 	return (SUCCES_PROC);
 }
