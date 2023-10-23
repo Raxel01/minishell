@@ -6,20 +6,11 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:41 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/09/22 22:17:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/23 20:50:28 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
-
-// t_token_list *init_head(t_token_list **node)
-// {
-//     *node = malloc(sizeof(t_token_list));
-//     (*node)->prev= NULL;
-//     (*node)->token = "Brahim";
-//     (*node)->next= NULL;
-//     return (*node);
-// }
 
 t_token_list	*build_new_token_node(char *token_data, enum e_token_type type,
 		enum e_token_state state)

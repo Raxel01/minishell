@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:51 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/12 11:55:22 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/23 22:37:14 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strndup(char *to_dup, int len)
 	int		i;
 	char	*duped;
 
+	if (!to_dup)
+		return (NULL);
 	i = 0;
 	duped = malloc(sizeof(char) * (len + 1));
 	if (!duped)

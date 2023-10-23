@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:38 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 17:07:55 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:02:50 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	bashvar_norm(char *var)
 {
 	int	i;
 
+	if (!var)
+		return (0);
 	i = 0;
 	if (var[i] && (is_alpha(var[i]) || var[i] == '_'))
 	{

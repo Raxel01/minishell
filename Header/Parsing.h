@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/22 13:04:08 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/23 23:11:58 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # define SYNTAXE_ERR_STATUS 2
 # define M_APPEND 13
 # define M_ECRASE 37
-# define M_CREAT 42
 
 typedef struct commande
 {
@@ -154,6 +153,13 @@ typedef struct here_d
 	struct here_d		*next;
 
 }						t_here_doc;
+
+typedef struct export
+{
+	char				*elem_name;
+	char				*elem_value;
+	int					mode;
+}						t_export;
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
 void					white_space(char *str, size_t i, size_t len,
@@ -302,6 +308,18 @@ int						run_unset(char **cmd_table, t_my_env **env);
 int						bashvar_norm(char *var);
 int						is_alpha(char c);
 int						run_export(char **cmd_table, t_my_env **env);
+/************************************************************************/
+/******************************EXPORT : UTILS****************************/
+t_my_env				*duplicate_env(t_my_env **original);
+t_my_env				*creatdup(char *var, char *var_content);
+void					sorting(t_my_env *env);
+char					*ft_strdup(char *s);
+void					regulateur(t_my_env *curs, t_my_env *next);
+void					addenvmember(t_export e, t_my_env **env);
+short					search(char *elem, t_my_env **env);
+void					appendmode(t_export e, t_my_env **env);
+void					ecrasmode(t_export e, t_my_env **env);
+void					modifyenv(t_export e, t_my_env **env);
 /************************************************************************/
 /********************************HERE_DOC_FUNCTION***********************/
 t_here_doc				*creatnodes(char *content, enum e_heredoc h_type);
