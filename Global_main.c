@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/22 17:31:57 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:24:45 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,9 @@ int	minishell(char **env)
 	{
 		get_input_line(&readedline, &my_env);
 		token = lexical_analysis(readedline, &my_env);
-		print_tokens(&token);
 		if (syntax_error(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
-			run_export(cmd_tabl->cmd_table, &my_env);
-			// run_env(cmd_tabl->cmd_table, &my_env);
-			// print_cmd_table(&cmd_tabl);
-			// run_echo(cmd_tabl->cmd_table);
 			free_cmd_table(&cmd_tabl);
 		}
 		else

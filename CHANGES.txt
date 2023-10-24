@@ -129,4 +129,9 @@ but give it to cmd_tbl remplisseur it be good ikhan.
 norminette phase :
 more that 25 line in a func List_Management.c
 export implementation now : 23 : 16 22/10/2023
+/*PLANNING TODAY*******24/10/2023**********************/
+RE-test the cd command;
+norm the code;
+push the last version;
+/****/******************/******************************/r
 

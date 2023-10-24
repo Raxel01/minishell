@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/22 19:06:37 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 11:58:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ char	*get_cwd(void)
 
 	my_dir = getcwd(NULL, 1024);
 	if (!my_dir)
+	{
+		error_announcer(strerror(errno), 0);
 		status_setter(1, 1);
+	}
 	return (my_dir);
 }
 
-// should free existing dir;
-/*goto_path = get_cwd();*/
+/*existing_dir is alloced free it*/
 int	goto_new_dir(char *goto_path, t_my_env **env)
 {
 	char	*existin_dir;
@@ -55,6 +57,8 @@ int	goto_new_dir(char *goto_path, t_my_env **env)
 	}
 	else
 	{
+		free(goto_path);
+		goto_path = get_cwd();
 		env_updater(env, "OLDPWD", existin_dir);
 		env_updater(env, "PWD", goto_path);
 		free(existin_dir);
@@ -71,14 +75,14 @@ char	*getcontent(char *toget, t_my_env **env)
 	while (curs)
 	{
 		if (ft_strcmp(toget, curs->var) == 0)
-			return (ft_strndup(curs->var_content,
+			return (ft_strndup(curs->var_content, \
 					ft_strlen(curs->var_content)));
 		curs = curs->next;
 	}
 	return (NULL);
 }
 
-/*no_option alloced free it */
+/*go_todir alloced free it */
 int	run_cd(char **cmd_table, t_my_env **env)
 {
 	char	*goto_dir;

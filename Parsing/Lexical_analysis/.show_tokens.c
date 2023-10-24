@@ -6,12 +6,13 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 13:21:53 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/16 17:45:57 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:25:52 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
 
+/*
 const char *token_content[] = {"WORD", "A_SPACE", 
 	"PIPE", "OUT_REDIR",
 			"IN_REDIR", "ENV_VAR", 
@@ -103,3 +104,4 @@ void	print_cmd_table(t_cmd_table **cmd_tab)
 		j++;
 	}
 }
+*/

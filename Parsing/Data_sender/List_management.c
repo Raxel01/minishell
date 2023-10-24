@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:36:52 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:30:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_cmd(t_cmd **cmd)
 }
 
 /*delete '|' in this case cmd >| outf*/
+/*grammar_adapter(cmd);*/
 void	syntax_reformer(t_cmd **cmd)
 {
 	t_cmd	*cursur;
@@ -44,43 +45,6 @@ void	syntax_reformer(t_cmd **cmd)
 		cursur = cursur->next;
 	}
 	redirect_recognizer(cmd);
-	grammar_adapter(cmd);
-}
-
-/*Begin in while and make function 25*/
-void	grammar_adapter(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-	t_cmd	*cursur;
-	t_cmd	*garder;
-
-	tmp = NULL;
-	cursur = *cmd;
-	while (cursur)
-	{
-		if (cursur->category == FD_FILE && cursur->next
-			&& cursur->next->type == WORD)
-		{
-			cursur->next->prev = cursur->prev;
-			cursur->prev->next = cursur->next;
-			tmp = cursur;
-			while (cursur->next && cursur->next->type == WORD)
-				cursur = cursur->next;
-			if (cursur->next)
-				garder = cursur->next;
-			else
-				garder = NULL;
-			cursur->next = tmp;
-			tmp->prev = cursur;
-			tmp->next = NULL;
-			if (garder)
-			{
-				tmp->next = garder;
-				garder->prev = tmp;
-			}
-		}
-		cursur = cursur->next;
-	}
 }
 
 t_cmd	*head_cursur(t_cmd *head)

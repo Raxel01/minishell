@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 22:56:45 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/23 22:58:32 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:02:27 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ short	search(char *elem, t_my_env **env)
 	t_my_env	*current;
 
 	current = (*env)->next;
-	while(current)
+	while (current)
 	{
 		if (!ft_strcmp(elem, current->var))
 			return (1);
@@ -28,10 +28,10 @@ short	search(char *elem, t_my_env **env)
 
 void	appendmode(t_export e, t_my_env **env)
 {
-	t_my_env *curs;
-	
+	t_my_env	*curs;
+
 	curs = (*env)->next;
-	while(curs)
+	while (curs)
 	{
 		if (!ft_strcmp(e.elem_name, curs->var))
 			curs->var_content = ft_strjoin(curs->var_content, e.elem_value);
@@ -41,10 +41,10 @@ void	appendmode(t_export e, t_my_env **env)
 
 void	ecrasmode(t_export e, t_my_env **env)
 {
-	t_my_env *curs;
-	
+	t_my_env	*curs;
+
 	curs = (*env)->next;
-	while(curs)
+	while (curs)
 	{
 		if (!ft_strcmp(e.elem_name, curs->var))
 		{
@@ -55,7 +55,7 @@ void	ecrasmode(t_export e, t_my_env **env)
 	}
 }
 
-void	modifyenv(t_export e , t_my_env **env)
+void	modifyenv(t_export e, t_my_env **env)
 {
 	if (e.elem_value)
 	{

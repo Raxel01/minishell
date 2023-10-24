@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/23 23:04:11 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:07:35 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	view_exportedvar(t_my_env **env)
 {
-	t_my_env *begin;
-	t_my_env *dup_env;
-	
+	t_my_env	*begin;
+	t_my_env	*dup_env;
+
 	dup_env = duplicate_env(env);
-	begin = dup_env; 
+	begin = dup_env;
 	sorting(dup_env);
 	while (dup_env)
 	{
@@ -51,7 +51,7 @@ char	*standard_strchr(const char *s, int c)
 	return (NULL);
 }
 
-int		new_strchr(char *s, char c, int *mode)
+int	new_strchr(char *s, char c, int *mode)
 {
 	int	i;
 
@@ -63,7 +63,7 @@ int		new_strchr(char *s, char c, int *mode)
 			if (i != 0 && s[i -1] == '+')
 			{
 				*mode = M_APPEND;
-				return(i - 1);
+				return (i - 1);
 			}
 			*mode = M_ECRASE;
 			return (i);
@@ -89,7 +89,7 @@ int	run_export(char **cmd_table, t_my_env **env)
 {
 	int			i;
 	t_export	e;
-	
+
 	if (!cmd_table[1])
 		return (view_exportedvar(env), 0);
 	i = 0;
