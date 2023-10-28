@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 13:24:45 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 02:48:54 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	get_input_line(char **commande, t_my_env **my_env)
 void	seg_handler_c(int status)
 {
 	(void)status;
-	status_setter(130, 1);
+	status_setter(1, 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -63,7 +63,7 @@ int	minishell(char **env)
 	{
 		get_input_line(&readedline, &my_env);
 		token = lexical_analysis(readedline, &my_env);
-		if (syntax_error(token) == SUCCES_PROC)
+		if (syntax_analysis(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token);
 			free_cmd_table(&cmd_tabl);

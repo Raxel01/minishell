@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 12:45:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:25:13 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ typedef struct export
 	char				*elem_name;
 	char				*elem_value;
 	int					mode;
-}						t_export;
+}
+t_export;
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
 void					white_space(char *str, size_t i, size_t len,
@@ -241,7 +242,7 @@ int						new_token_len(char *new_token,
 							enum e_token_state state);
 /***********************************************************************/
 /*******************************SYNTAXE CHECK:[8]***************************/
-int						syntax_error(t_token_list *head);
+int						syntax_analysis(t_token_list *head);
 void					error_type(t_token_list *cursur);
 int						redir_case(enum e_token_type type);
 int						redir_analyser(t_token_list *cursur);

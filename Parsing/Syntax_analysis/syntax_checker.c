@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:53:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 21:37:00 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:25:16 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	redir_analyser(t_token_list *cursur)
 	tokens = cursur->next;
 	while (tokens && tokens->type == A_SPACE)
 		tokens = tokens->next;
-	if (!tokens || (tokens->type != WORD && tokens->type != EXIT_STATUS) \
+	if (!tokens || (tokens->type != WORD && tokens->type != EXIT_STATUS)
 		|| (!ft_strcmp(tokens->token, "") && tokens->state == NORMAL))
 		return (ERROR_EXIT);
 	return (SUCCES_PROC);
@@ -62,16 +62,15 @@ int	pipe_analyser(t_token_list *cursus)
 
 	behind = behind_getter(cursus);
 	forward = forward_getter(cursus);
-	if (!behind || !forward \
-		|| (behind->type != WORD && behind->type != EXIT_STATUS \
-			&& !is_outred(behind, forward)) \
-		|| (forward->type != WORD && forward->type != EXIT_STATUS \
+	if (!behind || !forward || (behind->type != WORD
+			&& behind->type != EXIT_STATUS && !is_outred(behind, forward))
+		|| (forward->type != WORD && forward->type != EXIT_STATUS
 			&& !redir_case(forward->type)))
 		return (ERROR_EXIT);
 	return (SUCCES_PROC);
 }
 
-int	syntax_error(t_token_list *head)
+int	syntax_analysis(t_token_list *head)
 {
 	t_token_list	*cursur;
 
@@ -82,12 +81,11 @@ int	syntax_error(t_token_list *head)
 			return (error_type(cursur), ERROR_EXIT);
 		if (redir_case(cursur->type))
 			if (redir_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer("redir-ambiguous redir", 1), \
+				return (error_announcer("redir-ambiguous redir", 1),
 					ERROR_EXIT);
 		if (cursur->type == PIPE)
 			if (pipe_analyser(cursur) == ERROR_EXIT)
-				return (error_announcer("illegal pipe `|'", 1), \
-						ERROR_EXIT);
+				return (error_announcer("illegal pipe `|'", 1), ERROR_EXIT);
 		cursur = cursur->next;
 	}
 	return (SUCCES_PROC);
