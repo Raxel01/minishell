@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 23:20:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:20:02 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:36:23 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ int	open_fd(t_cmd *curs)
 	return (fd);
 }
 
-t_in_out	process_fd(t_cmd **head)
+t_in_out	process_fd(t_cmd **head, t_my_env **env)
 {
 	t_cmd		*curs;
 	t_in_out	fd;
 
+	(void)env;
 	init_fd(&fd);
 	curs = (*head);
 	while (curs && curs->type != PIPE)

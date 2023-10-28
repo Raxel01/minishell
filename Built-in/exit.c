@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:28 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 17:19:47 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 21:41:02 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env)
 	int	status;
 
 	status = 0;
-	write(1, "exit\n", 6);
+	write(1, "exit\n", 5);
 	if (!cmd_table[1])
 		clean_area(head, env, 1);
 	else if (cmd_table[1] && cmd_table[2])

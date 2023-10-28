@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 12:30:49 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:33:52 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmd	*head_cursur(t_cmd *head)
 	return (head);
 }
 
-t_cmd_table	*parsing(t_token_list **tokens)
+t_cmd_table	*parsing(t_token_list **tokens, t_my_env **henv)
 {
 	t_token_list	*cursus;
 	t_cmd			*head;
@@ -77,7 +77,7 @@ t_cmd_table	*parsing(t_token_list **tokens)
 	syntax_reformer(&head);
 	commande_recognizer(&head);
 	options_recognizer(&head);
-	cmd_table_builder(&cmd_table, &head);
+	cmd_table_builder(&cmd_table, &head, henv);
 	free_token_list(tokens);
 	free_cmd(&head);
 	return (cmd_table);

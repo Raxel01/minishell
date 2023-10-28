@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/27 22:25:13 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:36:48 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
 /***********************************************************************/
 /******************************SEND_DATA*[14]*******************************/
-t_cmd_table				*parsing(t_token_list **tokens);
+t_cmd_table				*parsing(t_token_list **tokens, t_my_env **henv);
 void					printcmd_list(t_cmd **cmd);
 void					addto_list(t_cmd **cmd, t_cmd *next_data);
 t_cmd					*build_node(char *data, enum e_token_type intype,
@@ -287,12 +287,12 @@ int						infile_size(t_cmd **head);
 int						outfile_getter(t_cmd **head);
 int						append_size(t_cmd **head);
 int						heredoc_size(t_cmd **head);
-t_cmd_table				*build_commandtable_node(t_cmd **head);
+t_cmd_table				*build_commandtable_node(t_cmd **head, t_my_env **env);
 void					addto_listt(t_cmd_table **cmd, t_cmd_table *next_data);
 void					print_cmd_table(t_cmd_table **cmd_tab);
-t_in_out				process_fd(t_cmd **head);
-void					cmd_table_builder(t_cmd_table **cmd_table,
-							t_cmd **head);
+t_in_out				process_fd(t_cmd **head, t_my_env **env);
+void					cmd_table_builder(t_cmd_table **cmd_table, t_cmd **head, \
+						t_my_env **env);
 t_cmd					*head_cursur(t_cmd *head);
 void					free_cmd_table(t_cmd_table **cmd);
 /***********************************************************************/

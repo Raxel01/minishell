@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:40:19 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 17:11:05 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 17:06:59 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	run_echo(char **cmd_table)
 	{
 		write(1, cmd_table[i], ft_strlen(cmd_table[i]));
 		if (cmd_table[i + 1])
-			write(1, " ", 2);
+			write(1, " ", 1);
 		i++;
 	}
 	if (_n == 0)
-		write(1, "\n", 2);
+		write(1, "\n", 1);
 	return (0);
 }

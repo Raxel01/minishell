@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:43:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:27:57 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 21:43:11 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	here_doc_(char *eof, enum e_token_state state, t_my_env **env)
 		if (state == NORMAL && ft_strchr(readed_data, '$') != 404)
 			readed_data = data_expander(readed_data, env);
 		write(tube[1], readed_data, ft_strlen(readed_data));
-		write(tube[1], "\n", 2);
+		write(tube[1], "\n", 1);
 		free(readed_data);
 	}
 	return (close(tube[1]), tube[0]);

@@ -134,4 +134,5 @@ RE-test the cd command;
 norm the code;
 push the last version;
 /****/******************/******************************/r
-
+/** change in echo to print just neded caracters not including \0;
+change all write len;

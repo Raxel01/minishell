@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:32 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 12:07:35 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 21:41:38 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	view_exportedvar(t_my_env **env)
 	sorting(dup_env);
 	while (dup_env)
 	{
-		write(1, "declare -x ", 12);
+		write(1, "declare -x ", 11);
 		write(1, dup_env->var, ft_strlen(dup_env->var));
 		if (dup_env->var_content)
 		{
-			write(1, "=", 2);
-			write(1, "\"", 2);
+			write(1, "=", 1);
+			write(1, "\"", 1);
 			write(1, dup_env->var_content, ft_strlen(dup_env->var_content));
-			write(1, "\"", 2);
+			write(1, "\"", 1);
 		}
-		write(1, "\n", 2);
+		write(1, "\n", 1);
 		dup_env = dup_env->next;
 	}
 	free_env(&begin);

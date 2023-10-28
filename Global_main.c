@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 02:48:54 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/28 21:39:52 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_input_line(char **commande, t_my_env **my_env)
 		status_setter(EXIT_SUCCESS, 1);
 		rl_clear_history();
 		free_env(my_env);
-		write(1, "exit\n", 6);
+		write(1, "exit\n", 5);
 		exit(EXIT_SUCCESS);
 	}
 	*commande = epur_string(*commande);
@@ -65,7 +65,7 @@ int	minishell(char **env)
 		token = lexical_analysis(readedline, &my_env);
 		if (syntax_analysis(token) == SUCCES_PROC)
 		{
-			cmd_tabl = parsing(&token);
+			cmd_tabl = parsing(&token, &my_env);
 			free_cmd_table(&cmd_tabl);
 		}
 		else
