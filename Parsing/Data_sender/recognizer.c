@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:06:00 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:30:26 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:30:32 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	redir_cleaner(t_cmd **head)
 				current->next->prev = current->prev;
 			temp = current;
 			current = current->next;
+			free(temp->content);
 			free(temp);
 		}
 		else

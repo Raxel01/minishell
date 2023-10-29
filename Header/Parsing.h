@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 14:36:48 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:08:14 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,8 @@ typedef struct export
 	char				*elem_name;
 	char				*elem_value;
 	int					mode;
-}
-t_export;
+}					t_export;
+
 /*will may add messages option {}*/
 /***************************GLOBAL_OUTFUNCTION*****************************/
 void					white_space(char *str, size_t i, size_t len,
@@ -291,8 +291,8 @@ t_cmd_table				*build_commandtable_node(t_cmd **head, t_my_env **env);
 void					addto_listt(t_cmd_table **cmd, t_cmd_table *next_data);
 void					print_cmd_table(t_cmd_table **cmd_tab);
 t_in_out				process_fd(t_cmd **head, t_my_env **env);
-void					cmd_table_builder(t_cmd_table **cmd_table, t_cmd **head, \
-						t_my_env **env);
+void					cmd_table_builder(t_cmd_table **cmd_table, \
+						t_cmd **head, t_my_env **env);
 t_cmd					*head_cursur(t_cmd *head);
 void					free_cmd_table(t_cmd_table **cmd);
 /***********************************************************************/
@@ -332,11 +332,13 @@ char					*get_var(char *readed_data, enum e_heredoc type,
 int						digit_case(char c);
 char					*extract_elems(char *readed_data, t_here_doc **head);
 char					*data_expander(char *readed_data, t_my_env **env);
-int						here_doc_(char *eof, enum e_token_state state,
-							t_my_env **env);
+char					*here_doc_(char *eof, enum e_token_state state, \
+						t_my_env **env, char *index);
 void					elem_expansion(t_here_doc **head, t_my_env **env);
 void					free_herelist(t_here_doc **head);
 char					*concatenate_data(t_here_doc **head);
+char					*pushcontent_clean(int heredoc, char *readed_data);
+void					free_elem(char *eof, char *index);
 /************************************************************************/
 /*************************STATUS_setter**********************************/
 int						status_setter(int code, int mode);

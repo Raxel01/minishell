@@ -6,35 +6,38 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:43:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 21:43:11 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:03:42 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
 
-int	here_doc_(char *eof, enum e_token_state state, t_my_env **env)
+char	*here_doc_(char *eof, enum e_token_state state,	\
+		t_my_env **env, char *index)
 {
-	int		tube[2];
+	int		heredoc;
 	char	*readed_data;
+	char	*filename;
 
-	if (pipe(tube) == -1)
-		return (error_announcer(strerror(errno), 0), -1);
+	filename = ft_strjoin(ft_strdup("/tmp/.her_talb"), index);
+	heredoc = open(filename, O_RDWR | O_CREAT | O_APPEND | O_TRUNC, 0666);
+	if (heredoc == -1)
+		return (error_announcer(strerror(errno), 0), \
+			free_elem(eof, index), NULL);
 	while (1)
 	{
 		readed_data = readline("> ");
 		if (!readed_data || !ft_strcmp(readed_data, eof))
 		{
-			if (readed_data)
-				free(readed_data);
+			free(readed_data);
 			break ;
 		}
 		if (state == NORMAL && ft_strchr(readed_data, '$') != 404)
 			readed_data = data_expander(readed_data, env);
-		write(tube[1], readed_data, ft_strlen(readed_data));
-		write(tube[1], "\n", 1);
-		free(readed_data);
+		readed_data = pushcontent_clean(heredoc, readed_data);
 	}
-	return (close(tube[1]), tube[0]);
+	free_elem(eof, index);
+	return (filename);
 }
 
 char	*data_expander(char *readed_data, t_my_env **env)

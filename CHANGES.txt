@@ -135,4 +135,11 @@ norm the code;
 push the last version;
 /****/******************/******************************/r
 /** change in echo to print just neded caracters not including \0;
-change all write len;
+/** change all write len;
+/** la tache d'oujourdhui est integrer le here doc.
+here doc integration;
+change here doc logic write to a file in place of write to pipe.
+send tmp file to /tmp/xxxx;
+change in cmdlist->content it's alloced now;
+add file called "heredoc_helper.c"
+catche the leak and free all;

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 14:33:52 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 16:22:09 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_cmd(t_cmd **cmd)
 	{
 		cursur = *cmd;
 		(*cmd) = (*cmd)->next;
+		free(cursur->content);
 		free(cursur);
 	}
 }
@@ -39,6 +40,7 @@ void	syntax_reformer(t_cmd **cmd)
 			tmp = cursur->next;
 			cursur->next->next->prev = cursur;
 			cursur->next = cursur->next->next;
+			free(tmp->content);
 			free(tmp);
 			cursur = (*cmd);
 		}
@@ -56,6 +58,26 @@ t_cmd	*head_cursur(t_cmd *head)
 	if (head && head->type == PIPE)
 		head = head->next;
 	return (head);
+}
+
+/*/tmp/.minishell_tmp*/
+void	manage_heredoc(t_cmd **head, t_my_env **env)
+{
+	t_cmd	*curs;
+	int		i;
+
+	i = 1;
+	curs = (*head);
+	while (curs)
+	{
+		if (curs->file == HEREDOC_LIM)
+		{
+			curs->content = here_doc_(curs->content, \
+				curs->state, env, ft_itoa(i));
+			i++;
+		}
+		curs = curs->next;
+	}
 }
 
 t_cmd_table	*parsing(t_token_list **tokens, t_my_env **henv)
@@ -77,6 +99,7 @@ t_cmd_table	*parsing(t_token_list **tokens, t_my_env **henv)
 	syntax_reformer(&head);
 	commande_recognizer(&head);
 	options_recognizer(&head);
+	manage_heredoc(&head, henv);
 	cmd_table_builder(&cmd_table, &head, henv);
 	free_token_list(tokens);
 	free_cmd(&head);

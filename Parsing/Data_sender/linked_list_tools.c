@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:39:37 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:39:39 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:20:58 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmd	*build_node(char *data, enum e_token_type intype,
 	node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!node)
 		return (NULL);
-	node->content = data;
+	node->content = ft_strdup(data);
 	node->state = in_state;
 	node->type = intype;
 	node->file = NONEF;

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 23:20:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 14:36:23 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/29 15:53:36 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ t_in_out	process_fd(t_cmd **head, t_my_env **env)
 	curs = (*head);
 	while (curs && curs->type != PIPE)
 	{
-		if (curs->file == OUTFILE || curs->file == APPEND
-			|| curs->file == INFILE)
+		if (curs->category == FD_FILE)
 		{
 			if (curs->file == OUTFILE || curs->file == APPEND)
 				fd.out_fd = open_fd(curs);
