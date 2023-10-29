@@ -1,3 +1,0 @@
-*/ error in infile cmd : 'standard input' : Input/output error : SOLVED
-*/ execve finish the process.: Status : IDK;
-
