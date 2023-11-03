@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 19:21:50 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:24:10 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	minishell(char **env)
 	t_cmd_table		*cmd_tabl;
 
 	signal(SIGINT, seg_handler_c);
+	signal(SIGQUIT, SIG_IGN);
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)

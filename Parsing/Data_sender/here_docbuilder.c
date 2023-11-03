@@ -6,13 +6,11 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:43:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 19:20:22 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:26:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
-
-int g_signal = 0;
 
 char	*here_doc_(char *eof, enum e_token_state state,	\
 		t_my_env **env, char *index)
@@ -28,8 +26,6 @@ char	*here_doc_(char *eof, enum e_token_state state,	\
 			free_elem(eof, index), NULL);
 	while (1)
 	{
-		g_signal = 1;
-		signal(SIGINT, seg_handler_c);
 		readed_data = readline("> ");
 		if (!readed_data || !ft_strcmp(readed_data, eof))
 		{
