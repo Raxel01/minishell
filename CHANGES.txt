@@ -143,8 +143,9 @@ send tmp file to /tmp/xxxx;
 change in cmdlist->content it's alloced now;
 add file called "heredoc_helper.c"
 catche the leak and free all;
-/***********************************
-after coming to school : 
+/***********************************/
+after coming to school :            /
+/***********************************/
 change exit builtin after finding an error in case of :
     exit 89 5 6 3
 it exit with 89 but should exit with 1 not the fist param;
