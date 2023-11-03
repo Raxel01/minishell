@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 13:10:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/29 16:08:14 by abait-ta         ###   ########.fr       */
+/*   Created: 2023/10/30 19:40:19 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/11/03 18:56:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef H_MINISH_H
-# define H_MINISH_H
+#ifndef _HSHELL
+# define _HSHELL
 
 # include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define ERROR_EXIT 2
 # define SUCCES_PROC 0
 # define NOT_VALID 1
-
 # define SYNTAXE_ERR_STATUS 2
 # define M_APPEND 13
 # define M_ECRASE 37
@@ -46,7 +46,9 @@ typedef struct variable
 	char				*begin;
 }						t_var;
 
-/*SPECIAL_vAR IN SHELL LIKE : $1 $0..$?..$$.*/
+/*
+ * @SPECIAL_VAR IN SHELL LIKE : $1 $0..$?..$$.
+*/
 enum					e_token_type
 {
 	WORD,
@@ -161,26 +163,34 @@ typedef struct export
 	int					mode;
 }					t_export;
 
-/*will may add messages option {}*/
-/***************************GLOBAL_OUTFUNCTION*****************************/
+/****
+  * @GLOBAL_OUTFUNCTION
+ */
+
 void					white_space(char *str, size_t i, size_t len,
 							int *state);
 void					clean_memory(t_token_list **token);
-/**************************************************************************/
-/****************EPUR_STRING : COMMANDE CLEANER :[3]***********************/
+/****
+  * @EPUR_STRING : COMMANDE CLEANER :[3]
+*/
 char					*epur_string(char *commande);
 int						epur_len_helper(char *commande);
 int						word_epur_helper(char *commande);
-/************************************************************************/
-/*******************LINKED LIST FUNCTION:[4]*********************************/
+/****
+  * @LINKED_LIST_FUNCTION:[4]
+*/
+
 t_token_list			*build_new_token_node(char *token_data,
 							enum e_token_type type, enum e_token_state state);
 void					add_tokens_to_list(t_token_list **token,
 							t_token_list *next_token);
 void					print_tokens(t_token_list **begin);
 void					free_token_list(t_token_list **head);
-/************************************************************************/
-/*************************TOKENIZER =>TOOLS:[13]******************************/
+
+/****
+ * @TOKENIZER =>TOOLS:[13]
+*/
+
 t_token_list			*lexical_analysis(char *commande, t_my_env **env);
 char					*lexems_finder(char *commande, t_token_list **token);
 int						quoted_symbole(char c);
@@ -218,7 +228,11 @@ int						var_extracter(char *commande, int j);
 size_t					ft_strlen(const char *s);
 char					*ft_strndup(char *to_dup, int len);
 int						is_alphanum(char c);
-/**************************************TOKEN_CLEANER:[7]*********************/
+
+/****
+ * @TOKEN_CLEANER :[7]
+*/
+
 void					tokens_cleaner(t_token_list **tokens);
 char					*token_withoutquote(char *token,
 							enum e_token_state state);
@@ -230,8 +244,9 @@ t_token_list			*data_assembler(t_token_list **tokens,
 							t_pos_get *position);
 void					specialcase_handler(t_token_list **tokens);
 void					free_region(t_token_list **start, t_token_list **end);
-/************************************************************************/
-/******************************barkellah khellaaah:[7]*******************/
+/****
+ * @TOKEN_PHASE :[7]
+*/ 
 char					*ft_strjoin(char *s1, char *s2);
 int						true_case_quote(char *to_search);
 int						affect_index(t_token_list **token);
@@ -240,8 +255,11 @@ char					*extract_clean(char *token, int to_alloc, char c);
 void					init_holder(t_pos_get **holder, t_token_list **tokens);
 int						new_token_len(char *new_token,
 							enum e_token_state state);
-/***********************************************************************/
-/*******************************SYNTAXE CHECK:[8]***************************/
+
+/****
+ * @SYNTAXE CHECK:[8]
+*/
+
 int						syntax_analysis(t_token_list *head);
 void					error_type(t_token_list *cursur);
 int						redir_case(enum e_token_type type);
@@ -251,8 +269,11 @@ int						pipe_analyser(t_token_list *cursus);
 int						is_outred(t_token_list *behind, t_token_list *forward);
 t_token_list			*behind_getter(t_token_list *cursus);
 t_token_list			*forward_getter(t_token_list *cursus);
-/***********************************************************************/
-/*********************************Environnement : envp : [10]******************/
+
+/****
+ * @Environnement_EXTRACTER : envp : [10]
+*/
+
 void					env_var_expansion(t_token_list **tokens,
 							t_my_env **env);
 char					*replaceby_content(char *search_for, t_my_env **env);
@@ -267,8 +288,11 @@ t_my_env				*import_env(char **sys_env);
 int						ft_strcmp(char *s1, char *s2);
 void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
-/***********************************************************************/
-/******************************SEND_DATA*[14]*******************************/
+
+/****
+ * @SEND_DATA*[14]
+*/
+
 t_cmd_table				*parsing(t_token_list **tokens, t_my_env **henv);
 void					printcmd_list(t_cmd **cmd);
 void					addto_list(t_cmd **cmd, t_cmd *next_data);
@@ -280,8 +304,11 @@ void					redirect_recognizer(t_cmd **cmd);
 void					options_recognizer(t_cmd **cmd);
 void					grammar_adapter(t_cmd **cmd);
 void					free_cmd(t_cmd **cmd);
-/***********************************************************************/
-/*************************Build_Last_list*******************************/
+
+/****
+ * @Build_Last_list
+*/
+
 int						arg_count(t_cmd **head);
 int						infile_size(t_cmd **head);
 int						outfile_getter(t_cmd **head);
@@ -295,8 +322,11 @@ void					cmd_table_builder(t_cmd_table **cmd_table, \
 						t_cmd **head, t_my_env **env);
 t_cmd					*head_cursur(t_cmd *head);
 void					free_cmd_table(t_cmd_table **cmd);
-/***********************************************************************/
-/*******************************BUILT_IN*********************************/
+
+/****
+ * @BUILT_IN FUCNTION
+***/
+
 int						builtin_recognizer(t_cmd_table **head, char **cmd_table,
 							t_my_env **env);
 int						run_cd(char **cmd_table, t_my_env **env);
@@ -309,8 +339,9 @@ int						run_unset(char **cmd_table, t_my_env **env);
 int						bashvar_norm(char *var);
 int						is_alpha(char c);
 int						run_export(char **cmd_table, t_my_env **env);
-/************************************************************************/
-/******************************EXPORT : UTILS****************************/
+/****
+ * @EXPORT : UTILS
+*/
 t_my_env				*duplicate_env(t_my_env **original);
 t_my_env				*creatdup(char *var, char *var_content);
 void					sorting(t_my_env *env);
@@ -321,8 +352,11 @@ short					search(char *elem, t_my_env **env);
 void					appendmode(t_export e, t_my_env **env);
 void					ecrasmode(t_export e, t_my_env **env);
 void					modifyenv(t_export e, t_my_env **env);
-/************************************************************************/
-/********************************HERE_DOC_FUNCTION***********************/
+
+/****
+ * @HERE_DOC_FUNCTION
+*/
+
 t_here_doc				*creatnodes(char *content, enum e_heredoc h_type);
 void					list_builder(t_here_doc **head, t_here_doc *new_node);
 char					*get_string(char *readed_data, enum e_heredoc type,
@@ -339,8 +373,9 @@ void					free_herelist(t_here_doc **head);
 char					*concatenate_data(t_here_doc **head);
 char					*pushcontent_clean(int heredoc, char *readed_data);
 void					free_elem(char *eof, char *index);
-/************************************************************************/
-/*************************STATUS_setter**********************************/
+/****
+ * @STATUS_setter
+*/ 
 int						status_setter(int code, int mode);
 char					*ft_itoa(int n);
 int						nb_isdigit(int n);
@@ -348,5 +383,9 @@ int						get_is_negative(int n);
 char					*strrev(char *str);
 long					ft_abs(long n);
 void					*ft_calloc(size_t count, size_t size);
-/************************************************************************/
+
+/***
+ * SIGNAL_HANDLER
+*/
+void					seg_handler_c(int status);
 #endif

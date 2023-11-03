@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_docbuilder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:43:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/29 16:03:42 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/03 19:20:22 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Header/Parsing.h"
+
+int g_signal = 0;
 
 char	*here_doc_(char *eof, enum e_token_state state,	\
 		t_my_env **env, char *index)
@@ -20,12 +22,14 @@ char	*here_doc_(char *eof, enum e_token_state state,	\
 	char	*filename;
 
 	filename = ft_strjoin(ft_strdup("/tmp/.her_talb"), index);
-	heredoc = open(filename, O_RDWR | O_CREAT | O_APPEND | O_TRUNC, 0666);
+	heredoc = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (heredoc == -1)
 		return (error_announcer(strerror(errno), 0), \
 			free_elem(eof, index), NULL);
 	while (1)
 	{
+		g_signal = 1;
+		signal(SIGINT, seg_handler_c);
 		readed_data = readline("> ");
 		if (!readed_data || !ft_strcmp(readed_data, eof))
 		{

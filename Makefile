@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+         #
+#    By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/29 16:00:42 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/10/30 20:51:12 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,12 @@ Global_main.c ./Parsing/Lexical_analysis/cleaner_end.c ./Parsing/Lexical_analysi
 
 Header = ./Header/Parsing.h .file.h
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
-# INCLUDES= -I/goinfre/$(USER)/homebrew/opt/readline/include
+INCLUDES= -I /goinfre/$(USER)/homebrew/opt/readline/include
 
-READLINE = -lreadline 
+READLINE= -lreadline -L /goinfre/$(USER)/homebrew/opt/readline/lib
 
-# -L/goinfre/$(USER)/homebrew/opt/readline/lib
 
 NAME = Minishell
 
@@ -43,10 +42,10 @@ OBJ = ${SRC:.c=.o}
 all : $(NAME)
 
 $(NAME): $(HEADER) $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ -fsanitize=address -g $(OBJ)  $(READLINE) && rm $(OBJ)
+		@$(CC) $(FLAGS) $(OBJ) -fsanitize=address -g  -o $(NAME) $(READLINE) && rm $(OBJ)
 
-%.o : %.c $(HEADER)
-	@$(CC)  $(CFLAGS) -c -fsanitize=address -g $< -o  $@	
+%.o : %.c $(HEADERS)
+	@$(CC) $(FLAGS) -c $< -o $@ -fsanitize=address -g $(INCLUDES)
 # -fsanitize=address -g
 clean :
 	@$(RM) $(OBJ)

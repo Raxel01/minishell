@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 11:58:49 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:55:56 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ void	env_updater(t_my_env **env, char *to_update, char *update_by)
 	}
 }
 
-/*USE PATH MAX IN sted OF 1024*/
 char	*get_cwd(void)
 {
 	char	*my_dir;
 
-	my_dir = getcwd(NULL, 1024);
+	my_dir = getcwd(NULL, PATH_MAX);
 	if (!my_dir)
 	{
 		error_announcer(strerror(errno), 0);

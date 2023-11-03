@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exported_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 20:40:31 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/24 12:14:41 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:13:50 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	sorting(t_my_env *env)
 {
 	t_my_env	*circl;
 
-	circl = env->next;
+	if (!env)
+		return ;
+	circl = env;
 	while (circl->next)
 	{
 		if (ft_strcmp(circl->var, circl->next->var) > 0)

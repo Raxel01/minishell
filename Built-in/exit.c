@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:28 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 21:41:02 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:49:25 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,35 +62,34 @@ int	integer(char *integer)
 /*Grammer exit ![[+][-]exit[Number]]*/
 // recheck status when go to school
 /*DANGER ZONE USING ATOI*/
-void	clean_area(t_cmd_table **head, t_my_env **env, int s_exit)
+void	clean_area(t_cmd_table **head, t_my_env **env, int status)
 {
 	free_env(env);
 	free_cmd_table(head);
-	if (s_exit)
-		exit(0);
+	status_setter(status, 1);
+	exit(status);
 }
 
 int	run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env)
 {
-	int	status;
-
-	status = 0;
 	write(1, "exit\n", 5);
 	if (!cmd_table[1])
-		clean_area(head, env, 1);
-	else if (cmd_table[1] && cmd_table[2])
+		clean_area(head, env, 0);
+	if (cmd_table[1] && cmd_table[2])
 	{
 		error_announcer("exit: too many arguments", 0);
-		status = 1;
+		free_env(env);
+		free_cmd_table(head);
+		return (1);
 	}
-	if (cmd_table[1] && integer(cmd_table[1]))
-		status = ft_atoi(cmd_table[1]);
+	else if (cmd_table[1] && integer(cmd_table[1]))
+		clean_area(head, env, \
+			to_uns(ft_atoi(cmd_table[1])));
 	else
 	{
-		error_announcer("exit: n: numeric argument required", 0);
-		status = 2;
+		write(1, cmd_table[1], ft_strlen(cmd_table[1]));
+		error_announcer(": numeric argument required", 0);
+		clean_area(head, env, 255);
 	}
-	clean_area(head, env, 0);
-	exit(to_uns(status));
-	return (to_uns(status));
+	return (1);
 }

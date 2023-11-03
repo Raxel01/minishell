@@ -143,3 +143,18 @@ send tmp file to /tmp/xxxx;
 change in cmdlist->content it's alloced now;
 add file called "heredoc_helper.c"
 catche the leak and free all;
+/***********************************
+after coming to school : 
+change exit builtin after finding an error in case of :
+    exit 89 5 6 3
+it exit with 89 but should exit with 1 not the fist param;
+this is a error a lot of numeric entre;
+
+/**> change Makefile to include readline path and it includes;
+Handle SEGFAULT in export without command;
+cause dup_env = NULL;
+thenn : when tryin to acces env ->next (SEG);
+changes in exit exit 889 56 23 should n't exit;
+changes in export when running env -i ./Minishell
+then export LOL
+then export; get_segfault in sorting; env->next;
