@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 20:24:10 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/04 14:05:21 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	get_input_line(char **commande, t_my_env **my_env)
 void	seg_handler_c(int status)
 {
 	(void)status;
-	printf ("I'M CTR'\'C BROOO\n");
 	status_setter(1, 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -69,7 +68,7 @@ int	minishell(char **env)
 		{
 			cmd_tabl = parsing(&token, &my_env);
 			print_cmd_table(&cmd_tabl);
-			builtin_recognizer(&cmd_tabl, cmd_tabl->cmd_table, &my_env);
+			// builtin_recognizer(&cmd_tabl, cmd_tabl->cmd_table, &my_env);
 			free_cmd_table(&cmd_tabl);
 		}
 		else

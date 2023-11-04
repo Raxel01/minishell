@@ -6,7 +6,7 @@
 #    By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/02 23:58:10 by abait-ta          #+#    #+#              #
-#    Updated: 2023/10/30 20:51:12 by abait-ta         ###   ########.fr        #
+#    Updated: 2023/11/04 14:04:35 by abait-ta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ Global_main.c ./Parsing/Lexical_analysis/cleaner_end.c ./Parsing/Lexical_analysi
 ./Built-in/exportmodify_mode.c ./Built-in/exportaddmember_mode.c
 # exit_status.c status_test.c
 
-Header = ./Header/Parsing.h .file.h
+Header = ./Header/Parsing.h
 
 CFLAGS = -Wall -Wextra -Werror 
 
