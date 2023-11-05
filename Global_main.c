@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/04 14:05:21 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/05 15:50:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	minishell(char **env)
 
 	signal(SIGINT, seg_handler_c);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)
@@ -67,8 +68,7 @@ int	minishell(char **env)
 		if (syntax_analysis(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token, &my_env);
-			print_cmd_table(&cmd_tabl);
-			// builtin_recognizer(&cmd_tabl, cmd_tabl->cmd_table, &my_env);
+			builtin_recognizer(&cmd_tabl, cmd_tabl->cmd_table, &my_env);
 			free_cmd_table(&cmd_tabl);
 		}
 		else

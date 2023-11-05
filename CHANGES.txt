@@ -159,3 +159,19 @@ changes in exit exit 889 56 23 should n't exit;
 changes in export when running env -i ./Minishell
 then export LOL
 then export; get_segfault in sorting; env->next;
+3eeee9t bwaa7d Lblan anaho env in builting is getted true with a good classment;
+in execution env = env->next; will cause segfaults;
+/**************************************/
+BEGIN BUILTING CHANGES :
+- UNSET : 
+        @-: unset_var funtion line : 42;
+-ECHO   :
+        @-: NO CHANGES;
+- ENV_DISPLAYER : 
+        @-: run_env line : 24;
+- EXIT :
+        @-: 67 start changes ....
+/*****************************************/
+ @-Discard this changes because the problem is not in my built-in function;
+ @-but when executer enter env = env->next; then in builting I act if I'm in the first node
+ but i'm not I'm using enc =enc->next then segfault.

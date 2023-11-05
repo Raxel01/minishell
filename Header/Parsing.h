@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 19:40:19 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 18:56:44 by abait-ta         ###   ########.fr       */
+/*   Created: 2023/11/05 15:57:06 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/11/05 15:58:27 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _HSHELL
-# define _HSHELL
+#ifndef M_SHELL
+# define M_SHELL
 
 # include <errno.h>
 # include <fcntl.h>
