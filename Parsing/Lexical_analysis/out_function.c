@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_function.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:14:40 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/20 16:50:34 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/07 15:31:05 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*home_geter(char *commande, t_token_list **token,
 
 int	set_j(char *command, int j)
 {
-	if (command[j + 1] && command[j + 1] != '\"')
+	if (command[j + 1] && command[j + 1] != '\"' \
+		&& command[j + 1] != '\'')
 		j++;
 	return (j);
 }

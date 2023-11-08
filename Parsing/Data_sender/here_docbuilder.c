@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:43:26 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 20:26:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:14:49 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*here_doc_(char *eof, enum e_token_state state,	\
 	if (heredoc == -1)
 		return (error_announcer(strerror(errno), 0), \
 			free_elem(eof, index), NULL);
+	signal(SIGINT, here_signal);
 	while (1)
 	{
 		readed_data = readline("> ");

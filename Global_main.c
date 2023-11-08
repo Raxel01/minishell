@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/05 15:50:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:30:08 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ void	get_input_line(char **commande, t_my_env **my_env)
 /*CTRL\C RECHECK CODE*/
 void	seg_handler_c(int status)
 {
-	(void)status;
-	status_setter(1, 1);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (status == SIGINT && waitpid(-1, NULL, 0) == -1)
+	{
+		status_setter(1, 1);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 int	minishell(char **env)
@@ -58,7 +60,6 @@ int	minishell(char **env)
 
 	signal(SIGINT, seg_handler_c);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, SIG_IGN);
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)
@@ -68,7 +69,13 @@ int	minishell(char **env)
 		if (syntax_analysis(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token, &my_env);
-			builtin_recognizer(&cmd_tabl, cmd_tabl->cmd_table, &my_env);
+			if (cmd_tabl == NULL)
+			{
+				signal(SIGINT, seg_handler_c);
+				if (dup2(STDIN_FILENO, open(ttyname(2), O_RDONLY)) == -1)
+					error_announcer(strerror(errno), 0);
+			}
+			// unlink_heredoc();
 			free_cmd_table(&cmd_tabl);
 		}
 		else
@@ -80,7 +87,7 @@ int	minishell(char **env)
 	return (SUCCES_PROC);
 }
 
-/*تبدو وظيفة عادية لكن هيهاات هيهااات */
+/*NIHILSH: OUR GUIDE TO NOTHING*/
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;

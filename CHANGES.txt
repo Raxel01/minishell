@@ -163,7 +163,7 @@ then export; get_segfault in sorting; env->next;
 in execution env = env->next; will cause segfaults;
 /**************************************/
 BEGIN BUILTING CHANGES :
-- UNSET : 
+- UNSET :
         @-: unset_var funtion line : 42;
 -ECHO   :
         @-: NO CHANGES;
@@ -174,4 +174,42 @@ BEGIN BUILTING CHANGES :
 /*****************************************/
  @-Discard this changes because the problem is not in my built-in function;
  @-but when executer enter env = env->next; then in builting I act if I'm in the first node
- but i'm not I'm using enc =enc->next then segfault.
+ but i'm not I'm using env = env->next then segfault.
+ /*****************************************/
+/***********************************BEGIN[FD closer]**************************************************/
+                                    /*****************************
+                                    commit title : FD closer     *
+                                    ******************************/
+ 
+ DAY : 07/11/2023 : 15:36
+ Add ttyname to handle the ctrl+c in heredoc.
+ 		*free_env(env);
+		*free_cmd_table(head);
+        *Line 81 - 82;
+ /** Suppprimer free_env; free_cmd_table in exit;
+ /** in case : entred exit 8 9 6 alot of args we don't quit so we don't free*/
+ find a small issue in syntaxe error 
+    @-case : echo $'X' before it show a syntaxe error;
+    @-cause the $ get ' with it it be $' so the other quot is counted as sntaxe error not closed;
+    @-change in : set_j like this;
+                int	set_j(char *command, int j)
+                {
+                	if (command[j + 1] && command[j + 1] != '\"' \
+                		&& command[j + 1] != '\'') /*ADDED*/
+                		j++;
+                	return (j);
+                }
+/******
+@--START CHANGES IN PROCESS_FD; 
+@--try to closee fd when you have a successevity of out redirection
+@- add close_oldout(int fd);
+changes in some prototype of functions
+specialy process_fd();
+/=====> 
+        change the Place of some function manage_heredoc. close_outfd...
+        @- adapting to the norm.
+/*****>
+        change in seg_handler_c adapting to the execution way;
+/=====>
+        
+/***********************************END [FD closer]**************************************************/

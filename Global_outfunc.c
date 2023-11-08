@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:55:20 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/03 16:40:10 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:26:10 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,27 @@ void	free_cmd_table(t_cmd_table **cmd)
 		free(tmp);
 	}
 	*cmd = NULL;
+}
+
+void	unlink_heredoc(void)
+{
+	int		index;
+	char	*filename;
+	char	*forward;
+
+	filename = NULL;
+	index = 1;
+	while (1)
+	{
+		forward = ft_itoa(index);
+		filename = ft_strjoin(ft_strdup("/tmp/.her_talb"), forward);
+		close(open (filename, O_RDONLY));
+		if (unlink(filename) == -1)
+		{
+			free(forward);
+			break ;
+		}
+		free(forward);
+		index++;
+	}
 }

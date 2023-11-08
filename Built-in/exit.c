@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:28 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/04 22:00:01 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:59:34 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int	run_exit(t_cmd_table **head, char **cmd_table, t_my_env **env)
 	if (cmd_table[1] && cmd_table[2])
 	{
 		error_announcer("exit: too many arguments", 0);
-		free_env(env);
-		free_cmd_table(head);
 		return (1);
 	}
 	else if (cmd_table[1] && integer(cmd_table[1]))

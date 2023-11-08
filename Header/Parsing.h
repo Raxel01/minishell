@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 15:57:06 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/05 15:58:27 by abait-ta         ###   ########.fr       */
+/*   Created: 2023/11/08 17:51:58 by abait-ta          #+#    #+#             */
+/*   Updated: 2023/11/08 17:55:44 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef M_SHELL
-# define M_SHELL
+#ifndef NIHILSH_H
+# define NIHILSH_H
 
 # include <errno.h>
 # include <fcntl.h>
@@ -314,12 +314,12 @@ int						infile_size(t_cmd **head);
 int						outfile_getter(t_cmd **head);
 int						append_size(t_cmd **head);
 int						heredoc_size(t_cmd **head);
-t_cmd_table				*build_commandtable_node(t_cmd **head, t_my_env **env);
+t_cmd_table				*build_commandtable_node(t_cmd **head);
 void					addto_listt(t_cmd_table **cmd, t_cmd_table *next_data);
 void					print_cmd_table(t_cmd_table **cmd_tab);
-t_in_out				process_fd(t_cmd **head, t_my_env **env);
+t_in_out				process_fd(t_cmd **head);
 void					cmd_table_builder(t_cmd_table **cmd_table, \
-						t_cmd **head, t_my_env **env);
+						t_cmd **head);
 t_cmd					*head_cursur(t_cmd *head);
 void					free_cmd_table(t_cmd_table **cmd);
 
@@ -373,6 +373,10 @@ void					free_herelist(t_here_doc **head);
 char					*concatenate_data(t_here_doc **head);
 char					*pushcontent_clean(int heredoc, char *readed_data);
 void					free_elem(char *eof, char *index);
+void					here_signal(int heredoc);
+void					unlink_heredoc(void);
+int						manage_heredoc(t_cmd **head, t_my_env **env);
+void					close_oldout(int fd);
 /****
  * @STATUS_setter
 */ 

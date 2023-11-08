@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 19:57:08 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/29 16:22:09 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:44:46 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,47 +60,35 @@ t_cmd	*head_cursur(t_cmd *head)
 	return (head);
 }
 
-/*/tmp/.minishell_tmp*/
-void	manage_heredoc(t_cmd **head, t_my_env **env)
+void	build_cmdlist(t_cmd **head, t_token_list **tokens)
 {
-	t_cmd	*curs;
-	int		i;
+	t_token_list	*cursus;
 
-	i = 1;
-	curs = (*head);
-	while (curs)
+	cursus = (*tokens);
+	while (cursus)
 	{
-		if (curs->file == HEREDOC_LIM)
-		{
-			curs->content = here_doc_(curs->content, \
-				curs->state, env, ft_itoa(i));
-			i++;
-		}
-		curs = curs->next;
+		if (cursus->type != A_SPACE)
+			addto_list(head, build_node(cursus->token, cursus->type, \
+					cursus->state));
+		cursus = cursus->next;
 	}
 }
 
 t_cmd_table	*parsing(t_token_list **tokens, t_my_env **henv)
 {
-	t_token_list	*cursus;
 	t_cmd			*head;
 	t_cmd_table		*cmd_table;
 
 	head = NULL;
 	cmd_table = NULL;
-	cursus = (*tokens);
-	while (cursus)
-	{
-		if (cursus->type != A_SPACE)
-			addto_list(&head, build_node(cursus->token, cursus->type, \
-					cursus->state));
-		cursus = cursus->next;
-	}
+	build_cmdlist(&head, tokens);
 	syntax_reformer(&head);
 	commande_recognizer(&head);
 	options_recognizer(&head);
-	manage_heredoc(&head, henv);
-	cmd_table_builder(&cmd_table, &head, henv);
+	if (manage_heredoc(&head, henv) == 1337)
+		return (NULL);
+	signal(SIGINT, seg_handler_c);
+	cmd_table_builder(&cmd_table, &head);
 	free_token_list(tokens);
 	free_cmd(&head);
 	return (cmd_table);

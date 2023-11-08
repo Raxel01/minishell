@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_generator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 23:20:49 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/29 15:53:36 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:45:06 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@ int	open_fd(t_cmd *curs)
 	return (fd);
 }
 
-t_in_out	process_fd(t_cmd **head, t_my_env **env)
+t_in_out	process_fd(t_cmd **head)
 {
 	t_cmd		*curs;
 	t_in_out	fd;
 
-	(void)env;
 	init_fd(&fd);
 	curs = (*head);
 	while (curs && curs->type != PIPE)
@@ -72,14 +71,14 @@ t_in_out	process_fd(t_cmd **head, t_my_env **env)
 		if (curs->category == FD_FILE)
 		{
 			if (curs->file == OUTFILE || curs->file == APPEND)
+			{
+				close_oldout(fd.out_fd);
 				fd.out_fd = open_fd(curs);
+			}
 			else
 				fd.in_fd = open(curs->content, O_RDONLY, 0666);
 			if (fd.out_fd == -1 || fd.in_fd == -1)
-			{
-				error_announcer(strerror(errno), 0);
-				break ;
-			}
+				return (error_announcer(strerror(errno), 0), fd);
 		}
 		curs = curs->next;
 	}
