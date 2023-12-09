@@ -6,13 +6,14 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:51:58 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/08 17:55:44 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/20 18:30:59 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NIHILSH_H
-# define NIHILSH_H
+#ifndef PARSING_H
+# define PARSING_H
 
+# include "execution.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -38,13 +39,16 @@ typedef struct commande
 	char				*commande;
 }						t_commande;
 
-typedef struct variable
+typedef struct exvar
 {
-	int					i;
-	int					flg;
-	char				*epured_string;
-	char				*begin;
-}						t_var;
+	int	in;
+	int	out;
+	int	condition;
+	int	status;
+	int	pid;
+}	t_execvar;
+
+
 
 /*
  * @SPECIAL_VAR IN SHELL LIKE : $1 $0..$?..$$.
@@ -114,7 +118,7 @@ enum					e_file_type
 	OUTFILE,
 	INFILE,
 	APPEND,
-	HEREDOC_LIM,
+	HEREDOC_LIM, 
 };
 
 typedef struct cmd
@@ -288,6 +292,7 @@ t_my_env				*import_env(char **sys_env);
 int						ft_strcmp(char *s1, char *s2);
 void					free_env(t_my_env **env);
 void					print_env(t_my_env **env);
+void					setdefault_env(t_my_env **head_env);
 
 /****
  * @SEND_DATA*[14]
@@ -322,6 +327,8 @@ void					cmd_table_builder(t_cmd_table **cmd_table, \
 						t_cmd **head);
 t_cmd					*head_cursur(t_cmd *head);
 void					free_cmd_table(t_cmd_table **cmd);
+int						analyse_cmd(t_cmd_table	*cmd);
+void					init_vars(t_execvar *init);
 
 /****
  * @BUILT_IN FUCNTION
@@ -391,5 +398,6 @@ void					*ft_calloc(size_t count, size_t size);
 /***
  * SIGNAL_HANDLER
 */
+void					catche_signal(void);
 void					seg_handler_c(int status);
 #endif

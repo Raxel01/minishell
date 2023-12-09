@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_outfunction.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 21:28:17 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/28 21:44:27 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:24:02 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,10 @@ int	is_outred(t_token_list *behind, t_token_list *forward)
 			return (0);
 	}
 	return (0);
+}
+
+void	catche_signal(void)
+{
+	signal(SIGINT, seg_handler_c);
+	signal(SIGQUIT, SIG_IGN);
 }

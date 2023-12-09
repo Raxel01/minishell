@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Linked_list_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abait-ta <abait-ta@student.1337.ma >       +#+  +:+       +#+        */
+/*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:57:41 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/23 20:50:28 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:26:58 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,14 @@ void	free_token_list(t_token_list **head)
 		free(tmp);
 	}
 	*head = NULL;
+}
+
+void	setdefault_env(t_my_env **head_env)
+{
+	add_member(head_env, build_member("OLDPWD"));
+	add_member(head_env, build_member \
+		("PWD=/Users/abait-ta/Desktop/OURSHELL"));
+	add_member(head_env, build_member("SHLVL=1"));
+	add_member(head_env, build_member \
+		("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 }

@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 13:14:09 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/10/30 21:55:56 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/11 06:30:11 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ char	*get_cwd(void)
 	char	*my_dir;
 
 	my_dir = getcwd(NULL, PATH_MAX);
-	if (!my_dir)
-	{
-		error_announcer(strerror(errno), 0);
-		status_setter(1, 1);
-	}
 	return (my_dir);
 }
 
@@ -48,7 +43,7 @@ int	goto_new_dir(char *goto_path, t_my_env **env)
 	char	*existin_dir;
 
 	existin_dir = get_cwd();
-	if (chdir(goto_path) == -1)
+	if (chdir(goto_path) == -1 || !existin_dir)
 	{
 		free(existin_dir);
 		free(goto_path);

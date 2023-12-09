@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:04:00 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/05 12:33:57 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:53:18 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,12 @@ t_my_env	*import_env(char **sys_env)
 	env = init_head(&env, sys_env);
 	if (!(env))
 		return (NULL);
-	while (sys_env[exist])
-		add_member(&env, build_member(sys_env[exist++]));
+	if (*sys_env)
+	{
+		while (sys_env[exist])
+			add_member(&env, build_member(sys_env[exist++]));
+	}
+	else
+		setdefault_env(&env);
 	return (env);
 }

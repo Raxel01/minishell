@@ -6,7 +6,7 @@
 /*   By: abait-ta <abait-ta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:58:04 by abait-ta          #+#    #+#             */
-/*   Updated: 2023/11/08 18:30:08 by abait-ta         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:47:03 by abait-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	get_input_line(char **commande, t_my_env **my_env)
 	history_acces(*commande);
 }
 
-/*CTRL\C RECHECK CODE*/
+/*CTRL\C RECHECK CODE */
+/*I am not sure if we can use 
+these functions rl_set_prompt and rl_forced_update_display*/
 void	seg_handler_c(int status)
 {
 	if (status == SIGINT && waitpid(-1, NULL, 0) == -1)
@@ -51,15 +53,14 @@ void	seg_handler_c(int status)
 	}
 }
 
-int	minishell(char **env)
+void	minishell(char **env)
 {
 	char			*readedline;
 	t_token_list	*token;
 	t_my_env		*my_env;
 	t_cmd_table		*cmd_tabl;
 
-	signal(SIGINT, seg_handler_c);
-	signal(SIGQUIT, SIG_IGN);
+	catche_signal();
 	my_env = import_env(env);
 	readedline = NULL;
 	while (1)
@@ -69,13 +70,8 @@ int	minishell(char **env)
 		if (syntax_analysis(token) == SUCCES_PROC)
 		{
 			cmd_tabl = parsing(&token, &my_env);
-			if (cmd_tabl == NULL)
-			{
-				signal(SIGINT, seg_handler_c);
-				if (dup2(STDIN_FILENO, open(ttyname(2), O_RDONLY)) == -1)
-					error_announcer(strerror(errno), 0);
-			}
-			// unlink_heredoc();
+			execution(cmd_tabl, my_env);
+			unlink_heredoc();
 			free_cmd_table(&cmd_tabl);
 		}
 		else
@@ -84,7 +80,6 @@ int	minishell(char **env)
 			clean_memory(&token);
 		}
 	}
-	return (SUCCES_PROC);
 }
 
 /*NIHILSH: OUR GUIDE TO NOTHING*/
